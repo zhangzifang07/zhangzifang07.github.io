@@ -592,9 +592,9 @@ curl http://example.com
 curl "http://example.com/api?name=JohnDoe&age=30"
 
 # post请求 - json数据
-curl -X POST http://139.196.228.204/auth-center/oauth/sign \
+curl -X POST http://your_server_ip/auth-center/oauth/sign \
   -H "Content-Type: application/json" \
-  -d '{"appId": "hua-heng-portal", "appSecret": "u82nDrid5m4xMQrP","loginName":"HH002286"}'
+  -d '{"appId": "your_app_id", "appSecret": "your_app_secret","loginName":"your_login_name"}'
 
 # post请求 - 表单数据
 curl -X POST https://example.com/api -d "name=JohnDoe&age=30"

@@ -14,7 +14,7 @@ categories:
 2. 配置trae的gradle
 3. editor设置 Language Support for Java By Read Hat
 4. java import gradle java:home (配置Java地址)【D:\Programming\Java\jdk1.8.0_91】
-5. 导入jar包【F:\fanweiwenjian\项目内容\半语\E10\ROOT\WEB-INF\lib】
+5. 导入jar包【your_project_path/ROOT/WEB-INF/lib】
 6. 进行开发
 7. 将web-info下的lib文件夹下的所有jar文件，复制到secDevLib中
 8. 开发测试类

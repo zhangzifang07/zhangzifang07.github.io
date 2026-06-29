@@ -53,7 +53,7 @@ SELECT CONVERT(varchar(10), DATEADD(MONTH, DATEDIFF(MONTH, 0, GETDATE()) + 1, 0)
 select * from hrmresourcemanager
 
 -- 修改管理员密码为1
-UPDATE HrmResourceManager  SET password = 'C4CA4238A0B923820DCC509A6F75849B' where id = 1
+UPDATE HrmResourceManager  SET password = 'your_password_hash' where id = 1
 
 -- 管理员账号锁定解锁
 update HrmResourceManager set passwordlock=0,sumpasswordwrong=0,passwordlockreason='' where id=1
@@ -73,7 +73,7 @@ SELECT * from hrmprovince
 select id,name,city_level_id,delete_type,level,tenant_key from administrative_area where 
 -- name = '北京市'
 level = 'city'  and city_level_id = -1
-and tenant_key='t47g3n8p8u' and delete_type = 0
+and tenant_key='your_tenant_key' and delete_type = 0
 
 -- 城市等级
 select id,level_name from city_level
@@ -101,7 +101,7 @@ select selectvalue,selectname from workflow_selectitem where fieldid=?;
 select * from workflow_selectitem where pubid = 261
 
 -- 修改密码
-update hrmresource set password='CE795DC5E28B40C7C4A11A4D0D7B1E09';
+update hrmresource set password='your_password_hash';
 
 -- 根据部门id获取所属一级部门id【mysql】
 WITH RECURSIVE cte AS (

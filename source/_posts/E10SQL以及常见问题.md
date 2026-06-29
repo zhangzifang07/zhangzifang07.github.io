@@ -14,12 +14,12 @@ categories:
 
 ```SQL
 -- 人员表
-select * from EMPLOYEE where TENANT_KEY = 't4wqf62ghj' and
+select * from EMPLOYEE where TENANT_KEY = 'your_tenant_key' and
 -- id = 1086699487085871119
-username in( '姬兴洋','夏一')
+username in( '张三','李四')
 
 -- 账号表
-select * from user_info where TENANTKEY = 't4wqf62ghj'
+select * from user_info where TENANTKEY = 'your_tenant_key'
 select * from user_info_password
 
 -- 人员关系表【上下级，层级等】
@@ -56,7 +56,7 @@ where  a.type ='department'
 select id,code,name,parent,outkey,type,is_delete 
 -- select * 
 from department 
-where TENANT_KEY = 't4wqf62ghj' ORDER BY type
+where TENANT_KEY = 'your_tenant_key' ORDER BY type
 and  type = 'subcompany' AND IS_DELETE = '0' AND virtualid = 1
 
 -- 部门&分部上下级关系表(存储每个部门分部链式上下级关系数据)
@@ -73,19 +73,19 @@ select * from hrm_resource_log
 
 -- 人员数据
 SELECT id, username, status, tenant_key, position , superior, department, last_login_time , active_date, permanently_delete 
-FROM employee WHERE tenant_key = 't4wqf62ghj' and username not in ('姬兴洋','夏一')
+FROM employee WHERE tenant_key = 'your_tenant_key' and username not in ('张三','李四')
 
-DELETE from employee where tenant_key = 't4wqf62ghj' and username not in ('姬兴洋','夏一');
+DELETE from employee where tenant_key = 'your_tenant_key' and username not in ('张三','李四');
 
 -- 部门数据
-SELECT ID, CODE, DESCRIPTION, DISPORDER, NAME, PARENT, CREATOR, CREATE_DATE, STATUS, MODIFIER, MODIFIED, formdata, coadjutant, subcompanyid FROM DEPARTMENT WHERE TENANT_KEY = 't4wqf62ghj' AND (type = 'department' OR type IS NULL) AND IS_DELETE = '0' AND virtualid = 1
+SELECT ID, CODE, DESCRIPTION, DISPORDER, NAME, PARENT, CREATOR, CREATE_DATE, STATUS, MODIFIER, MODIFIED, formdata, coadjutant, subcompanyid FROM DEPARTMENT WHERE TENANT_KEY = 'your_tenant_key' AND (type = 'department' OR type IS NULL) AND IS_DELETE = '0' AND virtualid = 1
 
-DELETE FROM DEPARTMENT WHERE TENANT_KEY = 't4wqf62ghj' AND (type = 'department' OR type IS NULL) AND IS_DELETE = '0' AND virtualid = 1
+DELETE FROM DEPARTMENT WHERE TENANT_KEY = 'your_tenant_key' AND (type = 'department' OR type IS NULL) AND IS_DELETE = '0' AND virtualid = 1
 
 -- 分部数据
-SELECT ID, CODE, DESCRIPTION, DISPORDER, NAME, PARENT, CREATOR, CREATE_DATE, STATUS, MODIFIER, MODIFIED, formdata, coadjutant FROM DEPARTMENT WHERE TENANT_KEY = 't4wqf62ghj' AND type = 'subcompany' AND IS_DELETE = '0' AND virtualid = 1 and code is null
+SELECT ID, CODE, DESCRIPTION, DISPORDER, NAME, PARENT, CREATOR, CREATE_DATE, STATUS, MODIFIER, MODIFIED, formdata, coadjutant FROM DEPARTMENT WHERE TENANT_KEY = 'your_tenant_key' AND type = 'subcompany' AND IS_DELETE = '0' AND virtualid = 1 and code is null
 
-DELETE FROM DEPARTMENT WHERE TENANT_KEY = 't4wqf62ghj' AND type = 'subcompany' AND IS_DELETE = '0' AND virtualid = 1 and code !='0000'
+DELETE FROM DEPARTMENT WHERE TENANT_KEY = 'your_tenant_key' AND type = 'subcompany' AND IS_DELETE = '0' AND virtualid = 1 and code !='0000'
 
 -- 判断部门-1211463747243565521是否属于某个部门-1211463747243565338及其子部门下
 SELECT CASE 
@@ -96,13 +96,13 @@ SELECT CASE
 FROM eteams.depart_link dl
 WHERE pid = '1211463747243565338'
 	AND cid = '1211463747243565521'
-	AND dl.TENANT_KEY IN ('t47g3n8p8u', 'all_teams')
+	AND dl.TENANT_KEY IN ('your_tenant_key', 'all_teams')
 
 -- 租户管理平台管理员信息(ecology10库)
 select * from tenant_admin_manager
 
 UPDATE tenant_admin_manager 
-SET password = 'I9BEDkl3m82Lgy9xof4aVGR+KrHsFwigiyS7pyszoqmyD3M73m+Euks4FF9D/bb9' 
+SET password = 'your_password_hash' 
 WHERE account = 'weaveradmin';
 
 ```
@@ -132,7 +132,7 @@ left join wfc_requestbase wfreq on ft.id = wfreq.requestid
 where ft.delete_type = 0 and wfreq.flowstatus in (1,3,4)
 
 -- 流程当前操作者
-select * from wfc_operate where tenant_key = 't4wqf62ghj' and requestid = 1122700504261419019 and  delete_type = 0 and isremark in (0,1)
+select * from wfc_operate where tenant_key = 'your_tenant_key' and requestid = your_request_id and  delete_type = 0 and isremark in (0,1)
 
 -- 流程节点表 nodetype(节点类型：0发起 1审批 2确认 3结束 4子流程节点 5投票 6循环审批 7自动处理 8等待 9查阅)
 select id,nodename,nodetype,nodeattr,tenant_key from wfp_node where id=1087053250514534407
@@ -142,7 +142,7 @@ select *  from ft_ycsqd where id in (select requestid from wfc_currentnode where
 
 -- 获取流程当前节点
 SELECT nodename FROM wfp_node 
-WHERE id = ( SELECT nodeid FROM wfc_currentnode WHERE requestid =1122700504261419019 AND delete_type = 0 )
+WHERE id = ( SELECT nodeid FROM wfc_currentnode WHERE requestid =your_request_id AND delete_type = 0 )
 
 -- 工作流名称、节点名称、操作组名称查询参考sql
 select wfp_base.id as workflowid,wfp_base.workflowname,wfp_node.nodename,wfp_opt_group.groupname 
@@ -202,13 +202,13 @@ from  ecology10.ic_hr_synclogdt a
 where 1=1
 -- and	a.obj_name = '检具部'
 AND a.targetdata is not null 
-and a.TENANT_KEY = 't47g3n8p8u'
+and a.TENANT_KEY = 'your_tenant_key'
 AND delete_type = 0 
 -- and a.sync_status = 0
 order by a.create_time desc limit 100
 ```
 ## 2、系统问题
-- SDK包下载链接：http://10.147.49.77:10600/papi/open/singleSignon/sdk/download
+- SDK包下载链接：http://your_server_ip:port/papi/open/singleSignon/sdk/download
 ## 3、接口地址查看
 - 地址+/sp/opendoc
 
@@ -220,8 +220,8 @@ SELECT * from TENANT_INFO
 
 -- 租户管理员信息
 SELECT * FROM tenant_admin_manager
--- 重置密码默认  123456a@
-update tenant_admin_manager set password = 'I9BEDkl3m82Lgy9xof4aVGR+KrHsFwigiyS7pyszoqmyD3M73m+Euks4FF9D/bb9' where account = 'weaveradmin';
+-- 重置密码默认  your_default_password
+update tenant_admin_manager set password = 'your_password_hash' where account = 'weaveradmin';
 
 -- 租户管理员锁定表
 select * from tenant_admin_lock
