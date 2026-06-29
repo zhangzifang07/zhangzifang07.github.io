@@ -1,5 +1,6 @@
 ---
 title: Linux学习笔记
+excerpt: Linux服务器日常运维命令整理，包括系统信息、进程管理、Vim、文件操作、权限、网络、防火墙、定时任务等
 date: 2026-06-29 16:00:00
 permalink: /2026/06/29/linux-notes/
 tags:

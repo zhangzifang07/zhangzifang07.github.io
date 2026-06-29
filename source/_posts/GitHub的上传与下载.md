@@ -1,5 +1,6 @@
 ---
 title: GitHub的上传与下载
+excerpt: 使用Trae和命令行进行GitHub代码上传与下载的操作方法
 date: 2026-06-29 16:00:00
 permalink: /2026/06/29/github-upload-download/
 tags:

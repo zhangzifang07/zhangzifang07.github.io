@@ -1,5 +1,6 @@
 ---
 title: E10SQL以及常见问题
+excerpt: E10系统中组织架构、流程、文件、集成、租户、ESB等常用SQL及问题排查方法汇总
 date: 2026-06-29 16:00:00
 permalink: /2026/06/29/e10-sql-faq/
 tags:

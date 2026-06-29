@@ -1,5 +1,6 @@
 ---
 title: Trae开发
+excerpt: 使用Trae IDE进行E10二开开发的配置流程，包括Gradle配置、jar包导入、打包部署
 date: 2026-06-29 16:00:00
 permalink: /2026/06/29/trae-development/
 tags:
