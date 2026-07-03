@@ -5,11 +5,12 @@ on:
     branches:
       - hexo
 
+permissions:
+  contents: write
+
 jobs:
   deploy:
     runs-on: ubuntu-latest
-    permissions:
-      contents: write
 
     steps:
       - name: Checkout source code
