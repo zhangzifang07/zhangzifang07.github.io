@@ -8,7 +8,7 @@ tags:
   - JavaScript
   - 前端
 categories:
-  - 技术学习
+  - 泛微开发
 ---
 
 ## 1、流程
