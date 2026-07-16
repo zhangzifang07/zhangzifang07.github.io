@@ -1,10 +1,10 @@
 ---
-title: ARTHAS在E10中的使用
-excerpt: 使用Arthas在线诊断E10运行中的Java进程，包括反编译源码、搜索类、追踪方法调用等常用操作
+title: ARTHAS在泛微E10中的使用
+excerpt: 使用Arthas在线诊断泛微E10运行中的Java进程，包括反编译源码、搜索类、追踪方法调用等常用操作
 date: 2026-06-29 16:00:00
 permalink: /2026/06/29/arthas-in-e10/
 tags:
-  - E10
+  - 泛微E10
   - ARTHAS
   - 运维
 categories:

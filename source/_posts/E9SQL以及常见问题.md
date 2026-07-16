@@ -1,10 +1,10 @@
 ---
-title: E9SQL以及常见问题
-excerpt: E9系统中时间处理、组织架构、流程、文档、建模、统一待办、ESB、考勤等常用SQL
+title: 泛微E9 SQL以及常见问题
+excerpt: 泛微E9系统中时间处理、组织架构、流程、文档、建模、统一待办、ESB、考勤等常用SQL
 date: 2026-06-29 16:00:00
 permalink: /2026/06/29/e9-sql-faq/
 tags:
-  - E9
+  - 泛微E9
   - SQL
   - 数据库
 categories:

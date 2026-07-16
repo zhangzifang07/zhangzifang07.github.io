@@ -1,10 +1,10 @@
 ---
-title: E10JS总结
-excerpt: E10流程与建模表单的JS-SDK使用总结，包括获取字段ID、读写表单值、明细表操作等
+title: 泛微E10 JS总结
+excerpt: 泛微E10流程与建模表单的JS-SDK使用总结，包括获取字段ID、读写表单值、明细表操作等
 date: 2026-06-29 16:00:00
 permalink: /2026/06/29/e10-js-summary/
 tags:
-  - E10
+  - 泛微E10
   - JavaScript
   - 前端
 categories:

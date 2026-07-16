@@ -1,10 +1,10 @@
 ---
-title: E10SQL以及常见问题
-excerpt: E10系统中组织架构、流程、文件、集成、租户、ESB等常用SQL及问题排查方法汇总
+title: 泛微E10 SQL以及常见问题
+excerpt: 泛微E10系统中组织架构、流程、文件、集成、租户、ESB等常用SQL及问题排查方法汇总
 date: 2026-06-29 16:00:00
 permalink: /2026/06/29/e10-sql-faq/
 tags:
-  - E10
+  - 泛微E10
   - SQL
   - 数据库
 categories:
@@ -197,9 +197,9 @@ select file_path,file_url from file_storage_info fsi  where file_url =  'f250f7b
 ```SQL
 -- ic_hr_synclogdt：同步日志明细表，记录每条同步记录的字段级变化详情
 -- sync_status 0，失败 1，插入成功 2，更新成功 3，删除成功 4，封存成功 5，解封成功 6，警告 7 数据过滤
--- bs同步到E10人员状态转换 
+-- bs同步到泛微E10人员状态转换 
 -- 北森 1 待入职 2 试用 3 正式 4 调出 5 待调入 6 退休 8 离职 12 非正式 
--- E10: 1：试用 2：试用延期 3：正式;4：临时;5：实习 6：离职;7：退休
+-- 泛微E10: 1：试用 2：试用延期 3：正式;4：临时;5：实习 6：离职;7：退休
 select 
 	a.create_time AS 数据同步时间,a.sourcedata AS 第三方数据,a.targetdata AS 同步到OA的最终数据,a.out_key AS 第三方数据主键,a.target_key AS Oa数据主键,a.obj_name AS 同步数据名称,a.log_id AS 日志id,a.sync_status,a.errcode
 from  ecology10.ic_hr_synclogdt a 
