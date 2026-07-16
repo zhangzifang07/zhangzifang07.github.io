@@ -175,6 +175,9 @@ select id from formdata_template where name = '税率'
 -- 2、再根据选项模板id和选项value值查询选项名称
 select value_key,name from formdata_template_details where template_id = 1269352467419291649
 
+-- 下拉框选项
+select * from field_option where tenant_key = 'texshr7b4t' and delete_type = 0  and field_id = '1291616224935927810'
+
 ```
 
 # 三、文件相关
