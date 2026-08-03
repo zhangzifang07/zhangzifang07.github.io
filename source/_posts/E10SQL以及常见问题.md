@@ -127,6 +127,25 @@ WHERE account = 'weaveradmin';
 # 二、流程相关
 
 ```SQL
+-- 流程常用联表数据
+SELECT 
+    dt.id,t.sqrq,t.form_data_id requestid,wfreq.requestmark,t.sqr,em.username,em.job_num,t.sqbm,dept.code,dept.name,
+    CONCAT(dt.yjksrqx, ' ', dt.yjkssjx) AS yjks,
+    CONCAT(dt.yjjsrqx, ' ', dt.yjjssjx) AS yjjs,
+    CONCAT(dt.sjksrqx, ' ', dt.sjkssjx) AS sjks,
+    CONCAT(dt.sjjsrqx, ' ', dt.sjjssjx) AS sjjs,
+    wfreq.flowstatus,
+    wfcn.nodeid,
+    wfn.nodename
+FROM ygclsqd_mxb1 dt
+INNER JOIN ft_1103455722107379714 t on t.form_data_id=dt.form_data_id
+LEFT JOIN eteams.employee em on t.sqr = em.id
+LEFT JOIN eteams.DEPARTMENT dept on t.sqbm = dept.id
+LEFT JOIN wfc_currentnode wfcn on t.form_data_id=wfcn.requestid -- 流程节点
+LEFT JOIN wfp_node wfn on wfcn.nodeid = wfn.id -- 流程节点名称
+left join wfc_requestbase wfreq on t.form_data_id = wfreq.requestid and wfreq.flowstatus !=0 -- 流程状态
+where 1=1
+
 -- 流程状态 ： 0：草稿:1：审批中、3：正常归档、4：强制结束、、6：待提交、7：暂停、8：撤销
 select ft.id,ft.jzry,wfreq.flowstatus from ft_1271101167615328606 ft
 left join wfc_requestbase wfreq on ft.id = wfreq.requestid
