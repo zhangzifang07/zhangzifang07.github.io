@@ -1,0 +1,1056 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/fluid.png">
+  <link rel="icon" href="/img/favicon.svg">
+  
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="zhangzifang">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="使用Trae和Git命令行进行GitHub代码上传与下载的操作方法，涵盖SSH配置、克隆、提交、推送、分支、冲突处理等完整流程">
+<meta property="og:type" content="article">
+<meta property="og:title" content="GitHub的上传与下载">
+<meta property="og:url" content="https://zhangzifang07.github.io/2026/06/29/github-upload-download/index.html">
+<meta property="og:site_name" content="Zhang的个人博客">
+<meta property="og:description" content="使用Trae和Git命令行进行GitHub代码上传与下载的操作方法，涵盖SSH配置、克隆、提交、推送、分支、冲突处理等完整流程">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2026-06-29T08:00:00.000Z">
+<meta property="article:modified_time" content="2026-08-18T09:20:29.530Z">
+<meta property="article:author" content="zhangzifang">
+<meta property="article:tag" content="GitHub">
+<meta name="twitter:card" content="summary_large_image">
+  
+  
+  
+  <title>GitHub的上传与下载 - Zhang的个人博客</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1749284_5i9bdhy70f8.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1736178_k526ubmyhba.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+  
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"zhangzifang07.github.io","root":"/","version":"1.9.9","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"expand_all":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false},"openkounter":{"server_url":"https://open-kounter.mintimate.cn","path":"window.location.pathname","ignore_local":false},"umami":{"src":null,"website_id":null,"domains":null,"start_time":"2024-01-01T00:00:00.000Z","token":null,"api_server":null}},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 8.1.2"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>Zhang的个人博客</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content (desktop) -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>文章</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/" target="_self">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<!-- Mobile grid menu overlay -->
+<div id="mobile-grid-menu" class="d-lg-none">
+  <div class="mobile-grid-menu-inner">
+    <div class="container">
+      <div class="row">
+        
+          
+          
+          
+          
+            <div class="col-4 mobile-grid-cell">
+              <a href="/" target="_self">
+                <div class="mobile-grid-item">
+                  <i class="iconfont icon-home-fill"></i>
+                  <span>首页</span>
+                </div>
+              </a>
+            </div>
+          
+        
+          
+          
+          
+          
+            <div class="col-4 mobile-grid-cell">
+              <a href="/archives/" target="_self">
+                <div class="mobile-grid-item">
+                  <i class="iconfont icon-archive-fill"></i>
+                  <span>文章</span>
+                </div>
+              </a>
+            </div>
+          
+        
+          
+          
+          
+          
+            <div class="col-4 mobile-grid-cell">
+              <a href="/categories/" target="_self">
+                <div class="mobile-grid-item">
+                  <i class="iconfont icon-category-fill"></i>
+                  <span>分类</span>
+                </div>
+              </a>
+            </div>
+          
+        
+          
+          
+          
+          
+            <div class="col-4 mobile-grid-cell">
+              <a href="/tags/" target="_self">
+                <div class="mobile-grid-item">
+                  <i class="iconfont icon-tags-fill"></i>
+                  <span>标签</span>
+                </div>
+              </a>
+            </div>
+          
+        
+          
+          
+          
+          
+            <div class="col-4 mobile-grid-cell">
+              <a href="/about/" target="_self">
+                <div class="mobile-grid-item">
+                  <i class="iconfont icon-user-fill"></i>
+                  <span>关于</span>
+                </div>
+              </a>
+            </div>
+          
+        
+        
+          <div class="col-4 mobile-grid-cell" id="mobile-search-btn">
+            <a href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <div class="mobile-grid-item">
+                <i class="iconfont icon-search"></i>
+                <span>搜索</span>
+              </div>
+            </a>
+          </div>
+        
+        
+          <div class="col-4 mobile-grid-cell" id="mobile-color-toggle-btn"
+               data-label-light="开灯"
+               data-label-dark="关灯">
+            <a href="javascript:;" aria-label="Color Toggle">
+              <div class="mobile-grid-item">
+                <i class="iconfont icon-dark" id="mobile-color-toggle-icon"></i>
+                <span id="mobile-color-toggle-label">关灯</span>
+              </div>
+            </a>
+          </div>
+        
+      </div>
+    </div>
+  </div>
+</div>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="GitHub的上传与下载"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2026-06-29 16:00" pubdate>
+          2026年6月29日 下午
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          4.4k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          37 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">GitHub的上传与下载</h1>
+            
+              <p id="updated-time" class="note note-info" style="">
+                
+                  
+                    本文最后更新于 2026年8月18日 下午
+                  
+                
+              </p>
+            
+            
+              <div class="markdown-body">
+                
+                <h1 id="1、SSH-配置（首次使用配置一次即可）"><a href="#1、SSH-配置（首次使用配置一次即可）" class="headerlink" title="1、SSH 配置（首次使用配置一次即可）"></a>1、SSH 配置（首次使用配置一次即可）</h1><p>Git 与 GitHub 之间通过 SSH 协议通信，配置一次后免密操作：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-comment"># 生成密钥（ed25519 是当前推荐的算法，比 rsa 更安全更快）</span><br>ssh-keygen -t ed25519 -C <span class="hljs-string">&quot;你的邮箱&quot;</span><br><span class="hljs-comment"># 一路回车即可，密钥文件生成在 ~/.ssh/ 目录下</span><br><br><span class="hljs-comment"># 查看并复制公钥内容</span><br><span class="hljs-built_in">cat</span> ~/.ssh/id_ed25519.pub<br><br><span class="hljs-comment"># 将公钥添加到 GitHub</span><br><span class="hljs-comment"># GitHub → Settings → SSH and GPG keys → New SSH key</span><br><span class="hljs-comment"># Title 随便填（如 &quot;我的电脑&quot;），Key 粘贴公钥内容，点击 Add SSH key</span><br><br><span class="hljs-comment"># 测试连接（成功会显示 &quot;Hi 用户名! You&#x27;ve successfully authenticated&quot;）</span><br>ssh -T git@github.com<br></code></pre></td></tr></table></figure>
+
+<blockquote>
+<p><strong>提示</strong>：如果公司或学校网络屏蔽了 SSH 的 22 端口，连接超时，可以配置使用 443 端口：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-comment"># 编辑 ~/.ssh/config 文件，添加以下内容</span><br>Host github.com<br>  Hostname ssh.github.com<br>  Port 443<br>  User git<br></code></pre></td></tr></table></figure></blockquote>
+<h1 id="2、克隆仓库（下载到本地）"><a href="#2、克隆仓库（下载到本地）" class="headerlink" title="2、克隆仓库（下载到本地）"></a>2、克隆仓库（下载到本地）</h1><h2 id="2-1、克隆方式"><a href="#2-1、克隆方式" class="headerlink" title="2.1、克隆方式"></a>2.1、克隆方式</h2><p>GitHub 支持两种克隆方式，推荐使用 SSH：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-comment"># SSH 方式（推荐，配置好密钥后免密操作）</span><br>git <span class="hljs-built_in">clone</span> git@github.com:用户名/仓库名.git<br><br><span class="hljs-comment"># HTTPS 方式（每次 push 需要输入用户名和 Token）</span><br>git <span class="hljs-built_in">clone</span> https://github.com/用户名/仓库名.git<br></code></pre></td></tr></table></figure>
+
+<h2 id="2-2、克隆到指定目录"><a href="#2-2、克隆到指定目录" class="headerlink" title="2.2、克隆到指定目录"></a>2.2、克隆到指定目录</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-comment"># 克隆到当前目录下的指定文件夹</span><br>git <span class="hljs-built_in">clone</span> git@github.com:用户名/仓库名.git 目标文件夹名<br><br><span class="hljs-comment"># 只克隆最近一次提交（大型仓库加速下载）</span><br>git <span class="hljs-built_in">clone</span> --depth=1 git@github.com:用户名/仓库名.git<br></code></pre></td></tr></table></figure>
+
+<p>克隆完成后进入目录，后续所有操作都在此目录下进行：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-built_in">cd</span> 仓库名<br></code></pre></td></tr></table></figure>
+
+<h1 id="3、日常上传流程（三步走）"><a href="#3、日常上传流程（三步走）" class="headerlink" title="3、日常上传流程（三步走）"></a>3、日常上传流程（三步走）</h1><p>每次修改文件后，按以下三步提交推送：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-comment"># ① 添加到暂存区</span><br>git add .                <span class="hljs-comment"># 添加所有修改</span><br>git add test.txt         <span class="hljs-comment"># 或只添加指定文件</span><br>git add src/             <span class="hljs-comment"># 或添加整个目录</span><br><br><span class="hljs-comment"># ② 提交到本地仓库</span><br>git commit -m <span class="hljs-string">&quot;提交说明&quot;</span>  <span class="hljs-comment"># -m 后的说明必填，简要描述本次改动</span><br><br><span class="hljs-comment"># ③ 推送到远程仓库</span><br>git push<br></code></pre></td></tr></table></figure>
+
+<h2 id="3-1、查看当前状态"><a href="#3-1、查看当前状态" class="headerlink" title="3.1、查看当前状态"></a>3.1、查看当前状态</h2><p>在 add 之前，建议先看看改了什么：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-comment"># 查看哪些文件被修改了</span><br>git status<br><br><span class="hljs-comment"># 查看具体修改了什么内容（红色为删除，绿色为新增）</span><br>git diff<br><br><span class="hljs-comment"># 查看暂存区的修改内容（add 之后用）</span><br>git diff --staged<br></code></pre></td></tr></table></figure>
+
+<h2 id="3-2、撤销操作"><a href="#3-2、撤销操作" class="headerlink" title="3.2、撤销操作"></a>3.2、撤销操作</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-comment"># 撤销工作区的修改（文件恢复到上次 commit 的状态，慎用！修改会丢失）</span><br>git checkout -- 文件名<br><br><span class="hljs-comment"># 撤销暂存区（把已 add 的文件移出暂存区，文件内容不变）</span><br>git reset HEAD 文件名<br><br><span class="hljs-comment"># 修改上次提交说明（还没 push 时使用）</span><br>git commit --amend -m <span class="hljs-string">&quot;新的提交说明&quot;</span><br><br><span class="hljs-comment"># 撤销最近一次提交（保留文件修改，回退到 add 之前）</span><br>git reset --soft HEAD~1<br><br><span class="hljs-comment"># 撤销最近一次提交（丢弃所有修改，慎用！）</span><br>git reset --hard HEAD~1<br></code></pre></td></tr></table></figure>
+
+<blockquote>
+<p><strong>注意</strong>：<code>git reset --hard</code> 会丢失所有未提交的修改，执行前务必确认！</p>
+</blockquote>
+<h2 id="3-3、忽略文件（-gitignore）"><a href="#3-3、忽略文件（-gitignore）" class="headerlink" title="3.3、忽略文件（.gitignore）"></a>3.3、忽略文件（.gitignore）</h2><p>有些文件不需要上传到 GitHub（如编译产物、配置文件中的密码等），在项目根目录创建 <code>.gitignore</code> 文件：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-comment"># .gitignore 文件示例</span><br>node_modules/        <span class="hljs-comment"># 依赖目录</span><br>.DS_Store            <span class="hljs-comment"># macOS 系统文件</span><br>*.<span class="hljs-built_in">log</span>                <span class="hljs-comment"># 所有日志文件</span><br>.<span class="hljs-built_in">env</span>                 <span class="hljs-comment"># 环境变量文件（可能含密码）</span><br>dist/                <span class="hljs-comment"># 构建输出目录</span><br></code></pre></td></tr></table></figure>
+
+<p>如果文件已经被 Git 跟踪了，需要先取消跟踪：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs bash">git <span class="hljs-built_in">rm</span> -r --cached 文件名    <span class="hljs-comment"># 从 Git 中移除，但保留本地文件</span><br>git commit -m <span class="hljs-string">&quot;移除不需要跟踪的文件&quot;</span><br>git push<br></code></pre></td></tr></table></figure>
+
+<h1 id="4、新项目首次上传"><a href="#4、新项目首次上传" class="headerlink" title="4、新项目首次上传"></a>4、新项目首次上传</h1><p>如果本地已有项目文件夹，GitHub 上也新建了空仓库，需要首次关联推送：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-comment"># 1. 进入项目文件夹</span><br><span class="hljs-built_in">cd</span> 本地文件夹路径<br><br><span class="hljs-comment"># 2. 初始化 Git 仓库</span><br>git init<br><br><span class="hljs-comment"># 3. 添加并提交文件</span><br>git add .<br>git commit -m <span class="hljs-string">&quot;首次提交：上传项目文件&quot;</span><br><br><span class="hljs-comment"># 4. 关联远程仓库（origin 是远程仓库别名，可自定义但一般用 origin）</span><br>git remote add origin git@github.com:用户名/仓库名.git<br><br><span class="hljs-comment"># 5. 推送并关联分支（-u 只需首次使用，之后直接 git push 即可）</span><br>git push -u origin main<br></code></pre></td></tr></table></figure>
+
+<blockquote>
+<p><strong>常见问题</strong>：如果 GitHub 创建仓库时勾选了 README，远程已有内容，push 会被拒绝。解决方法：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-comment"># 先拉取远程内容并合并，再推送</span><br>git pull origin main --allow-unrelated-histories<br>git push -u origin main<br></code></pre></td></tr></table></figure></blockquote>
+<h1 id="5、删除与重命名文件"><a href="#5、删除与重命名文件" class="headerlink" title="5、删除与重命名文件"></a>5、删除与重命名文件</h1><h2 id="5-1、删除文件"><a href="#5-1、删除文件" class="headerlink" title="5.1、删除文件"></a>5.1、删除文件</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-comment"># 永久删除（本地文件也会被删除）</span><br>git <span class="hljs-built_in">rm</span> 文件名<br>git <span class="hljs-built_in">rm</span> -r 文件夹名<br><br><span class="hljs-comment"># 只从 Git 中删除，保留本地文件（常用于误提交的文件）</span><br>git <span class="hljs-built_in">rm</span> --cached 文件名<br>git <span class="hljs-built_in">rm</span> -r --cached 文件夹名<br><br><span class="hljs-comment"># 删除后同样需要提交和推送</span><br>git commit -m <span class="hljs-string">&quot;删除xxx文件&quot;</span><br>git push<br></code></pre></td></tr></table></figure>
+
+<h2 id="5-2、重命名文件"><a href="#5-2、重命名文件" class="headerlink" title="5.2、重命名文件"></a>5.2、重命名文件</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-comment"># 用 git mv 重命名，Git 会自动识别为重命名而非删除+新增</span><br>git <span class="hljs-built_in">mv</span> 旧文件名 新文件名<br>git commit -m <span class="hljs-string">&quot;重命名xxx文件&quot;</span><br>git push<br></code></pre></td></tr></table></figure>
+
+<h1 id="6、分支管理"><a href="#6、分支管理" class="headerlink" title="6、分支管理"></a>6、分支管理</h1><p>分支是 Git 最强大的功能之一，可以在不影响主线的情况下开发新功能：</p>
+<h2 id="6-1、基本操作"><a href="#6-1、基本操作" class="headerlink" title="6.1、基本操作"></a>6.1、基本操作</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-comment"># 查看所有分支（* 标记的是当前分支）</span><br>git branch<br><br><span class="hljs-comment"># 查看远程分支</span><br>git branch -r<br><br><span class="hljs-comment"># 查看所有分支（本地+远程）</span><br>git branch -a<br><br><span class="hljs-comment"># 创建新分支</span><br>git branch 新分支名<br><br><span class="hljs-comment"># 切换分支</span><br>git checkout 分支名<br><span class="hljs-comment"># 或使用更直观的 switch 命令（Git 2.23+）</span><br>git switch 分支名<br><br><span class="hljs-comment"># 创建并切换到新分支（一步到位）</span><br>git checkout -b 新分支名<br><span class="hljs-comment"># 或</span><br>git switch -c 新分支名<br><br><span class="hljs-comment"># 删除本地分支</span><br>git branch -d 分支名<br><br><span class="hljs-comment"># 删除远程分支</span><br>git push origin --delete 分支名<br></code></pre></td></tr></table></figure>
+
+<h2 id="6-2、合并分支"><a href="#6-2、合并分支" class="headerlink" title="6.2、合并分支"></a>6.2、合并分支</h2><p>新功能开发完成后，需要合并回主分支：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-comment"># 1. 切换到目标分支（如 main）</span><br>git checkout main<br><br><span class="hljs-comment"># 2. 合并指定分支到当前分支</span><br>git merge 功能分支名<br><br><span class="hljs-comment"># 3. 推送到远程</span><br>git push<br></code></pre></td></tr></table></figure>
+
+<h2 id="6-3、典型工作流程"><a href="#6-3、典型工作流程" class="headerlink" title="6.3、典型工作流程"></a>6.3、典型工作流程</h2><figure class="highlight arcade"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs arcade">main（稳定版本）<br>  └── <span class="hljs-built_in">feature</span>/xxx（新功能开发）<br>        └── 开发完成 → 合并回 main → 删除 <span class="hljs-built_in">feature</span> 分支<br></code></pre></td></tr></table></figure>
+
+<h1 id="7、多端同步与冲突处理"><a href="#7、多端同步与冲突处理" class="headerlink" title="7、多端同步与冲突处理"></a>7、多端同步与冲突处理</h1><h2 id="7-1、日常同步"><a href="#7-1、日常同步" class="headerlink" title="7.1、日常同步"></a>7.1、日常同步</h2><p>如果在多台设备上工作，每次开始前先拉取最新代码：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-comment"># 拉取远程更新（每次开始工作前建议先执行）</span><br>git pull<br></code></pre></td></tr></table></figure>
+
+<h2 id="7-2、忘记-pull-就改了本地文件"><a href="#7-2、忘记-pull-就改了本地文件" class="headerlink" title="7.2、忘记 pull 就改了本地文件"></a>7.2、忘记 pull 就改了本地文件</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs bash">git stash        <span class="hljs-comment"># 暂存本地修改</span><br>git pull         <span class="hljs-comment"># 拉取远程更新</span><br>git stash pop    <span class="hljs-comment"># 恢复本地修改</span><br></code></pre></td></tr></table></figure>
+
+<h2 id="7-3、冲突处理"><a href="#7-3、冲突处理" class="headerlink" title="7.3、冲突处理"></a>7.3、冲突处理</h2><p>当本地和远程修改了同一个文件的同一行时，<code>git pull</code> 或 <code>git merge</code> 会产生冲突：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-comment"># 冲突时 Git 会提示哪些文件有冲突</span><br>git status       <span class="hljs-comment"># 查看冲突文件列表</span><br><br><span class="hljs-comment"># 打开冲突文件，会看到类似标记：</span><br><span class="hljs-comment"># &lt;&lt;&lt;&lt;&lt;&lt;&lt; HEAD</span><br><span class="hljs-comment"># 你的修改内容</span><br><span class="hljs-comment"># =======</span><br><span class="hljs-comment"># 远程的修改内容</span><br><span class="hljs-comment"># &gt;&gt;&gt;&gt;&gt;&gt;&gt; origin/main</span><br><br><span class="hljs-comment"># 手动编辑文件，选择保留哪部分（删除标记符号）</span><br><span class="hljs-comment"># 也可以两者都保留，按需组合</span><br><br><span class="hljs-comment"># 解决冲突后</span><br>git add 冲突文件名<br>git commit -m <span class="hljs-string">&quot;解决xxx文件冲突&quot;</span><br>git push<br></code></pre></td></tr></table></figure>
+
+<blockquote>
+<p><strong>避免冲突的技巧</strong>：</p>
+<ul>
+<li>每次开发前先 <code>git pull</code></li>
+<li>尽量避免多人修改同一文件</li>
+<li>用分支隔离不同功能的开发</li>
+</ul>
+</blockquote>
+<h1 id="8、查看历史记录"><a href="#8、查看历史记录" class="headerlink" title="8、查看历史记录"></a>8、查看历史记录</h1><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-comment"># 查看提交历史（简洁模式，一行一条）</span><br>git <span class="hljs-built_in">log</span> --oneline<br><br><span class="hljs-comment"># 查看最近 5 条记录</span><br>git <span class="hljs-built_in">log</span> --oneline -5<br><br><span class="hljs-comment"># 查看指定文件的修改历史</span><br>git <span class="hljs-built_in">log</span> --oneline 文件名<br><br><span class="hljs-comment"># 查看某次提交的详细改动</span><br>git show 提交ID<br><br><span class="hljs-comment"># 查看谁修改了文件的每一行</span><br>git blame 文件名<br></code></pre></td></tr></table></figure>
+
+<h1 id="9、使用-Trae-上传代码"><a href="#9、使用-Trae-上传代码" class="headerlink" title="9、使用 Trae 上传代码"></a>9、使用 Trae 上传代码</h1><p>使用 Trae（AI 编程工具）内置的源代码管理功能：</p>
+<ol>
+<li>在 Trae 中打开项目文件夹</li>
+<li>点击左侧源代码管理图标（或 <code>Ctrl+Shift+G</code>）</li>
+<li>登录 GitHub 账号</li>
+<li>选择要提交的文件，填写提交说明，点击提交并推送</li>
+</ol>
+<h1 id="10、Git-命令速查"><a href="#10、Git-命令速查" class="headerlink" title="10、Git 命令速查"></a>10、Git 命令速查</h1><h2 id="核心流程"><a href="#核心流程" class="headerlink" title="核心流程"></a>核心流程</h2><figure class="highlight avrasm"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs avrasm">工作区 → 暂存区 → 本地仓库 → 远程仓库<br>你改代码 → git <span class="hljs-keyword">add</span> → git commit → git <span class="hljs-keyword">push</span><br></code></pre></td></tr></table></figure>
+
+<h2 id="基础命令"><a href="#基础命令" class="headerlink" title="基础命令"></a>基础命令</h2><table>
+<thead>
+<tr>
+<th>命令</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>git init</code></td>
+<td>初始化仓库</td>
+</tr>
+<tr>
+<td><code>git clone 地址</code></td>
+<td>克隆远程仓库</td>
+</tr>
+<tr>
+<td><code>git status</code></td>
+<td>查看当前修改状态</td>
+</tr>
+<tr>
+<td><code>git add .</code></td>
+<td>添加所有修改到暂存区</td>
+</tr>
+<tr>
+<td><code>git add 文件名</code></td>
+<td>添加指定文件到暂存区</td>
+</tr>
+<tr>
+<td><code>git commit -m &quot;说明&quot;</code></td>
+<td>提交暂存区到本地仓库</td>
+</tr>
+<tr>
+<td><code>git push</code></td>
+<td>推送到远程仓库</td>
+</tr>
+<tr>
+<td><code>git pull</code></td>
+<td>拉取远程更新并合并</td>
+</tr>
+</tbody></table>
+<h2 id="分支命令"><a href="#分支命令" class="headerlink" title="分支命令"></a>分支命令</h2><table>
+<thead>
+<tr>
+<th>命令</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>git branch</code></td>
+<td>查看本地分支</td>
+</tr>
+<tr>
+<td><code>git branch 分支名</code></td>
+<td>创建新分支</td>
+</tr>
+<tr>
+<td><code>git checkout 分支名</code></td>
+<td>切换分支</td>
+</tr>
+<tr>
+<td><code>git checkout -b 分支名</code></td>
+<td>创建并切换分支</td>
+</tr>
+<tr>
+<td><code>git merge 分支名</code></td>
+<td>合并分支到当前分支</td>
+</tr>
+<tr>
+<td><code>git branch -d 分支名</code></td>
+<td>删除本地分支</td>
+</tr>
+</tbody></table>
+<h2 id="撤销与回退"><a href="#撤销与回退" class="headerlink" title="撤销与回退"></a>撤销与回退</h2><table>
+<thead>
+<tr>
+<th>命令</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>git checkout -- 文件名</code></td>
+<td>撤销工作区修改（丢失修改）</td>
+</tr>
+<tr>
+<td><code>git reset HEAD 文件名</code></td>
+<td>撤销暂存区（保留修改）</td>
+</tr>
+<tr>
+<td><code>git reset --soft HEAD~1</code></td>
+<td>撤销上次提交（保留修改）</td>
+</tr>
+<tr>
+<td><code>git reset --hard HEAD~1</code></td>
+<td>撤销上次提交（丢弃修改）</td>
+</tr>
+<tr>
+<td><code>git commit --amend -m &quot;说明&quot;</code></td>
+<td>修改上次提交说明</td>
+</tr>
+</tbody></table>
+<h2 id="查看与对比"><a href="#查看与对比" class="headerlink" title="查看与对比"></a>查看与对比</h2><table>
+<thead>
+<tr>
+<th>命令</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>git log --oneline</code></td>
+<td>查看提交历史</td>
+</tr>
+<tr>
+<td><code>git diff</code></td>
+<td>查看工作区修改内容</td>
+</tr>
+<tr>
+<td><code>git diff --staged</code></td>
+<td>查看暂存区修改内容</td>
+</tr>
+<tr>
+<td><code>git show 提交ID</code></td>
+<td>查看某次提交详情</td>
+</tr>
+<tr>
+<td><code>git blame 文件名</code></td>
+<td>查看文件每行的修改者</td>
+</tr>
+</tbody></table>
+<h2 id="远程仓库"><a href="#远程仓库" class="headerlink" title="远程仓库"></a>远程仓库</h2><table>
+<thead>
+<tr>
+<th>命令</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>git remote -v</code></td>
+<td>查看远程仓库地址</td>
+</tr>
+<tr>
+<td><code>git remote add origin 地址</code></td>
+<td>关联远程仓库</td>
+</tr>
+<tr>
+<td><code>git push -u origin main</code></td>
+<td>首次推送并关联分支</td>
+</tr>
+<tr>
+<td><code>git push origin --delete 分支名</code></td>
+<td>删除远程分支</td>
+</tr>
+</tbody></table>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/%E6%8A%80%E6%9C%AF%E5%AD%A6%E4%B9%A0/" class="category-chain-item">技术学习</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/GitHub/" class="print-no-link">#GitHub</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>GitHub的上传与下载</div>
+      <div>https://zhangzifang07.github.io/2026/06/29/github-upload-download/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>zhangzifang</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2026年6月29日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-cc-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2026/06/29/e9-sql-faq/" title="泛微E9 SQL以及常见问题">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">泛微E9 SQL以及常见问题</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2026/06/29/linux-notes/" title="Linux学习笔记">
+                        <span class="hidden-mobile">Linux学习笔记</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://zhangzifang07.github.io" target="_blank" rel="nofollow noopener"><span>© 2026zhangzifang</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    function isExpandAllEnabled() {
+      return CONFIG.toc && CONFIG.toc.expand_all === true;
+    }
+    function expandAllToc() {
+      if (!isExpandAllEnabled()) { return; }
+      jQuery('#toc-body .tocbot-is-collapsed').removeClass('tocbot-is-collapsed');
+    }
+    function updateTocToggle($li, $childList) {
+      var $toggle = $li.children('.toc-toggle');
+      if ($toggle.length === 0) { return; }
+      var collapsed = $childList.hasClass('tocbot-is-collapsed');
+      $toggle
+        .toggleClass('toc-toggle-collapsed', collapsed)
+        .toggleClass('toc-toggle-expanded', !collapsed);
+    }
+    function bindTocToggle() {
+      if (!isExpandAllEnabled()) { return; }
+      jQuery('#toc-body .toc-list-item').each(function() {
+        var $li = jQuery(this);
+        var $childList = $li.children('ol');
+        if ($childList.length === 0) {
+          if ($li.children('.toc-toggle').length === 0) {
+            $li.prepend('<span class="toc-toggle toc-toggle-placeholder" aria-hidden="true">›</span>');
+          }
+          return;
+        }
+
+        if ($li.children('.toc-toggle').length === 0) {
+          $li.prepend('<span class="toc-toggle toc-toggle-expanded" aria-hidden="true">›</span>');
+        }
+        updateTocToggle($li, $childList);
+      });
+      jQuery('#toc-body').off('click.tocToggle').on('click.tocToggle', '.toc-toggle', function(e) {
+        e.preventDefault();
+        e.stopPropagation();
+        var $li = jQuery(this).parent('.toc-list-item');
+        var $childList = $li.children('ol');
+        if ($childList.length === 0) { return; }
+        $childList.toggleClass('tocbot-is-collapsed');
+        updateTocToggle($li, $childList);
+      });
+      if (!window.__tocToggleObserver) {
+        window.__tocToggleObserver = new MutationObserver(function(mutations) {
+          mutations.forEach(function(mutation) {
+            if (mutation.type !== 'attributes' || mutation.attributeName !== 'class') { return; }
+            var $list = jQuery(mutation.target);
+            var $li = $list.parent('.toc-list-item');
+            if ($li.length === 0) { return; }
+            updateTocToggle($li, $list);
+          });
+        });
+        jQuery('#toc-body ol').each(function() {
+          window.__tocToggleObserver.observe(this, { attributes: true });
+        });
+      }
+    }
+    var tocConfig = Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc);
+    if (isExpandAllEnabled()) {
+      tocConfig.collapseDepth = 6;
+    }
+    window.tocbot.init(tocConfig);
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+    expandAllToc();
+    bindTocToggle();
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+        expandAllToc();
+        bindTocToggle();
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/5.0.0/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>

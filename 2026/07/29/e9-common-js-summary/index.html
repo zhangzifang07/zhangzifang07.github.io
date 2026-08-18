@@ -1,0 +1,890 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/fluid.png">
+  <link rel="icon" href="/img/favicon.svg">
+  
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="zhangzifang">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="泛微E9流程、建模、ecode等常用JS代码总结，包含字段操作、明细表、事件绑定、提交校验、弹框、接口请求等示例">
+<meta property="og:type" content="article">
+<meta property="og:title" content="泛微E9常用JS总结">
+<meta property="og:url" content="https://zhangzifang07.github.io/2026/07/29/e9-common-js-summary/index.html">
+<meta property="og:site_name" content="Zhang的个人博客">
+<meta property="og:description" content="泛微E9流程、建模、ecode等常用JS代码总结，包含字段操作、明细表、事件绑定、提交校验、弹框、接口请求等示例">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2026-07-29T03:40:48.000Z">
+<meta property="article:modified_time" content="2026-08-18T09:20:29.531Z">
+<meta property="article:author" content="zhangzifang">
+<meta property="article:tag" content="JavaScript">
+<meta property="article:tag" content="前端">
+<meta property="article:tag" content="泛微E9">
+<meta name="twitter:card" content="summary_large_image">
+  
+  
+  
+  <title>泛微E9常用JS总结 - Zhang的个人博客</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1749284_5i9bdhy70f8.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1736178_k526ubmyhba.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+  
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"zhangzifang07.github.io","root":"/","version":"1.9.9","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"expand_all":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false},"openkounter":{"server_url":"https://open-kounter.mintimate.cn","path":"window.location.pathname","ignore_local":false},"umami":{"src":null,"website_id":null,"domains":null,"start_time":"2024-01-01T00:00:00.000Z","token":null,"api_server":null}},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 8.1.2"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>Zhang的个人博客</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content (desktop) -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>文章</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/" target="_self">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<!-- Mobile grid menu overlay -->
+<div id="mobile-grid-menu" class="d-lg-none">
+  <div class="mobile-grid-menu-inner">
+    <div class="container">
+      <div class="row">
+        
+          
+          
+          
+          
+            <div class="col-4 mobile-grid-cell">
+              <a href="/" target="_self">
+                <div class="mobile-grid-item">
+                  <i class="iconfont icon-home-fill"></i>
+                  <span>首页</span>
+                </div>
+              </a>
+            </div>
+          
+        
+          
+          
+          
+          
+            <div class="col-4 mobile-grid-cell">
+              <a href="/archives/" target="_self">
+                <div class="mobile-grid-item">
+                  <i class="iconfont icon-archive-fill"></i>
+                  <span>文章</span>
+                </div>
+              </a>
+            </div>
+          
+        
+          
+          
+          
+          
+            <div class="col-4 mobile-grid-cell">
+              <a href="/categories/" target="_self">
+                <div class="mobile-grid-item">
+                  <i class="iconfont icon-category-fill"></i>
+                  <span>分类</span>
+                </div>
+              </a>
+            </div>
+          
+        
+          
+          
+          
+          
+            <div class="col-4 mobile-grid-cell">
+              <a href="/tags/" target="_self">
+                <div class="mobile-grid-item">
+                  <i class="iconfont icon-tags-fill"></i>
+                  <span>标签</span>
+                </div>
+              </a>
+            </div>
+          
+        
+          
+          
+          
+          
+            <div class="col-4 mobile-grid-cell">
+              <a href="/about/" target="_self">
+                <div class="mobile-grid-item">
+                  <i class="iconfont icon-user-fill"></i>
+                  <span>关于</span>
+                </div>
+              </a>
+            </div>
+          
+        
+        
+          <div class="col-4 mobile-grid-cell" id="mobile-search-btn">
+            <a href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <div class="mobile-grid-item">
+                <i class="iconfont icon-search"></i>
+                <span>搜索</span>
+              </div>
+            </a>
+          </div>
+        
+        
+          <div class="col-4 mobile-grid-cell" id="mobile-color-toggle-btn"
+               data-label-light="开灯"
+               data-label-dark="关灯">
+            <a href="javascript:;" aria-label="Color Toggle">
+              <div class="mobile-grid-item">
+                <i class="iconfont icon-dark" id="mobile-color-toggle-icon"></i>
+                <span id="mobile-color-toggle-label">关灯</span>
+              </div>
+            </a>
+          </div>
+        
+      </div>
+    </div>
+  </div>
+</div>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="泛微E9常用JS总结"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2026-07-29 11:40" pubdate>
+          2026年7月29日 中午
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          11k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          95 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">泛微E9常用JS总结</h1>
+            
+              <p id="updated-time" class="note note-info" style="">
+                
+                  
+                    本文最后更新于 2026年8月18日 下午
+                  
+                
+              </p>
+            
+            
+              <div class="markdown-body">
+                
+                <p>本文整理泛微E9中常用的前端JS代码，按照流程表单、建模和ecode通用前端能力分类。</p>
+<p>示例中的字段ID、明细表名称、接口地址和业务函数需要根据实际场景替换。E9 ecode运行环境已提供 <code>React</code>、<code>antd</code>、<code>jQuery</code> 等全局对象，代码块中无需使用 <code>import</code> 引入。</p>
+<h1 id="一、流程表单（WfForm）"><a href="#一、流程表单（WfForm）" class="headerlink" title="一、流程表单（WfForm）"></a>一、流程表单（WfForm）</h1><h2 id="1-获取字段ID"><a href="#1-获取字段ID" class="headerlink" title="1. 获取字段ID"></a>1. 获取字段ID</h2><p>主表字段只需要传字段名称；明细字段还需要传所属明细表名称。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs js"><span class="hljs-keyword">var</span> fylx1id = <span class="hljs-title class_">WfForm</span>.<span class="hljs-title function_">convertFieldNameToId</span>(<span class="hljs-string">&quot;fylx1&quot;</span>);<br><span class="hljs-keyword">var</span> fieldid = <span class="hljs-title class_">WfForm</span>.<span class="hljs-title function_">convertFieldNameToId</span>(<span class="hljs-string">&quot;materialCode&quot;</span>, <span class="hljs-string">&quot;detail_4&quot;</span>);<br></code></pre></td></tr></table></figure>
+
+<h2 id="2-获取字段值"><a href="#2-获取字段值" class="headerlink" title="2. 获取字段值"></a>2. 获取字段值</h2><p>获取明细字段值时，需要将字段ID和行索引拼接起来。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs js"><span class="hljs-keyword">var</span> fieldvalue = <span class="hljs-title class_">WfForm</span>.<span class="hljs-title function_">getFieldValue</span>(<br>    <span class="hljs-title class_">WfForm</span>.<span class="hljs-title function_">convertFieldNameToId</span>(<span class="hljs-string">&quot;zrr&quot;</span>) + <span class="hljs-string">&quot;_&quot;</span> + rowIndex<br>);<br></code></pre></td></tr></table></figure>
+
+<h2 id="3-遍历明细表"><a href="#3-遍历明细表" class="headerlink" title="3. 遍历明细表"></a>3. 遍历明细表</h2><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><code class="hljs js"><span class="hljs-keyword">var</span> fieldid = <span class="hljs-title class_">WfForm</span>.<span class="hljs-title function_">convertFieldNameToId</span>(<span class="hljs-string">&quot;materialCode&quot;</span>, <span class="hljs-string">&quot;detail_4&quot;</span>);<br><span class="hljs-keyword">var</span> rowArr = <span class="hljs-title class_">WfForm</span>.<span class="hljs-title function_">getDetailAllRowIndexStr</span>(<span class="hljs-string">&quot;detail_4&quot;</span>).<span class="hljs-title function_">split</span>(<span class="hljs-string">&quot;,&quot;</span>);<br><br><span class="hljs-keyword">for</span> (<span class="hljs-keyword">var</span> i = <span class="hljs-number">0</span>; i &lt; rowArr.<span class="hljs-property">length</span>; i++) &#123;<br>    <span class="hljs-keyword">var</span> rowIndex = rowArr[i];<br>    <span class="hljs-keyword">if</span> (rowIndex !== <span class="hljs-string">&quot;&quot;</span>) &#123;<br>        <span class="hljs-keyword">var</span> fieldMark = fieldid + <span class="hljs-string">&quot;_&quot;</span> + rowIndex;<br>        <span class="hljs-title class_">WfForm</span>.<span class="hljs-title function_">setTextFieldEmptyShowContent</span>(<br>            fieldMark,<br>            <span class="hljs-string">&quot;多个编码请用/进行分隔&quot;</span><br>        );<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p><code>setTextFieldEmptyShowContent</code> 用于设置文本字段为空时显示的灰色提示内容。</p>
+<h2 id="4-绑定主表字段变化事件"><a href="#4-绑定主表字段变化事件" class="headerlink" title="4. 绑定主表字段变化事件"></a>4. 绑定主表字段变化事件</h2><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs js"><span class="hljs-title class_">WfForm</span>.<span class="hljs-title function_">bindFieldChangeEvent</span>(ywleixinid, <span class="hljs-keyword">function</span> (<span class="hljs-params">obj, id, value</span>) &#123;<br>    <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">&quot;业务类型发生变化：&quot;</span> + value);<br>    <span class="hljs-title function_">initdetail</span>();<br>    <span class="hljs-comment">// getWorkflowData(wlbmid);</span><br>    <span class="hljs-title function_">initmain</span>();<br>&#125;);<br></code></pre></td></tr></table></figure>
+
+<h2 id="5-强制触发字段联动"><a href="#5-强制触发字段联动" class="headerlink" title="5. 强制触发字段联动"></a>5. 强制触发字段联动</h2><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs js"><span class="hljs-title function_">jQuery</span>(<span class="hljs-variable language_">document</span>).<span class="hljs-title function_">ready</span>(<span class="hljs-keyword">function</span> (<span class="hljs-params"></span>) &#123;<br>    <span class="hljs-built_in">setTimeout</span>(<span class="hljs-keyword">function</span> (<span class="hljs-params"></span>) &#123;<br>        <span class="hljs-keyword">var</span> fymcvalu_dt = <span class="hljs-title class_">WfForm</span>.<span class="hljs-title function_">getFieldValue</span>(fymcbmid + <span class="hljs-string">&quot;_0&quot;</span>);<br>        <span class="hljs-keyword">if</span> (fymcvalu_dt != <span class="hljs-string">&quot;&quot;</span>) &#123;<br>            <span class="hljs-title class_">WfForm</span>.<span class="hljs-title function_">triggerFieldAllLinkage</span>(fymcbmid + <span class="hljs-string">&quot;_0&quot;</span>);<br>        &#125;<br>    &#125;, <span class="hljs-number">1000</span>);<br>&#125;);<br></code></pre></td></tr></table></figure>
+
+<h2 id="6-控制明细表列的显示和隐藏"><a href="#6-控制明细表列的显示和隐藏" class="headerlink" title="6. 控制明细表列的显示和隐藏"></a>6. 控制明细表列的显示和隐藏</h2><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><code class="hljs js"><span class="hljs-keyword">function</span> <span class="hljs-title function_">handleHide</span>(<span class="hljs-params">value</span>) &#123;<br>    <span class="hljs-keyword">if</span> (value == <span class="hljs-number">0</span>) &#123;<br>        <span class="hljs-comment">// 隐藏第1、2列，显示第5列</span><br>        <span class="hljs-title function_">jQuery</span>(<span class="hljs-string">&quot;.detail_column1&quot;</span>).<span class="hljs-title function_">addClass</span>(<span class="hljs-string">&quot;detail_hide_col&quot;</span>);<br>        <span class="hljs-title function_">jQuery</span>(<span class="hljs-string">&quot;.detail_column2&quot;</span>).<span class="hljs-title function_">addClass</span>(<span class="hljs-string">&quot;detail_hide_col&quot;</span>);<br>        <span class="hljs-title function_">jQuery</span>(<span class="hljs-string">&quot;.detail_column5&quot;</span>).<span class="hljs-title function_">removeClass</span>(<span class="hljs-string">&quot;detail_hide_col&quot;</span>);<br>    &#125; <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (value == <span class="hljs-number">1</span>) &#123;<br>        <span class="hljs-comment">// 隐藏第5列，显示第1、2列</span><br>        <span class="hljs-title function_">jQuery</span>(<span class="hljs-string">&quot;.detail_column5&quot;</span>).<span class="hljs-title function_">addClass</span>(<span class="hljs-string">&quot;detail_hide_col&quot;</span>);<br>        <span class="hljs-title function_">jQuery</span>(<span class="hljs-string">&quot;.detail_column1&quot;</span>).<span class="hljs-title function_">removeClass</span>(<span class="hljs-string">&quot;detail_hide_col&quot;</span>);<br>        <span class="hljs-title function_">jQuery</span>(<span class="hljs-string">&quot;.detail_column2&quot;</span>).<span class="hljs-title function_">removeClass</span>(<span class="hljs-string">&quot;detail_hide_col&quot;</span>);<br>    &#125; <span class="hljs-keyword">else</span> &#123;<br>        <span class="hljs-comment">// 显示全部列</span><br>        <span class="hljs-title function_">jQuery</span>(<span class="hljs-string">&quot;.detail_column1&quot;</span>).<span class="hljs-title function_">removeClass</span>(<span class="hljs-string">&quot;detail_hide_col&quot;</span>);<br>        <span class="hljs-title function_">jQuery</span>(<span class="hljs-string">&quot;.detail_column2&quot;</span>).<span class="hljs-title function_">removeClass</span>(<span class="hljs-string">&quot;detail_hide_col&quot;</span>);<br>        <span class="hljs-title function_">jQuery</span>(<span class="hljs-string">&quot;.detail_column5&quot;</span>).<span class="hljs-title function_">removeClass</span>(<span class="hljs-string">&quot;detail_hide_col&quot;</span>);<br>    &#125;<br>&#125;<br><br><span class="hljs-comment">// 表单加载后先执行一次</span><br><span class="hljs-keyword">var</span> value = <span class="hljs-title class_">WfForm</span>.<span class="hljs-title function_">getFieldValue</span>(<span class="hljs-string">&quot;field10009&quot;</span>);<br><span class="hljs-title function_">handleHide</span>(value);<br><br><span class="hljs-comment">// 条件字段变化时重新执行</span><br><span class="hljs-title class_">WfForm</span>.<span class="hljs-title function_">bindFieldChangeEvent</span>(<span class="hljs-string">&quot;field10009&quot;</span>, <span class="hljs-keyword">function</span> (<span class="hljs-params">obj, id, value</span>) &#123;<br>    <span class="hljs-title function_">handleHide</span>(value);<br>&#125;);<br><br><span class="hljs-comment">// 新增明细行时重新执行，数字1代表明细表序号</span><br><span class="hljs-title class_">WfForm</span>.<span class="hljs-title function_">registerAction</span>(<span class="hljs-title class_">WfForm</span>.<span class="hljs-property">ACTION_ADDROW</span> + <span class="hljs-string">&quot;1&quot;</span>, <span class="hljs-keyword">function</span> (<span class="hljs-params">index</span>) &#123;<br>    <span class="hljs-keyword">var</span> value = <span class="hljs-title class_">WfForm</span>.<span class="hljs-title function_">getFieldValue</span>(<span class="hljs-string">&quot;field10009&quot;</span>);<br>    <span class="hljs-title function_">handleHide</span>(value);<br>&#125;);<br><br><span class="hljs-comment">// 切换明细表分页时重新执行</span><br><span class="hljs-title class_">WfForm</span>.<span class="hljs-title function_">registerAction</span>(<span class="hljs-title class_">WfForm</span>.<span class="hljs-property">ACTION_SWITCHDETAILPAGING</span>, <span class="hljs-keyword">function</span> (<span class="hljs-params">groupid</span>) &#123;<br>    <span class="hljs-keyword">var</span> value = <span class="hljs-title class_">WfForm</span>.<span class="hljs-title function_">getFieldValue</span>(<span class="hljs-string">&quot;field10009&quot;</span>);<br>    <span class="hljs-title function_">handleHide</span>(value);<br>&#125;);<br></code></pre></td></tr></table></figure>
+
+<h2 id="7-绑定明细字段变化事件"><a href="#7-绑定明细字段变化事件" class="headerlink" title="7. 绑定明细字段变化事件"></a>7. 绑定明细字段变化事件</h2><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><code class="hljs js"><span class="hljs-title class_">WfForm</span>.<span class="hljs-title function_">bindDetailFieldChangeEvent</span>(<br>    <span class="hljs-string">&quot;field27583,field27584&quot;</span>,<br>    <span class="hljs-keyword">function</span> (<span class="hljs-params">id, rowIndex, value</span>) &#123;<br>        <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<br>            <span class="hljs-string">&quot;WfForm.bindDetailFieldChangeEvent--&quot;</span>,<br>            id,<br>            rowIndex,<br>            value<br>        );<br>    &#125;<br>);<br></code></pre></td></tr></table></figure>
+
+<h2 id="8-多行文本框自动拉伸"><a href="#8-多行文本框自动拉伸" class="headerlink" title="8. 多行文本框自动拉伸"></a>8. 多行文本框自动拉伸</h2><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs js"><span class="hljs-variable language_">document</span>.<span class="hljs-title function_">getElementById</span>(<span class="hljs-string">&quot;field6990&quot;</span>).<span class="hljs-title function_">addEventListener</span>(<span class="hljs-string">&quot;keyup&quot;</span>, <span class="hljs-keyword">function</span> (<span class="hljs-params">e</span>) &#123;<br>    <span class="hljs-keyword">if</span> (e.<span class="hljs-property">keyCode</span> === <span class="hljs-number">8</span>) &#123;<br>        <span class="hljs-variable language_">this</span>.<span class="hljs-property">style</span>.<span class="hljs-property">height</span> = <span class="hljs-string">&quot;inherit&quot;</span>;<br>        <span class="hljs-variable language_">this</span>.<span class="hljs-property">style</span>.<span class="hljs-property">height</span> = <span class="hljs-string">`<span class="hljs-subst">$&#123;<span class="hljs-variable language_">this</span>.scrollHeight&#125;</span>px`</span>;<br>    &#125; <span class="hljs-keyword">else</span> &#123;<br>        <span class="hljs-variable language_">this</span>.<span class="hljs-property">style</span>.<span class="hljs-property">height</span> = <span class="hljs-string">`<span class="hljs-subst">$&#123;<span class="hljs-variable language_">this</span>.scrollHeight&#125;</span>px`</span>;<br>    &#125;<br>    <span class="hljs-variable language_">this</span>.<span class="hljs-property">style</span>.<span class="hljs-property">overflow</span> = <span class="hljs-string">&quot;hidden&quot;</span>;<br>&#125;);<br></code></pre></td></tr></table></figure>
+
+<h2 id="9-新增明细行并赋值"><a href="#9-新增明细行并赋值" class="headerlink" title="9. 新增明细行并赋值"></a>9. 新增明细行并赋值</h2><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><code class="hljs js"><span class="hljs-title class_">WfForm</span>.<span class="hljs-title function_">addDetailRow</span>(<span class="hljs-string">&quot;detail_3&quot;</span>, &#123;<br>    <span class="hljs-attr">field14989</span>: &#123;<br>        <span class="hljs-attr">value</span>: <span class="hljs-string">&quot;432&quot;</span>,<br>        <span class="hljs-attr">specialobj</span>: [<br>            &#123; <span class="hljs-attr">id</span>: <span class="hljs-string">&quot;432&quot;</span>, <span class="hljs-attr">name</span>: <span class="hljs-string">&quot;库存商品&quot;</span> &#125;<br>        ]<br>    &#125;, <span class="hljs-comment">// 科目名称，浏览框</span><br>    <span class="hljs-attr">field14988</span>: &#123; <span class="hljs-attr">value</span>: <span class="hljs-string">&quot;你好哇&quot;</span> &#125;, <span class="hljs-comment">// 摘要</span><br>    <span class="hljs-attr">field14991</span>: &#123; <span class="hljs-attr">value</span>: <span class="hljs-string">&quot;币别&quot;</span> &#125;, <span class="hljs-comment">// 币别</span><br>    <span class="hljs-attr">field14992</span>: &#123; <span class="hljs-attr">value</span>: <span class="hljs-string">&quot;汇率类型&quot;</span> &#125;, <span class="hljs-comment">// 汇率类型</span><br>    <span class="hljs-attr">field14993</span>: &#123; <span class="hljs-attr">value</span>: <span class="hljs-string">&quot;0&quot;</span> &#125;, <span class="hljs-comment">// 余额方向</span><br>    <span class="hljs-attr">field14994</span>: &#123; <span class="hljs-attr">value</span>: <span class="hljs-string">&quot;100&quot;</span> &#125; <span class="hljs-comment">// 借方金额</span><br>&#125;);<br></code></pre></td></tr></table></figure>
+
+<p>浏览框除 <code>value</code> 外，还需要通过 <code>specialobj</code> 提供显示名称。</p>
+<h2 id="10-提交前校验并提示"><a href="#10-提交前校验并提示" class="headerlink" title="10. 提交前校验并提示"></a>10. 提交前校验并提示</h2><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><code class="hljs js"><span class="hljs-title class_">WfForm</span>.<span class="hljs-title function_">registerCheckEvent</span>(<br>    <span class="hljs-title class_">WfForm</span>.<span class="hljs-property">OPER_SAVE</span> + <span class="hljs-string">&quot;,&quot;</span> + <span class="hljs-title class_">WfForm</span>.<span class="hljs-property">OPER_SUBMIT</span>,<br>    <span class="hljs-keyword">function</span> (<span class="hljs-params">callback</span>) &#123;<br>        <span class="hljs-keyword">var</span> businessType = <span class="hljs-title class_">WfForm</span>.<span class="hljs-title function_">getFieldValue</span>(<span class="hljs-string">&quot;field9477&quot;</span>);<br><br>        <span class="hljs-keyword">if</span> (businessType == <span class="hljs-string">&quot;0&quot;</span>) &#123;<br>            <span class="hljs-keyword">var</span> dt13 = <span class="hljs-title class_">WfForm</span>.<span class="hljs-title function_">getDetailAllRowIndexStr</span>(<span class="hljs-string">&quot;detail_13&quot;</span>);<br>            <span class="hljs-keyword">var</span> arrList = dt13.<span class="hljs-title function_">split</span>(<span class="hljs-string">&quot;,&quot;</span>);<br>            <span class="hljs-keyword">var</span> sfyczid = <span class="hljs-title class_">WfForm</span>.<span class="hljs-title function_">convertFieldNameToId</span>(<span class="hljs-string">&quot;sfycz&quot;</span>, <span class="hljs-string">&quot;detail_13&quot;</span>);<br><br>            <span class="hljs-keyword">for</span> (<span class="hljs-keyword">var</span> i = <span class="hljs-number">0</span>; i &lt; arrList.<span class="hljs-property">length</span>; i++) &#123;<br>                <span class="hljs-keyword">var</span> xymxidValue = <span class="hljs-title class_">WfForm</span>.<span class="hljs-title function_">getFieldValue</span>(<br>                    sfyczid + <span class="hljs-string">&quot;_&quot;</span> + arrList[i]<br>                );<br><br>                <span class="hljs-keyword">if</span> (xymxidValue != <span class="hljs-string">&quot;&quot;</span>) &#123;<br>                    antd.<span class="hljs-property">Modal</span>.<span class="hljs-title function_">warning</span>(&#123;<br>                        <span class="hljs-attr">title</span>: <span class="hljs-string">&quot;系统提示&quot;</span>,<br>                        <span class="hljs-attr">content</span>: <span class="hljs-string">&quot;您输入的物料描述已经存在，请重新输入&quot;</span>,<br>                        <span class="hljs-attr">okText</span>: <span class="hljs-string">&quot;确定&quot;</span><br>                    &#125;);<br>                    <span class="hljs-keyword">return</span>;<br>                &#125;<br>            &#125;<br>        &#125;<br><br>        <span class="hljs-comment">// 校验通过后必须调用callback，否则保存或提交不会继续</span><br>        <span class="hljs-title function_">callback</span>();<br>    &#125;<br>);<br></code></pre></td></tr></table></figure>
+
+<h2 id="11-流程确认框"><a href="#11-流程确认框" class="headerlink" title="11. 流程确认框"></a>11. 流程确认框</h2><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs js"><span class="hljs-title class_">WfForm</span>.<span class="hljs-title function_">showConfirm</span>(<span class="hljs-string">&quot;确认删除吗？&quot;</span>, <span class="hljs-keyword">function</span> (<span class="hljs-params"></span>) &#123;<br>    <span class="hljs-title function_">alert</span>(<span class="hljs-string">&quot;删除成功&quot;</span>);<br>&#125;);<br></code></pre></td></tr></table></figure>
+
+<h2 id="12-调用ESB接口并回写字段"><a href="#12-调用ESB接口并回写字段" class="headerlink" title="12. 调用ESB接口并回写字段"></a>12. 调用ESB接口并回写字段</h2><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><code class="hljs js"><span class="hljs-keyword">var</span> params = &#123;<br>    <span class="hljs-attr">wlbm</span>: filevalue<br>&#125;;<br><span class="hljs-keyword">var</span> jsonStr = <span class="hljs-title class_">JSON</span>.<span class="hljs-title function_">stringify</span>(params);<br><br>jQuery.<span class="hljs-title function_">ajax</span>(&#123;<br>    <span class="hljs-attr">url</span>: <span class="hljs-string">&quot;/api/esb/oa/execute?&amp;eventkey=checkMaterials&amp;params=&quot;</span> + jsonStr,<br>    <span class="hljs-attr">type</span>: <span class="hljs-string">&quot;POST&quot;</span>,<br>    <span class="hljs-attr">data</span>: <span class="hljs-string">&quot;&quot;</span>,<br>    <span class="hljs-attr">success</span>: <span class="hljs-keyword">function</span> (<span class="hljs-params">ret</span>) &#123;<br>        <span class="hljs-keyword">try</span> &#123;<br>            <span class="hljs-keyword">var</span> retObj = <span class="hljs-title class_">JSON</span>.<span class="hljs-title function_">parse</span>(ret);<br>            <span class="hljs-keyword">if</span> (retObj.<span class="hljs-property">data</span> &amp;&amp; retObj.<span class="hljs-property">data</span>.<span class="hljs-property">code</span> === <span class="hljs-string">&quot;200&quot;</span>) &#123;<br>                <span class="hljs-keyword">var</span> answer = retObj.<span class="hljs-property">data</span>.<span class="hljs-property">answer</span>;<br>                <span class="hljs-title class_">WfForm</span>.<span class="hljs-title function_">changeFieldValue</span>(<br>                    <span class="hljs-title class_">WfForm</span>.<span class="hljs-title function_">convertFieldNameToId</span>(<span class="hljs-string">&quot;jxycswb&quot;</span>),<br>                    &#123; <span class="hljs-attr">value</span>: answer &#125;<br>                );<br>                <span class="hljs-title class_">WfForm</span>.<span class="hljs-title function_">changeFieldValue</span>(<br>                    <span class="hljs-title class_">WfForm</span>.<span class="hljs-title function_">convertFieldNameToId</span>(<span class="hljs-string">&quot;jxycsdhwb&quot;</span>),<br>                    &#123; <span class="hljs-attr">value</span>: answer &#125;<br>                );<br>            &#125;<br>        &#125; <span class="hljs-keyword">catch</span> (e) &#123;<br>            <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">error</span>(<span class="hljs-string">&quot;解析返回数据时出错：&quot;</span>, e);<br>        &#125;<br>    &#125;,<br>    <span class="hljs-attr">error</span>: <span class="hljs-keyword">function</span> (<span class="hljs-params">jqXHR, textStatus, errorThrown</span>) &#123;<br>        <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">error</span>(<span class="hljs-string">&quot;AJAX请求失败：&quot;</span>, textStatus, errorThrown);<br>    &#125;,<br>    <span class="hljs-attr">complete</span>: <span class="hljs-keyword">function</span> (<span class="hljs-params"></span>) &#123;<br>        <span class="hljs-comment">// 请求完成后恢复按钮状态</span><br>        checkBtn.<span class="hljs-property">disabled</span> = <span class="hljs-literal">false</span>;<br>        checkBtn.<span class="hljs-property">value</span> = <span class="hljs-string">&quot;测试&quot;</span>;<br>        isProcessing = <span class="hljs-literal">false</span>;<br>    &#125;<br>&#125;);<br></code></pre></td></tr></table></figure>
+
+<h2 id="13-根据字段值修改页面样式"><a href="#13-根据字段值修改页面样式" class="headerlink" title="13. 根据字段值修改页面样式"></a>13. 根据字段值修改页面样式</h2><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br></pre></td><td class="code"><pre><code class="hljs js"><span class="hljs-keyword">var</span> sfcb_flag = <span class="hljs-title class_">WfForm</span>.<span class="hljs-title function_">getFieldValue</span>(<span class="hljs-string">&quot;field7134&quot;</span>);<br><br><span class="hljs-keyword">if</span> (sfcb_flag == <span class="hljs-number">0</span>) &#123;<br>    <span class="hljs-title function_">updateElementStyle</span>(<span class="hljs-string">&quot;#sfcb &gt; span &gt; span.child-item.wdb&quot;</span>, <span class="hljs-string">&quot;red&quot;</span>, <span class="hljs-string">&quot;bold&quot;</span>);<br>&#125; <span class="hljs-keyword">else</span> &#123;<br>    <span class="hljs-title function_">updateElementStyle</span>(<span class="hljs-string">&quot;#sfcb &gt; span &gt; span.child-item.wdb&quot;</span>, <span class="hljs-string">&quot;black&quot;</span>, <span class="hljs-string">&quot;normal&quot;</span>);<br>&#125;<br><br><span class="hljs-title class_">WfForm</span>.<span class="hljs-title function_">bindFieldChangeEvent</span>(<span class="hljs-string">&quot;field7134&quot;</span>, <span class="hljs-keyword">function</span> (<span class="hljs-params">id, rowIndex, value</span>) &#123;<br>    <span class="hljs-keyword">var</span> color;<br>    <span class="hljs-keyword">var</span> fontWeight;<br><br>    <span class="hljs-keyword">if</span> (value == <span class="hljs-number">0</span>) &#123;<br>        color = <span class="hljs-string">&quot;red&quot;</span>;<br>        fontWeight = <span class="hljs-string">&quot;bold&quot;</span>;<br>    &#125; <span class="hljs-keyword">else</span> &#123;<br>        color = <span class="hljs-string">&quot;black&quot;</span>;<br>        fontWeight = <span class="hljs-string">&quot;normal&quot;</span>;<br>    &#125;<br><br>    <span class="hljs-built_in">setTimeout</span>(<span class="hljs-keyword">function</span> (<span class="hljs-params"></span>) &#123;<br>        <span class="hljs-title function_">updateElementStyle</span>(<br>            <span class="hljs-string">&quot;#sfcb &gt; span &gt; span.child-item.wdb&quot;</span>,<br>            color,<br>            fontWeight<br>        );<br>    &#125;, <span class="hljs-number">10</span>);<br>&#125;);<br><br><span class="hljs-keyword">function</span> <span class="hljs-title function_">updateElementStyle</span>(<span class="hljs-params">selector, color, fontWeight</span>) &#123;<br>    <span class="hljs-keyword">try</span> &#123;<br>        <span class="hljs-keyword">var</span> element = <span class="hljs-variable language_">document</span>.<span class="hljs-title function_">querySelector</span>(selector);<br>        <span class="hljs-keyword">if</span> (element) &#123;<br>            element.<span class="hljs-property">style</span>.<span class="hljs-property">color</span> = color;<br>            element.<span class="hljs-property">style</span>.<span class="hljs-property">fontWeight</span> = fontWeight;<br>        &#125; <span class="hljs-keyword">else</span> &#123;<br>            <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">warn</span>(<span class="hljs-string">&quot;元素未找到: &quot;</span> + selector);<br>        &#125;<br>    &#125; <span class="hljs-keyword">catch</span> (error) &#123;<br>        <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">error</span>(<span class="hljs-string">&quot;样式更新失败: &quot;</span>, error);<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<h2 id="14-Ant-Design警告框"><a href="#14-Ant-Design警告框" class="headerlink" title="14. Ant Design警告框"></a>14. Ant Design警告框</h2><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><code class="hljs js">antd.<span class="hljs-property">Modal</span>.<span class="hljs-title function_">warning</span>(&#123;<br>    <span class="hljs-attr">title</span>: <span class="hljs-string">&quot;系统提示&quot;</span>,<br>    <span class="hljs-attr">content</span>: <span class="hljs-string">&quot;123&quot;</span>,<br>    <span class="hljs-attr">okText</span>: <span class="hljs-string">&quot;确定&quot;</span>,<br>    <span class="hljs-attr">closable</span>: <span class="hljs-literal">true</span>,<br>    <span class="hljs-attr">onOk</span>: <span class="hljs-keyword">function</span> (<span class="hljs-params"></span>) &#123;<br>        <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-number">1</span>);<br>        <span class="hljs-keyword">return</span> <span class="hljs-title class_">Promise</span>.<span class="hljs-title function_">resolve</span>();<br>    &#125;<br>&#125;);<br></code></pre></td></tr></table></figure>
+
+<h2 id="15-带取消按钮的确认框"><a href="#15-带取消按钮的确认框" class="headerlink" title="15. 带取消按钮的确认框"></a>15. 带取消按钮的确认框</h2><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><code class="hljs js">antd.<span class="hljs-property">Modal</span>.<span class="hljs-title function_">confirm</span>(&#123;<br>    <span class="hljs-attr">title</span>: <span class="hljs-string">&quot;系统提示&quot;</span>,<br>    <span class="hljs-attr">content</span>: <span class="hljs-string">&quot;请注意,第1行该科目预算总额不足&quot;</span>,<br>    <span class="hljs-attr">okText</span>: <span class="hljs-string">&quot;确定&quot;</span>,<br>    <span class="hljs-attr">cancelText</span>: <span class="hljs-string">&quot;取消&quot;</span>,<br>    <span class="hljs-attr">closable</span>: <span class="hljs-literal">true</span>,<br>    <span class="hljs-attr">onOk</span>: <span class="hljs-keyword">function</span> (<span class="hljs-params"></span>) &#123;<br>        <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-number">1</span>);<br>        <span class="hljs-keyword">return</span> <span class="hljs-title class_">Promise</span>.<span class="hljs-title function_">resolve</span>();<br>    &#125;,<br>    <span class="hljs-attr">onCancel</span>: <span class="hljs-keyword">function</span> (<span class="hljs-params"></span>) &#123;<br>        <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-number">2</span>);<br>        <span class="hljs-keyword">return</span> <span class="hljs-title class_">Promise</span>.<span class="hljs-title function_">resolve</span>();<br>    &#125;<br>&#125;);<br></code></pre></td></tr></table></figure>
+
+<h2 id="16-显示带HTML格式的内容"><a href="#16-显示带HTML格式的内容" class="headerlink" title="16. 显示带HTML格式的内容"></a>16. 显示带HTML格式的内容</h2><p>只应把可信内容传给 <code>dangerouslySetInnerHTML</code>，不要直接传入未经处理的用户输入。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><code class="hljs js"><span class="hljs-keyword">var</span> content = <span class="hljs-string">&quot;第一行&lt;br&gt;第二行&quot;</span>;<br><span class="hljs-keyword">var</span> modalInstance = antd.<span class="hljs-property">Modal</span>.<span class="hljs-title function_">confirm</span>(&#123;<br>    <span class="hljs-attr">title</span>: <span class="hljs-string">&quot;系统提示&quot;</span>,<br>    <span class="hljs-attr">content</span>: <span class="hljs-title class_">React</span>.<span class="hljs-title function_">createElement</span>(<span class="hljs-string">&quot;div&quot;</span>, &#123;<br>        <span class="hljs-attr">dangerouslySetInnerHTML</span>: &#123; <span class="hljs-attr">__html</span>: content &#125;<br>    &#125;),<br>    <span class="hljs-attr">okText</span>: <span class="hljs-string">&quot;确定&quot;</span>,<br>    <span class="hljs-attr">cancelText</span>: <span class="hljs-string">&quot;取消&quot;</span>,<br>    <span class="hljs-attr">width</span>: <span class="hljs-string">&quot;80%&quot;</span>,<br>    <span class="hljs-attr">onOk</span>: <span class="hljs-keyword">function</span> (<span class="hljs-params"></span>) &#123;<br>        <span class="hljs-title function_">callback</span>();<br>        modalInstance = <span class="hljs-literal">null</span>;<br>    &#125;,<br>    <span class="hljs-attr">onCancel</span>: <span class="hljs-keyword">function</span> (<span class="hljs-params"></span>) &#123;<br>        modalInstance = <span class="hljs-literal">null</span>;<br>    &#125;,<br>    <span class="hljs-attr">onClose</span>: <span class="hljs-keyword">function</span> (<span class="hljs-params"></span>) &#123;<br>        modalInstance = <span class="hljs-literal">null</span>;<br>    &#125;<br>&#125;);<br></code></pre></td></tr></table></figure>
+
+<h2 id="17-使用jQuery添加按钮"><a href="#17-使用jQuery添加按钮" class="headerlink" title="17. 使用jQuery添加按钮"></a>17. 使用jQuery添加按钮</h2><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs js"><span class="hljs-title function_">jQuery</span>(<span class="hljs-string">&quot;.butn&quot;</span>).<span class="hljs-title function_">html</span>(<br>    <span class="hljs-string">&quot;&lt;input type=&#x27;button&#x27; style=&#x27;color:white&#x27; &quot;</span> +<br>    <span class="hljs-string">&quot;class=&#x27;ant-btn ant-btn-primary&#x27; value=&#x27;测试&#x27; &quot;</span> +<br>    <span class="hljs-string">&quot;onclick=&#x27;checkMaterials()&#x27; id=&#x27;checkBtn&#x27;&gt;&quot;</span><br>);<br></code></pre></td></tr></table></figure>
+
+
+<h1 id="二、建模（ModeForm-ModeList）"><a href="#二、建模（ModeForm-ModeList）" class="headerlink" title="二、建模（ModeForm &#x2F; ModeList）"></a>二、建模（ModeForm &#x2F; ModeList）</h1><h2 id="1-建模表单新增明细行"><a href="#1-建模表单新增明细行" class="headerlink" title="1. 建模表单新增明细行"></a>1. 建模表单新增明细行</h2><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs js"><span class="hljs-title class_">ModeForm</span>.<span class="hljs-title function_">addDetailRow</span>(<span class="hljs-string">&quot;detail_1&quot;</span>, &#123;<br>    <span class="hljs-attr">field11033</span>: &#123; <span class="hljs-attr">value</span>: <span class="hljs-string">&quot;2025-02-6&quot;</span> &#125;<br>&#125;);<br></code></pre></td></tr></table></figure>
+
+<h2 id="2-获取列表勾选数据并调用系统接口"><a href="#2-获取列表勾选数据并调用系统接口" class="headerlink" title="2. 获取列表勾选数据并调用系统接口"></a>2. 获取列表勾选数据并调用系统接口</h2><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><code class="hljs js"><span class="hljs-keyword">function</span> <span class="hljs-title function_">closeDsh</span>(<span class="hljs-params"></span>) &#123;<br>    <span class="hljs-keyword">var</span> ids = <span class="hljs-title class_">ModeList</span>.<span class="hljs-title function_">getCheckedID</span>();<br><br>    jQuery.<span class="hljs-title function_">ajax</span>(&#123;<br>        <span class="hljs-attr">type</span>: <span class="hljs-string">&quot;GET&quot;</span>,<br>        <span class="hljs-attr">url</span>: <span class="hljs-string">&quot;/api/caigou/order/closeDsh&quot;</span>,<br>        <span class="hljs-attr">dataType</span>: <span class="hljs-string">&quot;json&quot;</span>,<br>        <span class="hljs-attr">data</span>: &#123; <span class="hljs-attr">ids</span>: ids &#125;,<br>        <span class="hljs-attr">cache</span>: <span class="hljs-literal">false</span>,<br>        <span class="hljs-attr">async</span>: <span class="hljs-literal">false</span>,<br>        <span class="hljs-attr">success</span>: <span class="hljs-keyword">function</span> (<span class="hljs-params">data, textStatus, jqXHR</span>) &#123;<br>            <span class="hljs-keyword">if</span> (data.<span class="hljs-property">result</span>) &#123;<br>                <span class="hljs-title class_">ModeList</span>.<span class="hljs-title function_">reloadTableAll</span>();<br>            &#125; <span class="hljs-keyword">else</span> &#123;<br>                <span class="hljs-title class_">ModeList</span>.<span class="hljs-title function_">showMessage</span>(data.<span class="hljs-property">message</span>, <span class="hljs-number">1</span>, <span class="hljs-number">5</span>);<br>            &#125;<br>        &#125;,<br>        <span class="hljs-attr">error</span>: <span class="hljs-keyword">function</span> (<span class="hljs-params">XMLHttpRequest, textStatus, errorThrown</span>) &#123;<br>            <span class="hljs-title class_">ModeList</span>.<span class="hljs-title function_">showModalMsg</span>(<span class="hljs-string">&quot;系统提示&quot;</span>, <span class="hljs-string">&quot;系统异常，请稍后再试&quot;</span>, <span class="hljs-number">1</span>);<br>        &#125;<br>    &#125;);<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<h2 id="3-建模页面扩展按钮二次确认"><a href="#3-建模页面扩展按钮二次确认" class="headerlink" title="3. 建模页面扩展按钮二次确认"></a>3. 建模页面扩展按钮二次确认</h2><p>在建模页面扩展按钮的确认JS中配置：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs text">javascript:getConfirmMessage()<br></code></pre></td></tr></table></figure>
+
+<p>对应函数：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs js"><span class="hljs-keyword">function</span> <span class="hljs-title function_">getConfirmMessage</span>(<span class="hljs-params"></span>) &#123;<br>    <span class="hljs-keyword">var</span> tableData = <span class="hljs-title class_">ModeList</span>.<span class="hljs-title function_">getTableDatas</span>()[<span class="hljs-number">0</span>];<br>    <span class="hljs-keyword">return</span> tableData.<span class="hljs-property">smjd</span> == <span class="hljs-number">1007</span><br>        ? (<span class="hljs-title class_">ModeForm</span>.<span class="hljs-title function_">showMessage</span>(<br>            <span class="hljs-string">&quot;注册状态不允许发起变更，请先发起认证注册流程&quot;</span><br>        ), <span class="hljs-literal">false</span>)<br>        : <span class="hljs-string">&quot;是否确认&quot;</span>;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<h1 id="三、ecode-通用前端"><a href="#三、ecode-通用前端" class="headerlink" title="三、ecode &#x2F; 通用前端"></a>三、ecode &#x2F; 通用前端</h1><h2 id="1-拦截接口"><a href="#1-拦截接口" class="headerlink" title="1. 拦截接口"></a>1. 拦截接口</h2><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><code class="hljs js"><span class="hljs-keyword">let</span> interceptEnable = <span class="hljs-literal">true</span>;<br>ecodeSDK.<span class="hljs-title function_">rewriteApiDataQueueSet</span>(&#123;<br>    <span class="hljs-attr">fn</span>: <span class="hljs-function">(<span class="hljs-params">url, params, data</span>) =&gt;</span> &#123;<br>        <span class="hljs-comment">// console.log(497)</span><br>        <span class="hljs-keyword">if</span> (!interceptEnable) <span class="hljs-keyword">return</span> data; <span class="hljs-comment">// 限制条件</span><br>        <span class="hljs-keyword">if</span> (<span class="hljs-variable language_">window</span>.<span class="hljs-property">location</span>.<span class="hljs-property">hash</span>.<span class="hljs-title function_">indexOf</span>(<span class="hljs-string">&#x27;#/budget/bankEnterpriseReport/payInfoReview&#x27;</span>) &gt; -<span class="hljs-number">1</span>) &#123;<br>            <span class="hljs-comment">// console.log(111)</span><br>            <span class="hljs-keyword">if</span> (url == <span class="hljs-string">&#x27;/api/fna/bankEnterpriseConnect/getTransferReviewAdvanceSearch&#x27;</span>) &#123;<br>                <span class="hljs-comment">// console.log(222)</span><br>                <span class="hljs-comment">// let options = data.conditions[0].items[2].options;</span><br>                <span class="hljs-comment">// let temp = options[0];</span><br>                <span class="hljs-comment">// options[0] = options[1];</span><br>                <span class="hljs-comment">// options[1] = temp;</span><br>                data.<span class="hljs-property">conditions</span>[<span class="hljs-number">0</span>].<span class="hljs-property">items</span>[<span class="hljs-number">2</span>].<span class="hljs-property">value</span> = <span class="hljs-string">&#x27;1&#x27;</span>;<br>                <span class="hljs-comment">// console.log(data.conditions[0].items[2])</span><br>            &#125;<br><br><br><br>        &#125;<br>        <span class="hljs-keyword">return</span> data;<br>    &#125;,<br>    <span class="hljs-attr">desc</span>: <span class="hljs-string">&#x27;拦截接口参数，同一个接口会在多个页面请求，需注意路径的判断&#x27;</span><br>&#125;);<br></code></pre></td></tr></table></figure>
+<h2 id="2-复写组件"><a href="#2-复写组件" class="headerlink" title="2. 复写组件"></a>2. 复写组件</h2><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><code class="hljs js">ecodeSDK.<span class="hljs-title function_">overwritePropsFnQueueMapSet</span>(<span class="hljs-string">&#x27;WeaReqTop&#x27;</span>, &#123; <span class="hljs-comment">//组件名</span><br>    <span class="hljs-attr">fn</span>: <span class="hljs-function">(<span class="hljs-params">newProps</span>) =&gt;</span> &#123; <span class="hljs-comment">//newProps代表组件参数</span><br>        <span class="hljs-comment">//进行位置判断</span><br>        <span class="hljs-keyword">if</span> (!ecodeSDK.<span class="hljs-title function_">checkLPath</span>(<span class="hljs-string">&#x27;/spa/workflow/static4form/index.html#/main/workflow/req&#x27;</span>)) <span class="hljs-keyword">return</span>;<br>        <span class="hljs-keyword">var</span> workflowId = wfform.<span class="hljs-title function_">getBaseInfo</span>().<span class="hljs-property">workflowid</span>;<br>        <span class="hljs-comment">// console.log(&#x27;workflow判断&#x27;,workflowId!=152)</span><br>        <span class="hljs-keyword">if</span> (workflowId &amp;&amp; workflowId == <span class="hljs-number">153</span>) &#123;<br><br>            <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">&quot;开始了123&quot;</span>)<br><br>            <span class="hljs-title function_">jQuery</span>(<span class="hljs-string">&quot;body &gt; div:nth-child(42) &gt; div &gt; div.ant-modal-wrap &gt; div &gt; div.ant-modal-content &gt; div &gt; div &gt; div.ant-confirm-body &gt; div.ant-confirm-header &gt; span&quot;</span>).<span class="hljs-title function_">wait</span>(<span class="hljs-keyword">function</span> (<span class="hljs-params"></span>) &#123;<br>                <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">&quot;找到了&quot;</span>)<br>                <span class="hljs-title function_">jQuery</span>(<span class="hljs-string">&quot;body &gt; div:nth-child(42) &gt; div &gt; div.ant-modal-wrap &gt; div &gt; div.ant-modal-content &gt; div &gt; div &gt; div.ant-confirm-btns &gt; button&quot;</span>).<span class="hljs-title function_">hide</span>(); <span class="hljs-comment">//隐藏确定按钮</span><br>            &#125;);<br>        &#125;<br><br><br>    &#125;,<br>    <span class="hljs-attr">order</span>: <span class="hljs-number">1</span>, <span class="hljs-comment">//排序字段，如果存在同一个页面复写了同一个组件，控制顺序时使用</span><br>    <span class="hljs-attr">desc</span>: <span class="hljs-string">&#x27;在这里写此复写的作用，在调试的时候方便查找&#x27;</span><br>&#125;);<br></code></pre></td></tr></table></figure>
+
+
+<h2 id="3-拦截入参"><a href="#3-拦截入参" class="headerlink" title="3. 拦截入参"></a>3. 拦截入参</h2><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><code class="hljs js"><span class="hljs-keyword">let</span> interceptEnable2 = <span class="hljs-literal">true</span>;<br>ecodeSDK.<span class="hljs-title function_">rewriteApiParamsQueueSet</span>(&#123;<br>    <span class="hljs-attr">fn</span>: <span class="hljs-function">(<span class="hljs-params">url, method, params</span>) =&gt;</span> &#123;<br>        <span class="hljs-keyword">if</span> (interceptEnable2 &amp;&amp; url.<span class="hljs-title function_">indexOf</span>(<span class="hljs-string">&#x27;/api/fna/report/implementationReport&#x27;</span>) &gt;= <span class="hljs-number">0</span>) &#123;<br>            <span class="hljs-comment">// console.log(236)</span><br>            params.<span class="hljs-property">orgId</span> = <span class="hljs-number">1</span>;<br>            interceptEnable2 = <span class="hljs-literal">false</span>;<br>            <span class="hljs-comment">// console.log(params)</span><br>            <span class="hljs-comment">// params = &#123; ...params &#125;</span><br>        &#125;<br><br>        <span class="hljs-keyword">return</span> &#123;<br>            <span class="hljs-attr">url</span>: url, <span class="hljs-comment">// 接口路径</span><br>            <span class="hljs-attr">method</span>: method, <span class="hljs-comment">// 请求类型</span><br>            <span class="hljs-attr">params</span>: params <span class="hljs-comment">// 	请求参数</span><br>        &#125;<br>    &#125;,<br>    <span class="hljs-attr">desc</span>: <span class="hljs-string">&#x27;复写移动端接口传参&#x27;</span><br>&#125;);<br></code></pre></td></tr></table></figure>
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/%E6%B3%9B%E5%BE%AE%E5%BC%80%E5%8F%91/" class="category-chain-item">泛微开发</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/JavaScript/" class="print-no-link">#JavaScript</a>
+      
+        <a href="/tags/%E5%89%8D%E7%AB%AF/" class="print-no-link">#前端</a>
+      
+        <a href="/tags/%E6%B3%9B%E5%BE%AEE9/" class="print-no-link">#泛微E9</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>泛微E9常用JS总结</div>
+      <div>https://zhangzifang07.github.io/2026/07/29/e9-common-js-summary/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>zhangzifang</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2026年7月29日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-cc-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2026/08/18/git-github-collaboration-guide/" title="从 Fork 到 Pull Request：用 Git 与 GitHub 进行协作开发的完整教程">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">从 Fork 到 Pull Request：用 Git 与 GitHub 进行协作开发的完整教程</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2026/07/16/hexo-blog-build-steps/" title="Hexo博客搭建步骤">
+                        <span class="hidden-mobile">Hexo博客搭建步骤</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://zhangzifang07.github.io" target="_blank" rel="nofollow noopener"><span>© 2026zhangzifang</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    function isExpandAllEnabled() {
+      return CONFIG.toc && CONFIG.toc.expand_all === true;
+    }
+    function expandAllToc() {
+      if (!isExpandAllEnabled()) { return; }
+      jQuery('#toc-body .tocbot-is-collapsed').removeClass('tocbot-is-collapsed');
+    }
+    function updateTocToggle($li, $childList) {
+      var $toggle = $li.children('.toc-toggle');
+      if ($toggle.length === 0) { return; }
+      var collapsed = $childList.hasClass('tocbot-is-collapsed');
+      $toggle
+        .toggleClass('toc-toggle-collapsed', collapsed)
+        .toggleClass('toc-toggle-expanded', !collapsed);
+    }
+    function bindTocToggle() {
+      if (!isExpandAllEnabled()) { return; }
+      jQuery('#toc-body .toc-list-item').each(function() {
+        var $li = jQuery(this);
+        var $childList = $li.children('ol');
+        if ($childList.length === 0) {
+          if ($li.children('.toc-toggle').length === 0) {
+            $li.prepend('<span class="toc-toggle toc-toggle-placeholder" aria-hidden="true">›</span>');
+          }
+          return;
+        }
+
+        if ($li.children('.toc-toggle').length === 0) {
+          $li.prepend('<span class="toc-toggle toc-toggle-expanded" aria-hidden="true">›</span>');
+        }
+        updateTocToggle($li, $childList);
+      });
+      jQuery('#toc-body').off('click.tocToggle').on('click.tocToggle', '.toc-toggle', function(e) {
+        e.preventDefault();
+        e.stopPropagation();
+        var $li = jQuery(this).parent('.toc-list-item');
+        var $childList = $li.children('ol');
+        if ($childList.length === 0) { return; }
+        $childList.toggleClass('tocbot-is-collapsed');
+        updateTocToggle($li, $childList);
+      });
+      if (!window.__tocToggleObserver) {
+        window.__tocToggleObserver = new MutationObserver(function(mutations) {
+          mutations.forEach(function(mutation) {
+            if (mutation.type !== 'attributes' || mutation.attributeName !== 'class') { return; }
+            var $list = jQuery(mutation.target);
+            var $li = $list.parent('.toc-list-item');
+            if ($li.length === 0) { return; }
+            updateTocToggle($li, $list);
+          });
+        });
+        jQuery('#toc-body ol').each(function() {
+          window.__tocToggleObserver.observe(this, { attributes: true });
+        });
+      }
+    }
+    var tocConfig = Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc);
+    if (isExpandAllEnabled()) {
+      tocConfig.collapseDepth = 6;
+    }
+    window.tocbot.init(tocConfig);
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+    expandAllToc();
+    bindTocToggle();
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+        expandAllToc();
+        bindTocToggle();
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/5.0.0/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>

@@ -1,0 +1,943 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/fluid.png">
+  <link rel="icon" href="/img/favicon.svg">
+  
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="zhangzifang">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="泛微E10二开开发环境搭建全流程，包括IDEA配置、Resin部署、二开服务打包与上传">
+<meta property="og:type" content="article">
+<meta property="og:title" content="泛微E10开发环境搭建以及打包">
+<meta property="og:url" content="https://zhangzifang07.github.io/2026/06/29/e10-dev-setup/index.html">
+<meta property="og:site_name" content="Zhang的个人博客">
+<meta property="og:description" content="泛微E10二开开发环境搭建全流程，包括IDEA配置、Resin部署、二开服务打包与上传">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://zhangzifang07.github.io/2026/06/29/e10-dev-setup/image.png">
+<meta property="og:image" content="https://zhangzifang07.github.io/2026/06/29/e10-dev-setup/image%201.png">
+<meta property="og:image" content="https://zhangzifang07.github.io/2026/06/29/e10-dev-setup/image%202.png">
+<meta property="og:image" content="https://zhangzifang07.github.io/2026/06/29/e10-dev-setup/image%203.png">
+<meta property="og:image" content="https://zhangzifang07.github.io/2026/06/29/e10-dev-setup/image%204.png">
+<meta property="og:image" content="https://zhangzifang07.github.io/2026/06/29/e10-dev-setup/image%205.png">
+<meta property="og:image" content="https://zhangzifang07.github.io/2026/06/29/e10-dev-setup/image%206.png">
+<meta property="og:image" content="https://zhangzifang07.github.io/2026/06/29/e10-dev-setup/image%207.png">
+<meta property="og:image" content="https://zhangzifang07.github.io/2026/06/29/e10-dev-setup/image%208.png">
+<meta property="og:image" content="https://zhangzifang07.github.io/2026/06/29/e10-dev-setup/image%209.png">
+<meta property="og:image" content="https://zhangzifang07.github.io/2026/06/29/e10-dev-setup/image%2010.png">
+<meta property="og:image" content="https://zhangzifang07.github.io/2026/06/29/e10-dev-setup/image%2011.png">
+<meta property="og:image" content="https://zhangzifang07.github.io/2026/06/29/e10-dev-setup/image%2012.png">
+<meta property="og:image" content="https://zhangzifang07.github.io/2026/06/29/e10-dev-setup/image%2013.png">
+<meta property="og:image" content="https://zhangzifang07.github.io/2026/06/29/e10-dev-setup/image%2014.png">
+<meta property="og:image" content="https://zhangzifang07.github.io/2026/06/29/e10-dev-setup/image%2015.png">
+<meta property="og:image" content="https://zhangzifang07.github.io/2026/06/29/e10-dev-setup/image%2016.png">
+<meta property="og:image" content="https://zhangzifang07.github.io/2026/06/29/e10-dev-setup/image%2017.png">
+<meta property="og:image" content="https://zhangzifang07.github.io/2026/06/29/e10-dev-setup/image%2018.png">
+<meta property="og:image" content="https://zhangzifang07.github.io/2026/06/29/e10-dev-setup/image%2019.png">
+<meta property="og:image" content="https://zhangzifang07.github.io/2026/06/29/e10-dev-setup/image%2020.png">
+<meta property="og:image" content="https://zhangzifang07.github.io/2026/06/29/e10-dev-setup/image%2021.png">
+<meta property="og:image" content="https://zhangzifang07.github.io/2026/06/29/e10-dev-setup/image%2022.png">
+<meta property="article:published_time" content="2026-06-29T08:00:00.000Z">
+<meta property="article:modified_time" content="2026-08-18T09:20:29.517Z">
+<meta property="article:author" content="zhangzifang">
+<meta property="article:tag" content="泛微">
+<meta property="article:tag" content="泛微E10">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://zhangzifang07.github.io/2026/06/29/e10-dev-setup/image.png">
+  
+  
+  
+  <title>泛微E10开发环境搭建以及打包 - Zhang的个人博客</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1749284_5i9bdhy70f8.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1736178_k526ubmyhba.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+  
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"zhangzifang07.github.io","root":"/","version":"1.9.9","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"expand_all":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false},"openkounter":{"server_url":"https://open-kounter.mintimate.cn","path":"window.location.pathname","ignore_local":false},"umami":{"src":null,"website_id":null,"domains":null,"start_time":"2024-01-01T00:00:00.000Z","token":null,"api_server":null}},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 8.1.2"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>Zhang的个人博客</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content (desktop) -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>文章</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/" target="_self">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<!-- Mobile grid menu overlay -->
+<div id="mobile-grid-menu" class="d-lg-none">
+  <div class="mobile-grid-menu-inner">
+    <div class="container">
+      <div class="row">
+        
+          
+          
+          
+          
+            <div class="col-4 mobile-grid-cell">
+              <a href="/" target="_self">
+                <div class="mobile-grid-item">
+                  <i class="iconfont icon-home-fill"></i>
+                  <span>首页</span>
+                </div>
+              </a>
+            </div>
+          
+        
+          
+          
+          
+          
+            <div class="col-4 mobile-grid-cell">
+              <a href="/archives/" target="_self">
+                <div class="mobile-grid-item">
+                  <i class="iconfont icon-archive-fill"></i>
+                  <span>文章</span>
+                </div>
+              </a>
+            </div>
+          
+        
+          
+          
+          
+          
+            <div class="col-4 mobile-grid-cell">
+              <a href="/categories/" target="_self">
+                <div class="mobile-grid-item">
+                  <i class="iconfont icon-category-fill"></i>
+                  <span>分类</span>
+                </div>
+              </a>
+            </div>
+          
+        
+          
+          
+          
+          
+            <div class="col-4 mobile-grid-cell">
+              <a href="/tags/" target="_self">
+                <div class="mobile-grid-item">
+                  <i class="iconfont icon-tags-fill"></i>
+                  <span>标签</span>
+                </div>
+              </a>
+            </div>
+          
+        
+          
+          
+          
+          
+            <div class="col-4 mobile-grid-cell">
+              <a href="/about/" target="_self">
+                <div class="mobile-grid-item">
+                  <i class="iconfont icon-user-fill"></i>
+                  <span>关于</span>
+                </div>
+              </a>
+            </div>
+          
+        
+        
+          <div class="col-4 mobile-grid-cell" id="mobile-search-btn">
+            <a href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <div class="mobile-grid-item">
+                <i class="iconfont icon-search"></i>
+                <span>搜索</span>
+              </div>
+            </a>
+          </div>
+        
+        
+          <div class="col-4 mobile-grid-cell" id="mobile-color-toggle-btn"
+               data-label-light="开灯"
+               data-label-dark="关灯">
+            <a href="javascript:;" aria-label="Color Toggle">
+              <div class="mobile-grid-item">
+                <i class="iconfont icon-dark" id="mobile-color-toggle-icon"></i>
+                <span id="mobile-color-toggle-label">关灯</span>
+              </div>
+            </a>
+          </div>
+        
+      </div>
+    </div>
+  </div>
+</div>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="泛微E10开发环境搭建以及打包"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2026-06-29 16:00" pubdate>
+          2026年6月29日 下午
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          3.1k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          26 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">泛微E10开发环境搭建以及打包</h1>
+            
+              <p id="updated-time" class="note note-info" style="">
+                
+                  
+                    本文最后更新于 2026年8月18日 下午
+                  
+                
+              </p>
+            
+            
+              <div class="markdown-body">
+                
+                <h1 id="一、IDEA开发环境搭建"><a href="#一、IDEA开发环境搭建" class="headerlink" title="一、IDEA开发环境搭建"></a>一、IDEA开发环境搭建</h1><h2 id="1、插件"><a href="#1、插件" class="headerlink" title="1、插件"></a>1、插件</h2><ul>
+<li><p>新建项目，选择插件泛微E10项目</p>
+  <img src="/2026/06/29/e10-dev-setup/image.png" srcset="/img/loading.gif" lazyload class="" title="选择插件项目">
+</li>
+<li><p>添加泛微E10服务信息，包括地址，管理员账户密码，eteamsid（随便拦截请求，请求头中可查看）</p>
+  <img src="/2026/06/29/e10-dev-setup/image%201.png" srcset="/img/loading.gif" lazyload class="" title="添加泛微E10服务信息">
+
+  <img src="/2026/06/29/e10-dev-setup/image%202.png" srcset="/img/loading.gif" lazyload class="" title="添加服务信息2">
+
+  <img src="/2026/06/29/e10-dev-setup/image%203.png" srcset="/img/loading.gif" lazyload class="" title="添加服务信息3">
+</li>
+<li><p>配置gradle</p>
+</li>
+</ul>
+<h2 id="2、demo工程搭建"><a href="#2、demo工程搭建" class="headerlink" title="2、demo工程搭建"></a>2、demo工程搭建</h2><ul>
+<li>修改子项目的(子项目名.gradle)文件，其他的不用动</li>
+</ul>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><code class="hljs javascript">description = <span class="hljs-string">&quot;ruihu&quot;</span>  <br>  <br>dependencies &#123;  <br>    <span class="hljs-comment">// 子项目私有依赖添加  </span><br>&#125;  <br>  <br>sourceSets &#123;  <br>    main &#123;  <br>        java &#123;  <br>            include <span class="hljs-string">&#x27;com/weaver/**&#x27;</span> <span class="hljs-comment">// 只包含自己包下的 java        &#125;  </span><br>  <br>        resources &#123;  <br>            <span class="hljs-comment">// 打jar排除resources目录下所有的文件  </span><br>            exclude <span class="hljs-string">&#x27;**&#x27;</span>  <br>        &#125;  <br>    &#125;&#125;<br>&#125;<br>jar &#123;  <br>    archiveBaseName.<span class="hljs-title function_">set</span>(<span class="hljs-string">&#x27;secondev-e10-ruihu&#x27;</span>)  <br>    archiveVersion.<span class="hljs-title function_">set</span>(<span class="hljs-string">&#x27;&#x27;</span>)    <span class="hljs-comment">// 不显示版本号  </span><br><br>&#125;<br></code></pre></td></tr></table></figure>
+
+<h2 id="3、手动拉取JAR包"><a href="#3、手动拉取JAR包" class="headerlink" title="3、手动拉取JAR包"></a>3、手动拉取JAR包</h2><ul>
+<li>应用服务器找到二开服务位置</li>
+</ul>
+<figure class="highlight properties"><figcaption><span>files</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><code class="hljs Properties"><span class="hljs-comment">#找到二开服务位置 HeapDumpPath</span><br><span class="hljs-attr">ps</span> <span class="hljs-string">-ef|grep secondev</span><br><span class="hljs-comment"></span><br><span class="hljs-comment">#进入目录</span><br><span class="hljs-attr">cd</span> <span class="hljs-string">data/weaver/e10-server0/weaver-secondev-service/webapps/</span><br><span class="hljs-comment"></span><br><span class="hljs-comment">#打包资源</span><br><span class="hljs-attr">tar</span> <span class="hljs-string">-zcvf second.tar.gz ROOT/</span><br><br><span class="hljs-attr">zip</span> <span class="hljs-string">-r sdev.zip ROOT/</span><br><span class="hljs-comment"></span><br><span class="hljs-comment">#通过ftp工具进行下载</span><br></code></pre></td></tr></table></figure>
+
+<ul>
+<li>WEB-INF&#x2F;lib目录下的所有 jar 拷贝至 IDEA 项目secDevLib目录下</li>
+</ul>
+<h1 id="二、打Jar包"><a href="#二、打Jar包" class="headerlink" title="二、打Jar包"></a>二、打Jar包</h1><h2 id="1、指定jar包内容"><a href="#1、指定jar包内容" class="headerlink" title="1、指定jar包内容"></a>1、指定jar包内容</h2><img src="/2026/06/29/e10-dev-setup/image%204.png" srcset="/img/loading.gif" lazyload class="" title="指定jar包内容">
+
+<h2 id="2、jar包名称"><a href="#2、jar包名称" class="headerlink" title="2、jar包名称"></a>2、jar包名称</h2><img src="/2026/06/29/e10-dev-setup/image%205.png" srcset="/img/loading.gif" lazyload class="" title="jar包名称">
+
+<h2 id="3、监控管理平台上传jar包编辑配置文件-action"><a href="#3、监控管理平台上传jar包编辑配置文件-action" class="headerlink" title="3、监控管理平台上传jar包编辑配置文件(action)"></a>3、监控管理平台上传jar包编辑配置文件(action)</h2><img src="/2026/06/29/e10-dev-setup/image%206.png" srcset="/img/loading.gif" lazyload class="" title="监控管理平台上传jar包">
+
+<h1 id="三、常用操作"><a href="#三、常用操作" class="headerlink" title="三、常用操作"></a>三、常用操作</h1><h2 id="1、日志记录"><a href="#1、日志记录" class="headerlink" title="1、日志记录"></a>1、日志记录</h2><ul>
+<li>slf4j注解加到类名上，可使用log对象</li>
+</ul>
+<img src="/2026/06/29/e10-dev-setup/image%207.png" srcset="/img/loading.gif" lazyload class="" title="日志记录1">
+
+<img src="/2026/06/29/e10-dev-setup/image%208.png" srcset="/img/loading.gif" lazyload class="" title="日志记录2">
+
+<img src="/2026/06/29/e10-dev-setup/image%209.png" srcset="/img/loading.gif" lazyload class="" title="日志记录3">
+
+<p>（1）花括号{}表示占位符，一个花括号一个参数<br>（2）日志文件：二开服务根目录logs文件夹下，sys-seconddev.log&#x2F;sys-seconddev-err.log【&#x2F;data&#x2F;weaver&#x2F;e10-server0&#x2F;weaver-secondev-service&#x2F;logs】<br>（3）默认级别是error，可以到目录【2、配置文件读取】中的配置文件中修改，增加配置项logging.level+包名</p>
+<h2 id="2、配置文件读取"><a href="#2、配置文件读取" class="headerlink" title="2、配置文件读取"></a>2、配置文件读取</h2><img src="/2026/06/29/e10-dev-setup/image%2010.png" srcset="/img/loading.gif" lazyload class="" title="配置文件读取">
+
+<p>默认文件取值，并有个默认值，如”${dev.count:10}”，取dev.count的值，没有的话设置默认值为10</p>
+<h2 id="3、缓存使用"><a href="#3、缓存使用" class="headerlink" title="3、缓存使用"></a>3、缓存使用</h2><img src="/2026/06/29/e10-dev-setup/image%2011.png" srcset="/img/loading.gif" lazyload class="" title="缓存使用1">
+
+<img src="/2026/06/29/e10-dev-setup/image%2012.png" srcset="/img/loading.gif" lazyload class="" title="缓存使用2">
+
+<p>参数依次：模块名称 缓存key 缓存内容 时间(单位&#x2F;秒)</p>
+<h2 id="4、数据库连接"><a href="#4、数据库连接" class="headerlink" title="4、数据库连接"></a>4、数据库连接</h2><ul>
+<li><p>注入工具类</p>
+  <img src="/2026/06/29/e10-dev-setup/image%2013.png" srcset="/img/loading.gif" lazyload class="" title="注入工具类">
+</li>
+<li><p>连接</p>
+  <img src="/2026/06/29/e10-dev-setup/image%2014.png" srcset="/img/loading.gif" lazyload class="" title="数据库连接"></li>
+</ul>
+<p>（1）获取groupid：&#x2F;api&#x2F;datasource&#x2F;ds&#x2F;group?sourceType&#x3D;LOGIC<br>（2）外部数据源：type参数LOGIC(本地)，外部(EXTERNAL)</p>
+<h2 id="5、RPC接口（微服务之间）"><a href="#5、RPC接口（微服务之间）" class="headerlink" title="5、RPC接口（微服务之间）"></a>5、RPC接口（微服务之间）</h2><ul>
+<li><p>使用</p>
+  <img src="/2026/06/29/e10-dev-setup/image%2015.png" srcset="/img/loading.gif" lazyload class="" title="RPC接口1">
+
+  <img src="/2026/06/29/e10-dev-setup/image%2016.png" srcset="/img/loading.gif" lazyload class="" title="RPC接口2"></li>
+</ul>
+<h1 id="四、自定义action开发（ESB动作流）"><a href="#四、自定义action开发（ESB动作流）" class="headerlink" title="四、自定义action开发（ESB动作流）"></a>四、自定义action开发（ESB动作流）</h1><ul>
+<li><p>action</p>
+  <img src="/2026/06/29/e10-dev-setup/image%2017.png" srcset="/img/loading.gif" lazyload class="" title="action1">
+
+  <img src="/2026/06/29/e10-dev-setup/image%2018.png" srcset="/img/loading.gif" lazyload class="" title="action2">
+
+  <img src="/2026/06/29/e10-dev-setup/image%2019.png" srcset="/img/loading.gif" lazyload class="" title="action3">
+
+  <img src="/2026/06/29/e10-dev-setup/image%2020.png" srcset="/img/loading.gif" lazyload class="" title="action4"></li>
+</ul>
+<h1 id="五、计划任务"><a href="#五、计划任务" class="headerlink" title="五、计划任务"></a>五、计划任务</h1><ul>
+<li><p>注解引入ESchedulerHandler</p>
+  <img src="/2026/06/29/e10-dev-setup/image%2021.png" srcset="/img/loading.gif" lazyload class="" title="计划任务">
+</li>
+<li><p>&#x2F;info&#x2F;dispatch&#x2F;escheduler&#x2F;task查看任务运行情况</p>
+</li>
+</ul>
+<h1 id="六、接口开发"><a href="#六、接口开发" class="headerlink" title="六、接口开发"></a>六、接口开发</h1><img src="/2026/06/29/e10-dev-setup/image%2022.png" srcset="/img/loading.gif" lazyload class="" title="接口开发">
+
+<h1 id="七、openapi调用"><a href="#七、openapi调用" class="headerlink" title="七、openapi调用"></a>七、openapi调用</h1><ul>
+<li>新建流程报文</li>
+</ul>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br></pre></td><td class="code"><pre><code class="hljs JSON"><span class="hljs-punctuation">&#123;</span><br>  <span class="hljs-attr">&quot;requestname&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;demo创建流程3&quot;</span><span class="hljs-punctuation">,</span><br>  <span class="hljs-attr">&quot;isnextflow&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-number">1</span><span class="hljs-punctuation">,</span><br>  <span class="hljs-attr">&quot;isVerifyFormRequired&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-literal"><span class="hljs-keyword">true</span></span><span class="hljs-punctuation">,</span><br>  <span class="hljs-attr">&quot;formData&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">&#123;</span><br>    <span class="hljs-attr">&quot;dataDetails&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">[</span><br>      <span class="hljs-punctuation">&#123;</span><br>        <span class="hljs-attr">&quot;content&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;单行文本&quot;</span><span class="hljs-punctuation">,</span><br>        <span class="hljs-attr">&quot;fieldId&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-number">1086718865844092900</span><br>      <span class="hljs-punctuation">&#125;</span><span class="hljs-punctuation">,</span><br>      <span class="hljs-punctuation">&#123;</span><br>        <span class="hljs-attr">&quot;dataKey&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;duxwb&quot;</span><span class="hljs-punctuation">,</span><br>        <span class="hljs-attr">&quot;content&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;多行文本&quot;</span><br>      <span class="hljs-punctuation">&#125;</span><span class="hljs-punctuation">,</span><br>      <span class="hljs-punctuation">&#123;</span><br>        <span class="hljs-attr">&quot;dataOptions&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">[</span><br>          <span class="hljs-punctuation">&#123;</span><br>            <span class="hljs-attr">&quot;uploadParam&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">&#123;</span><br>              <span class="hljs-attr">&quot;uploadType&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;byteFile&quot;</span><span class="hljs-punctuation">,</span><br>              <span class="hljs-attr">&quot;byteFile&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;MTIzMTIzMTIzMTIzMTIzDQrE47rDzds=&quot;</span><br>            <span class="hljs-punctuation">&#125;</span><span class="hljs-punctuation">,</span><br>            <span class="hljs-attr">&quot;content&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;test.txt&quot;</span><br>          <span class="hljs-punctuation">&#125;</span><br>        <span class="hljs-punctuation">]</span><span class="hljs-punctuation">,</span><br>        <span class="hljs-attr">&quot;needCopy&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-literal"><span class="hljs-keyword">true</span></span><span class="hljs-punctuation">,</span><br>        <span class="hljs-attr">&quot;fieldId&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;1086718865842987&quot;</span><br>      <span class="hljs-punctuation">&#125;</span><span class="hljs-punctuation">,</span><br>      <span class="hljs-punctuation">&#123;</span><br>        <span class="hljs-attr">&quot;extendParams&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">&#123;</span><br>          <span class="hljs-attr">&quot;moneyType&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;RMB&quot;</span><br>        <span class="hljs-punctuation">&#125;</span><span class="hljs-punctuation">,</span><br>        <span class="hljs-attr">&quot;content&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-number">999.6</span><span class="hljs-punctuation">,</span><br>        <span class="hljs-attr">&quot;fieldId&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-number">1086718865844092900</span><br>      <span class="hljs-punctuation">&#125;</span><span class="hljs-punctuation">,</span><br>      <span class="hljs-punctuation">&#123;</span><br>        <span class="hljs-attr">&quot;dataOptions&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">[</span><br>          <span class="hljs-punctuation">&#123;</span><br>            <span class="hljs-attr">&quot;optionId&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;1086699487085871119&quot;</span><span class="hljs-punctuation">,</span><br>            <span class="hljs-attr">&quot;content&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;ydy测试d&quot;</span><br>          <span class="hljs-punctuation">&#125;</span><br>        <span class="hljs-punctuation">]</span><span class="hljs-punctuation">,</span><br>        <span class="hljs-attr">&quot;fieldId&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-number">1086718865844093000</span><br>      <span class="hljs-punctuation">&#125;</span><span class="hljs-punctuation">,</span><br>      <span class="hljs-punctuation">&#123;</span><br>        <span class="hljs-attr">&quot;dataIndex&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-number">1</span><span class="hljs-punctuation">,</span><br>        <span class="hljs-attr">&quot;content&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;第一行&quot;</span><span class="hljs-punctuation">,</span><br>        <span class="hljs-attr">&quot;fieldId&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-number">1086718865844093035</span><span class="hljs-string">&quot;</span><br><span class="hljs-string">      &#125;,</span><br><span class="hljs-string">      &#123;</span><br><span class="hljs-string">        &quot;</span>dataIndex<span class="hljs-string">&quot;: 1,</span><br><span class="hljs-string">        &quot;</span>content<span class="hljs-string">&quot;: &quot;</span><span class="hljs-number">111111</span><span class="hljs-string">&quot;,</span><br><span class="hljs-string">        &quot;</span>fieldId<span class="hljs-string">&quot;: 1086718865844093036&quot;</span><br>      <span class="hljs-punctuation">&#125;</span><span class="hljs-punctuation">,</span><br>      <span class="hljs-punctuation">&#123;</span><br>        <span class="hljs-attr">&quot;dataKey&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;rq&quot;</span><span class="hljs-punctuation">,</span><br>        <span class="hljs-attr">&quot;subFormId&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;1086718865844092978&quot;</span><span class="hljs-punctuation">,</span><br>        <span class="hljs-attr">&quot;dataIndex&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-number">2</span><span class="hljs-punctuation">,</span><br>        <span class="hljs-attr">&quot;content&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;2025-04-10&quot;</span><br>      <span class="hljs-punctuation">&#125;</span><br>    <span class="hljs-punctuation">]</span><br>  <span class="hljs-punctuation">&#125;</span><span class="hljs-punctuation">,</span><br>  <span class="hljs-attr">&quot;userid&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;1086699487085871119&quot;</span><span class="hljs-punctuation">,</span><br>  <span class="hljs-attr">&quot;workflowId&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-number">1087053250514534400</span><span class="hljs-punctuation">,</span><br>  <span class="hljs-attr">&quot;delReqFlowFaild&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-literal"><span class="hljs-keyword">true</span></span><br><span class="hljs-punctuation">&#125;</span><br></code></pre></td></tr></table></figure>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/%E6%B3%9B%E5%BE%AE%E5%BC%80%E5%8F%91/" class="category-chain-item">泛微开发</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/%E6%B3%9B%E5%BE%AEE10/" class="print-no-link">#泛微E10</a>
+      
+        <a href="/tags/%E6%B3%9B%E5%BE%AE/" class="print-no-link">#泛微</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>泛微E10开发环境搭建以及打包</div>
+      <div>https://zhangzifang07.github.io/2026/06/29/e10-dev-setup/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>zhangzifang</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2026年6月29日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-cc-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2026/06/29/e10-js-summary/" title="泛微E10 JS总结">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">泛微E10 JS总结</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2026/06/29/e10-dev-docs-index/" title="泛微E10系统开发相关文档索引">
+                        <span class="hidden-mobile">泛微E10系统开发相关文档索引</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://zhangzifang07.github.io" target="_blank" rel="nofollow noopener"><span>© 2026zhangzifang</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    function isExpandAllEnabled() {
+      return CONFIG.toc && CONFIG.toc.expand_all === true;
+    }
+    function expandAllToc() {
+      if (!isExpandAllEnabled()) { return; }
+      jQuery('#toc-body .tocbot-is-collapsed').removeClass('tocbot-is-collapsed');
+    }
+    function updateTocToggle($li, $childList) {
+      var $toggle = $li.children('.toc-toggle');
+      if ($toggle.length === 0) { return; }
+      var collapsed = $childList.hasClass('tocbot-is-collapsed');
+      $toggle
+        .toggleClass('toc-toggle-collapsed', collapsed)
+        .toggleClass('toc-toggle-expanded', !collapsed);
+    }
+    function bindTocToggle() {
+      if (!isExpandAllEnabled()) { return; }
+      jQuery('#toc-body .toc-list-item').each(function() {
+        var $li = jQuery(this);
+        var $childList = $li.children('ol');
+        if ($childList.length === 0) {
+          if ($li.children('.toc-toggle').length === 0) {
+            $li.prepend('<span class="toc-toggle toc-toggle-placeholder" aria-hidden="true">›</span>');
+          }
+          return;
+        }
+
+        if ($li.children('.toc-toggle').length === 0) {
+          $li.prepend('<span class="toc-toggle toc-toggle-expanded" aria-hidden="true">›</span>');
+        }
+        updateTocToggle($li, $childList);
+      });
+      jQuery('#toc-body').off('click.tocToggle').on('click.tocToggle', '.toc-toggle', function(e) {
+        e.preventDefault();
+        e.stopPropagation();
+        var $li = jQuery(this).parent('.toc-list-item');
+        var $childList = $li.children('ol');
+        if ($childList.length === 0) { return; }
+        $childList.toggleClass('tocbot-is-collapsed');
+        updateTocToggle($li, $childList);
+      });
+      if (!window.__tocToggleObserver) {
+        window.__tocToggleObserver = new MutationObserver(function(mutations) {
+          mutations.forEach(function(mutation) {
+            if (mutation.type !== 'attributes' || mutation.attributeName !== 'class') { return; }
+            var $list = jQuery(mutation.target);
+            var $li = $list.parent('.toc-list-item');
+            if ($li.length === 0) { return; }
+            updateTocToggle($li, $list);
+          });
+        });
+        jQuery('#toc-body ol').each(function() {
+          window.__tocToggleObserver.observe(this, { attributes: true });
+        });
+      }
+    }
+    var tocConfig = Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc);
+    if (isExpandAllEnabled()) {
+      tocConfig.collapseDepth = 6;
+    }
+    window.tocbot.init(tocConfig);
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+    expandAllToc();
+    bindTocToggle();
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+        expandAllToc();
+        bindTocToggle();
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/5.0.0/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>

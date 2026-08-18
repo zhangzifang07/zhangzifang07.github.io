@@ -1,0 +1,1322 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/fluid.png">
+  <link rel="icon" href="/img/favicon.svg">
+  
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="zhangzifang">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="通过真实案例讲解 GitHub Fork、Git 分支、origin 与 upstream、同步上游、个人版本维护及 Pull Request 的完整协作流程">
+<meta property="og:type" content="article">
+<meta property="og:title" content="从 Fork 到 Pull Request：用 Git 与 GitHub 进行协作开发的完整教程">
+<meta property="og:url" content="https://zhangzifang07.github.io/2026/08/18/git-github-collaboration-guide/index.html">
+<meta property="og:site_name" content="Zhang的个人博客">
+<meta property="og:description" content="通过真实案例讲解 GitHub Fork、Git 分支、origin 与 upstream、同步上游、个人版本维护及 Pull Request 的完整协作流程">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2026-08-18T02:00:00.000Z">
+<meta property="article:modified_time" content="2026-08-18T09:20:29.530Z">
+<meta property="article:author" content="zhangzifang">
+<meta property="article:tag" content="Git">
+<meta property="article:tag" content="GitHub">
+<meta property="article:tag" content="协作开发">
+<meta name="twitter:card" content="summary_large_image">
+  
+  
+  
+  <title>从 Fork 到 Pull Request：用 Git 与 GitHub 进行协作开发的完整教程 - Zhang的个人博客</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1749284_5i9bdhy70f8.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1736178_k526ubmyhba.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+  
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"zhangzifang07.github.io","root":"/","version":"1.9.9","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"expand_all":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false},"openkounter":{"server_url":"https://open-kounter.mintimate.cn","path":"window.location.pathname","ignore_local":false},"umami":{"src":null,"website_id":null,"domains":null,"start_time":"2024-01-01T00:00:00.000Z","token":null,"api_server":null}},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 8.1.2"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>Zhang的个人博客</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content (desktop) -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>文章</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/" target="_self">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<!-- Mobile grid menu overlay -->
+<div id="mobile-grid-menu" class="d-lg-none">
+  <div class="mobile-grid-menu-inner">
+    <div class="container">
+      <div class="row">
+        
+          
+          
+          
+          
+            <div class="col-4 mobile-grid-cell">
+              <a href="/" target="_self">
+                <div class="mobile-grid-item">
+                  <i class="iconfont icon-home-fill"></i>
+                  <span>首页</span>
+                </div>
+              </a>
+            </div>
+          
+        
+          
+          
+          
+          
+            <div class="col-4 mobile-grid-cell">
+              <a href="/archives/" target="_self">
+                <div class="mobile-grid-item">
+                  <i class="iconfont icon-archive-fill"></i>
+                  <span>文章</span>
+                </div>
+              </a>
+            </div>
+          
+        
+          
+          
+          
+          
+            <div class="col-4 mobile-grid-cell">
+              <a href="/categories/" target="_self">
+                <div class="mobile-grid-item">
+                  <i class="iconfont icon-category-fill"></i>
+                  <span>分类</span>
+                </div>
+              </a>
+            </div>
+          
+        
+          
+          
+          
+          
+            <div class="col-4 mobile-grid-cell">
+              <a href="/tags/" target="_self">
+                <div class="mobile-grid-item">
+                  <i class="iconfont icon-tags-fill"></i>
+                  <span>标签</span>
+                </div>
+              </a>
+            </div>
+          
+        
+          
+          
+          
+          
+            <div class="col-4 mobile-grid-cell">
+              <a href="/about/" target="_self">
+                <div class="mobile-grid-item">
+                  <i class="iconfont icon-user-fill"></i>
+                  <span>关于</span>
+                </div>
+              </a>
+            </div>
+          
+        
+        
+          <div class="col-4 mobile-grid-cell" id="mobile-search-btn">
+            <a href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <div class="mobile-grid-item">
+                <i class="iconfont icon-search"></i>
+                <span>搜索</span>
+              </div>
+            </a>
+          </div>
+        
+        
+          <div class="col-4 mobile-grid-cell" id="mobile-color-toggle-btn"
+               data-label-light="开灯"
+               data-label-dark="关灯">
+            <a href="javascript:;" aria-label="Color Toggle">
+              <div class="mobile-grid-item">
+                <i class="iconfont icon-dark" id="mobile-color-toggle-icon"></i>
+                <span id="mobile-color-toggle-label">关灯</span>
+              </div>
+            </a>
+          </div>
+        
+      </div>
+    </div>
+  </div>
+</div>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="从 Fork 到 Pull Request：用 Git 与 GitHub 进行协作开发的完整教程"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2026-08-18 10:00" pubdate>
+          2026年8月18日 上午
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          8.2k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          69 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">从 Fork 到 Pull Request：用 Git 与 GitHub 进行协作开发的完整教程</h1>
+            
+              <p id="updated-time" class="note note-info" style="">
+                
+                  
+                    本文最后更新于 2026年8月18日 下午
+                  
+                
+              </p>
+            
+            
+              <div class="markdown-body">
+                
+                <p>很多人第一次在 GitHub 上 Fork 项目时，会产生这些疑问：</p>
+<ul>
+<li>Fork 以后还需要创建分支吗？</li>
+<li>本地仓库、自己的 Fork、原作者仓库是什么关系？</li>
+<li>自己开发的代码应该放在哪个分支？</li>
+<li>怎样获取原作者后续发布的更新？</li>
+<li>怎样把自己的功能贡献给原作者？</li>
+<li><code>origin</code> 和 <code>upstream</code> 分别是什么？</li>
+<li>为什么 <code>git add</code> 会提示 LF 和 CRLF？</li>
+</ul>
+<p>本文通过一个真实案例，完整讲解如何 Fork、下载、修改、提交、同步和贡献一个 GitHub 项目。</p>
+<p>案例中的仓库：</p>
+<ul>
+<li>原作者仓库：<code>fboostr/pinpin-china</code></li>
+<li>Fork 后的仓库：<code>zhangzifang07/pinpin-china</code></li>
+<li>本地目录：<code>F:\AIProject\pinpin-china</code></li>
+</ul>
+<hr>
+<h2 id="一、先理解三个仓库"><a href="#一、先理解三个仓库" class="headerlink" title="一、先理解三个仓库"></a>一、先理解三个仓库</h2><p>完成 Fork 和 Clone 后，实际上存在三个仓库。</p>
+<pre><code class=" mermaid">flowchart TB
+    A[&quot;原作者 GitHub 仓库&lt;br/&gt;fboostr/pinpin-china&lt;br/&gt;upstream&quot;]
+    B[&quot;自己的 GitHub Fork&lt;br/&gt;zhangzifang07/pinpin-china&lt;br/&gt;origin&quot;]
+    C[&quot;自己电脑上的本地仓库&lt;br/&gt;F:\AIProject\pinpin-china&quot;]
+
+    A --&gt;|&quot;Fork 或同步更新&quot;| B
+    B --&gt;|&quot;clone / pull / fetch&quot;| C
+    C --&gt;|&quot;push&quot;| B
+    B -.-&gt;|&quot;Pull Request&quot;| A
+</code></pre>
+
+<h3 id="1-原作者仓库"><a href="#1-原作者仓库" class="headerlink" title="1. 原作者仓库"></a>1. 原作者仓库</h3><p>这是项目的官方来源：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs text">https://github.com/fboostr/pinpin-china<br></code></pre></td></tr></table></figure>
+
+<p>通常将它命名为 <code>upstream</code>，可以理解为“上游仓库”。</p>
+<h3 id="2-自己的-GitHub-Fork"><a href="#2-自己的-GitHub-Fork" class="headerlink" title="2. 自己的 GitHub Fork"></a>2. 自己的 GitHub Fork</h3><p>在 GitHub 点击 Fork 后，会在自己的账号下产生一份仓库：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs text">https://github.com/zhangzifang07/pinpin-china<br></code></pre></td></tr></table></figure>
+
+<p>本地 Git 通常将它命名为 <code>origin</code>。日常执行 <code>git push</code> 时，代码一般会上传到这里。</p>
+<h3 id="3-本地仓库"><a href="#3-本地仓库" class="headerlink" title="3. 本地仓库"></a>3. 本地仓库</h3><p>使用 <code>git clone</code> 下载到电脑上的项目：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs text">F:\AIProject\pinpin-china<br></code></pre></td></tr></table></figure>
+
+<p>代码修改、测试、提交等操作主要在本地完成。</p>
+<hr>
+<h2 id="二、Fork-和分支不是一回事"><a href="#二、Fork-和分支不是一回事" class="headerlink" title="二、Fork 和分支不是一回事"></a>二、Fork 和分支不是一回事</h2><p>这是最容易混淆的地方。</p>
+<h3 id="Fork-是复制仓库"><a href="#Fork-是复制仓库" class="headerlink" title="Fork 是复制仓库"></a>Fork 是复制仓库</h3><p>Fork 会在自己的 GitHub 账号下复制整个项目：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs text">原作者仓库<br>    ↓ Fork<br>自己的 GitHub 仓库<br></code></pre></td></tr></table></figure>
+
+<h3 id="Branch-是仓库内部的代码分支"><a href="#Branch-是仓库内部的代码分支" class="headerlink" title="Branch 是仓库内部的代码分支"></a>Branch 是仓库内部的代码分支</h3><p>一个仓库中可以有很多分支：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs text">pinpin-china<br>├── main<br>├── personal<br>├── feature/show-placed-labels<br>└── feature/other-feature<br></code></pre></td></tr></table></figure>
+
+<p>所以：</p>
+<ul>
+<li>Fork 解决的是“仓库归谁管理”。</li>
+<li>Branch 解决的是“不同修改如何隔离”。</li>
+</ul>
+<p>即使已经 Fork，开发新功能时仍然建议创建分支。</p>
+<hr>
+<h2 id="三、Fork-并下载项目"><a href="#三、Fork-并下载项目" class="headerlink" title="三、Fork 并下载项目"></a>三、Fork 并下载项目</h2><p>先在 GitHub 原项目页面点击 Fork。</p>
+<p>然后克隆自己的 Fork，而不是直接克隆原作者仓库：</p>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs powershell">git clone git@github.com:zhangzifang07/pinpin<span class="hljs-literal">-china</span>.git<br><span class="hljs-built_in">cd</span> pinpin<span class="hljs-literal">-china</span><br></code></pre></td></tr></table></figure>
+
+<p>命令说明：</p>
+<ul>
+<li><code>git clone</code>：把远程仓库完整下载到本地。</li>
+<li><code>cd pinpin-china</code>：进入项目目录。</li>
+<li>SSH 地址可以使用本机配置好的 GitHub SSH 密钥进行身份验证。</li>
+</ul>
+<p>检查远程配置：</p>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs powershell">git remote <span class="hljs-literal">-v</span><br></code></pre></td></tr></table></figure>
+
+<p>刚克隆完成时一般只有：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs text">origin  git@github.com:zhangzifang07/pinpin-china.git<br></code></pre></td></tr></table></figure>
+
+<p>这里的 <code>origin</code> 指自己的 Fork。</p>
+<hr>
+<h2 id="四、添加原作者仓库-upstream"><a href="#四、添加原作者仓库-upstream" class="headerlink" title="四、添加原作者仓库 upstream"></a>四、添加原作者仓库 upstream</h2><p>为了以后获取原作者更新，需要添加原作者仓库：</p>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs powershell">git remote add upstream git@github.com:fboostr/pinpin<span class="hljs-literal">-china</span>.git<br></code></pre></td></tr></table></figure>
+
+<p>命令说明：</p>
+<ul>
+<li><code>git remote</code>：管理远程仓库。</li>
+<li><code>add</code>：添加一个远程仓库。</li>
+<li><code>upstream</code>：给原作者仓库起的本地名称。</li>
+<li>最后的地址是原作者仓库的 SSH 地址。</li>
+</ul>
+<p>检查配置：</p>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs powershell">git remote <span class="hljs-literal">-v</span><br></code></pre></td></tr></table></figure>
+
+<p>正确结果类似：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs text">origin    git@github.com:zhangzifang07/pinpin-china.git<br>upstream  git@github.com:fboostr/pinpin-china.git<br></code></pre></td></tr></table></figure>
+
+<p>此后需要记住：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs text">origin   = 自己的 GitHub Fork<br>upstream = 原作者的 GitHub 仓库<br></code></pre></td></tr></table></figure>
+
+<hr>
+<h2 id="五、HTTPS-连接被重置怎么办"><a href="#五、HTTPS-连接被重置怎么办" class="headerlink" title="五、HTTPS 连接被重置怎么办"></a>五、HTTPS 连接被重置怎么办</h2><p>本案例最初使用的是 HTTPS：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs text">https://github.com/fboostr/pinpin-china.git<br></code></pre></td></tr></table></figure>
+
+<p>执行：</p>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs powershell">git fetch upstream<br></code></pre></td></tr></table></figure>
+
+<p>出现错误：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs text">Recv failure: Connection was reset<br></code></pre></td></tr></table></figure>
+
+<p>这通常是网络连接被重置，并不表示仓库损坏，也不会丢失代码。</p>
+<p>因为 <code>origin</code> 已经通过 SSH 正常推送，所以可以将 <code>upstream</code> 也改为 SSH：</p>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs powershell">git remote <span class="hljs-built_in">set-url</span> upstream git@github.com:fboostr/pinpin<span class="hljs-literal">-china</span>.git<br></code></pre></td></tr></table></figure>
+
+<p>命令说明：</p>
+<ul>
+<li><code>git remote set-url</code>：修改远程仓库地址。</li>
+<li><code>upstream</code>：要修改的远程仓库名称。</li>
+<li>最后的参数是新的 SSH 地址。</li>
+</ul>
+<p>然后重新获取：</p>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs powershell">git fetch upstream<br></code></pre></td></tr></table></figure>
+
+<p>如果没有输出，通常表示执行成功。</p>
+<hr>
+<h2 id="六、推荐的分支结构"><a href="#六、推荐的分支结构" class="headerlink" title="六、推荐的分支结构"></a>六、推荐的分支结构</h2><p>如果既想维护自己的版本，又想获取原作者更新，还可能向原作者贡献代码，推荐使用三层分支结构：</p>
+<table>
+<thead>
+<tr>
+<th>分支</th>
+<th>用途</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>main</code></td>
+<td>与原作者的 <code>main</code> 保持同步</td>
+</tr>
+<tr>
+<td><code>personal</code></td>
+<td>汇总自己的全部功能，作为个人完整版本</td>
+</tr>
+<tr>
+<td><code>feature/*</code></td>
+<td>每个功能单独开发，也用于提交 PR</td>
+</tr>
+</tbody></table>
+<pre><code class=" mermaid">flowchart TB
+    U[&quot;原作者 upstream/main&quot;]
+    M[&quot;自己的 main&lt;br/&gt;保持与原作者同步&quot;]
+    P[&quot;自己的 personal&lt;br/&gt;个人完整版本&quot;]
+    F1[&quot;feature/show-placed-labels&quot;]
+    F2[&quot;feature/other-feature&quot;]
+
+    U --&gt;|&quot;同步更新&quot;| M
+    M --&gt;|&quot;合并更新&quot;| P
+    M --&gt;|&quot;创建功能分支&quot;| F1
+    M --&gt;|&quot;创建功能分支&quot;| F2
+    F1 --&gt;|&quot;合入个人版本&quot;| P
+    F2 --&gt;|&quot;合入个人版本&quot;| P
+    F1 -.-&gt;|&quot;Pull Request&quot;| U
+</code></pre>
+
+<p>这种结构的优点是：</p>
+<ul>
+<li><code>main</code> 保持干净，容易同步原作者。</li>
+<li><code>personal</code> 可以包含只属于自己的功能。</li>
+<li>每个 <code>feature/*</code> 只包含一个功能，方便提交 PR。</li>
+<li>不会将多个无关的个人修改一起提交给原作者。</li>
+</ul>
+<hr>
+<h2 id="七、同步原作者的-main"><a href="#七、同步原作者的-main" class="headerlink" title="七、同步原作者的 main"></a>七、同步原作者的 main</h2><p>首先切换到本地 <code>main</code>：</p>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs powershell">git <span class="hljs-keyword">switch</span> main<br></code></pre></td></tr></table></figure>
+
+<p>命令说明：</p>
+<ul>
+<li><code>git switch</code>：切换分支。</li>
+<li><code>main</code>：要切换到的目标分支。</li>
+</ul>
+<p>如果显示：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs text">Your branch is up to date with &#x27;origin/main&#x27;.<br></code></pre></td></tr></table></figure>
+
+<p>表示本地 <code>main</code> 与自己的 GitHub Fork 的 <code>main</code> 一致。</p>
+<p>获取原作者的最新提交：</p>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs powershell">git fetch upstream<br></code></pre></td></tr></table></figure>
+
+<p><code>git fetch</code> 只会下载远程提交信息，不会直接修改当前代码。</p>
+<p>然后同步：</p>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs powershell">git merge <span class="hljs-literal">--ff-only</span> upstream/main<br></code></pre></td></tr></table></figure>
+
+<p>命令说明：</p>
+<ul>
+<li><code>git merge</code>：将另一个分支合入当前分支。</li>
+<li><code>upstream/main</code>：原作者仓库的 <code>main</code>。</li>
+<li><code>--ff-only</code>：只允许安全的快进更新。</li>
+</ul>
+<p>如果显示：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs text">Already up to date.<br></code></pre></td></tr></table></figure>
+
+<p>表示本地 <code>main</code> 已经与原作者一致。</p>
+<p>最后将本地 <code>main</code> 推送到自己的 Fork：</p>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs powershell">git push origin main<br></code></pre></td></tr></table></figure>
+
+<p>如果显示：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs text">Everything up-to-date<br></code></pre></td></tr></table></figure>
+
+<p>表示三者的 <code>main</code> 完全一致：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs text">原作者 upstream/main<br>        =<br>本地 main<br>        =<br>自己的 origin/main<br></code></pre></td></tr></table></figure>
+
+<hr>
+<h2 id="八、创建功能分支"><a href="#八、创建功能分支" class="headerlink" title="八、创建功能分支"></a>八、创建功能分支</h2><p>本案例需要新增“拼图归位后显示区域名称”的功能。</p>
+<p>从 <code>main</code> 创建功能分支：</p>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs powershell">git <span class="hljs-keyword">switch</span> <span class="hljs-literal">-c</span> feature/<span class="hljs-built_in">show-placed</span><span class="hljs-literal">-labels</span><br></code></pre></td></tr></table></figure>
+
+<p>命令说明：</p>
+<ul>
+<li><code>git switch</code>：切换分支。</li>
+<li><code>-c</code>：创建一个新分支。</li>
+<li><code>feature/show-placed-labels</code>：新分支名称。</li>
+</ul>
+<p>它相当于：</p>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs powershell">git branch feature/<span class="hljs-built_in">show-placed</span><span class="hljs-literal">-labels</span><br>git <span class="hljs-keyword">switch</span> feature/<span class="hljs-built_in">show-placed</span><span class="hljs-literal">-labels</span><br></code></pre></td></tr></table></figure>
+
+<p>如果直接执行：</p>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs powershell">git <span class="hljs-keyword">switch</span> feature/<span class="hljs-built_in">show-placed</span><span class="hljs-literal">-labels</span><br></code></pre></td></tr></table></figure>
+
+<p>但分支尚未创建，就会出现：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs text">fatal: invalid reference: feature/show-placed-labels<br></code></pre></td></tr></table></figure>
+
+<p>第一次创建必须带 <code>-c</code>。以后切换已有分支则不需要：</p>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs powershell">git <span class="hljs-keyword">switch</span> feature/<span class="hljs-built_in">show-placed</span><span class="hljs-literal">-labels</span><br></code></pre></td></tr></table></figure>
+
+<hr>
+<h2 id="九、修改、暂存和提交代码"><a href="#九、修改、暂存和提交代码" class="headerlink" title="九、修改、暂存和提交代码"></a>九、修改、暂存和提交代码</h2><p>本次功能修改了两个文件：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs text">css/styles.css<br>js/render.js<br></code></pre></td></tr></table></figure>
+
+<p>查看当前状态：</p>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs powershell">git status<br></code></pre></td></tr></table></figure>
+
+<p>暂存修改：</p>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs powershell">git add .<br></code></pre></td></tr></table></figure>
+
+<p>命令说明：</p>
+<ul>
+<li><code>git add</code>：把修改加入暂存区。</li>
+<li><code>.</code>：暂存当前目录下的所有修改。</li>
+</ul>
+<p>如果只想暂存指定文件，可以写：</p>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs powershell">git add css/styles.css js/render.js<br></code></pre></td></tr></table></figure>
+
+<p>提交之前，可以检查暂存内容：</p>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs powershell">git <span class="hljs-built_in">diff</span> <span class="hljs-literal">--cached</span><br></code></pre></td></tr></table></figure>
+
+<p>然后提交：</p>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs powershell">git commit <span class="hljs-literal">-m</span> <span class="hljs-string">&quot;feat: 拼图归位后显示区域名称&quot;</span><br></code></pre></td></tr></table></figure>
+
+<p>命令说明：</p>
+<ul>
+<li><code>git commit</code>：创建一次本地提交。</li>
+<li><code>-m</code>：直接提供提交说明。</li>
+<li><code>feat</code>：表示新增功能。</li>
+</ul>
+<p>常见提交类型：</p>
+<table>
+<thead>
+<tr>
+<th>类型</th>
+<th>用途</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>feat</code></td>
+<td>新增功能</td>
+</tr>
+<tr>
+<td><code>fix</code></td>
+<td>修复错误</td>
+</tr>
+<tr>
+<td><code>docs</code></td>
+<td>修改文档</td>
+</tr>
+<tr>
+<td><code>style</code></td>
+<td>调整格式或样式</td>
+</tr>
+<tr>
+<td><code>refactor</code></td>
+<td>重构但不改变功能</td>
+</tr>
+<tr>
+<td><code>test</code></td>
+<td>增加或修改测试</td>
+</tr>
+<tr>
+<td><code>chore</code></td>
+<td>构建、配置等辅助工作</td>
+</tr>
+</tbody></table>
+<p>本次属于新增显示能力，因此使用 <code>feat</code> 比 <code>fix</code> 更合适。</p>
+<hr>
+<h2 id="十、LF-和-CRLF-警告是什么意思"><a href="#十、LF-和-CRLF-警告是什么意思" class="headerlink" title="十、LF 和 CRLF 警告是什么意思"></a>十、LF 和 CRLF 警告是什么意思</h2><p>执行 <code>git add .</code> 时可能出现：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs text">LF will be replaced by CRLF the next time Git touches it<br></code></pre></td></tr></table></figure>
+
+<p>这不是错误，而是换行符提示：</p>
+<ul>
+<li><code>LF</code>：Linux 和 macOS 常用。</li>
+<li><code>CRLF</code>：Windows 常用。</li>
+</ul>
+<p>Git 提示未来在 Windows 工作区处理文件时，可能将换行符转换为 CRLF。</p>
+<p>这种提示通常不会影响代码运行，也不会阻止提交。提交前仍应使用 <code>git status</code>，确认暂存区只有本次需要提交的文件。</p>
+<hr>
+<h2 id="十一、推送功能分支"><a href="#十一、推送功能分支" class="headerlink" title="十一、推送功能分支"></a>十一、推送功能分支</h2><p>提交后，将功能分支上传到自己的 Fork：</p>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs powershell">git push <span class="hljs-literal">-u</span> origin feature/<span class="hljs-built_in">show-placed</span><span class="hljs-literal">-labels</span><br></code></pre></td></tr></table></figure>
+
+<p>命令说明：</p>
+<ul>
+<li><code>git push</code>：将本地提交上传到远程仓库。</li>
+<li><code>origin</code>：自己的 GitHub Fork。</li>
+<li><code>feature/show-placed-labels</code>：要推送的分支。</li>
+<li><code>-u</code>：建立本地分支与远程分支的跟踪关系。</li>
+</ul>
+<p>第一次推送需要完整命令。以后在这个分支只需：</p>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs powershell">git push<br></code></pre></td></tr></table></figure>
+
+<p>此时关系是：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><code class="hljs text">原作者 upstream/main<br>└── 还没有这个功能<br><br>自己的 origin/main<br>└── 还没有这个功能<br><br>自己的 origin/feature/show-placed-labels<br>└── 包含“显示区域名称”功能<br><br>本地 feature/show-placed-labels<br>└── 包含“显示区域名称”功能<br></code></pre></td></tr></table></figure>
+
+<hr>
+<h2 id="十二、创建-personal-个人版本分支"><a href="#十二、创建-personal-个人版本分支" class="headerlink" title="十二、创建 personal 个人版本分支"></a>十二、创建 personal 个人版本分支</h2><p>切换回干净的 <code>main</code>：</p>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs powershell">git <span class="hljs-keyword">switch</span> main<br></code></pre></td></tr></table></figure>
+
+<p>创建个人版本分支：</p>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs powershell">git <span class="hljs-keyword">switch</span> <span class="hljs-literal">-c</span> personal<br></code></pre></td></tr></table></figure>
+
+<p>此时 <code>personal</code> 暂时与 <code>main</code> 相同。</p>
+<p>将功能分支合入个人版本：</p>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs powershell">git merge feature/<span class="hljs-built_in">show-placed</span><span class="hljs-literal">-labels</span><br></code></pre></td></tr></table></figure>
+
+<p>如果输出：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs text">Fast-forward<br></code></pre></td></tr></table></figure>
+
+<p>表示 Git 只需要将分支指针向前移动，没有冲突，也没有产生额外的合并提交。</p>
+<p>然后上传个人版本：</p>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs powershell">git push <span class="hljs-literal">-u</span> origin personal<br></code></pre></td></tr></table></figure>
+
+<p>当前关系变成：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs text">main<br>├── 与原作者保持同步<br>│<br>├── feature/show-placed-labels<br>│   └── 只包含“显示区域名称”功能<br>│<br>└── personal<br>    └── 基础版本 + 显示区域名称功能<br></code></pre></td></tr></table></figure>
+
+<p>虽然 <code>personal</code> 和功能分支当前可能指向同一个提交，但它们的用途不同：</p>
+<ul>
+<li><code>feature/show-placed-labels</code> 用于描述一个独立功能。</li>
+<li><code>personal</code> 用于汇总未来所有个人功能。</li>
+</ul>
+<hr>
+<h2 id="十三、不要把-personal-整体提交给原作者"><a href="#十三、不要把-personal-整体提交给原作者" class="headerlink" title="十三、不要把 personal 整体提交给原作者"></a>十三、不要把 personal 整体提交给原作者</h2><p>GitHub 推送新分支后可能提示：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs text">Create a pull request for &#x27;personal&#x27;<br></code></pre></td></tr></table></figure>
+
+<p>这只是 GitHub 的通用提示，不代表一定要创建。</p>
+<p>不建议将 <code>personal</code> 整体提交给原作者，因为它以后可能包含多个不同功能、个人定制内容、原作者不需要的修改或尚未完成的实验代码。</p>
+<p>向原作者贡献时，应该使用独立的 <code>feature/*</code> 分支。</p>
+<hr>
+<h2 id="十四、向原作者提交-Pull-Request"><a href="#十四、向原作者提交-Pull-Request" class="headerlink" title="十四、向原作者提交 Pull Request"></a>十四、向原作者提交 Pull Request</h2><p>本次应使用：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs text">feature/show-placed-labels<br></code></pre></td></tr></table></figure>
+
+<p>创建 PR 时检查：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs text">base repository：fboostr/pinpin-china<br>base branch：main<br><br>head repository：zhangzifang07/pinpin-china<br>compare branch：feature/show-placed-labels<br></code></pre></td></tr></table></figure>
+
+<p>可以理解为：</p>
+<blockquote>
+<p>请求原作者将我的 <code>feature/show-placed-labels</code> 合入他的 <code>main</code>。</p>
+</blockquote>
+<p>PR 标题可以写：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs text">feat: 拼图归位后显示区域名称<br></code></pre></td></tr></table></figure>
+
+<p>PR 描述示例：</p>
+<figure class="highlight markdown"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><code class="hljs markdown"><span class="hljs-section">## 修改内容</span><br><br><span class="hljs-bullet">-</span> 全国拼图中，区域归位后显示省级行政区名称<br><span class="hljs-bullet">-</span> 分省拼图中，地市归位后显示地市名称<br><span class="hljs-bullet">-</span> 增加文字描边，提升不同颜色背景下的可读性<br><br><span class="hljs-section">## 验证</span><br><br><span class="hljs-bullet">-</span> 全国模式放置辽宁后正确显示名称<br><span class="hljs-bullet">-</span> 河南分省模式放置郑州后正确显示名称<br><span class="hljs-bullet">-</span> JavaScript 语法检查通过<br><span class="hljs-bullet">-</span> 全国和分省数据校验通过<br></code></pre></td></tr></table></figure>
+
+<p>PR 提交后，原作者可以查看代码差异、提出修改建议、接受并合并或者拒绝这个功能。</p>
+<p>无论原作者是否接受，都不会影响自己 <code>personal</code> 中的功能。</p>
+<hr>
+<h2 id="十五、原作者合并-PR-后怎么同步"><a href="#十五、原作者合并-PR-后怎么同步" class="headerlink" title="十五、原作者合并 PR 后怎么同步"></a>十五、原作者合并 PR 后怎么同步</h2><p>原作者合并 PR 后，先更新本地 <code>main</code>：</p>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs powershell">git <span class="hljs-keyword">switch</span> main<br>git fetch upstream<br>git merge <span class="hljs-literal">--ff-only</span> upstream/main<br>git push origin main<br></code></pre></td></tr></table></figure>
+
+<p>此时：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs text">原作者 upstream/main<br>        =<br>本地 main<br>        =<br>自己的 origin/main<br></code></pre></td></tr></table></figure>
+
+<p>然后把最新 <code>main</code> 合入个人版本：</p>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs powershell">git <span class="hljs-keyword">switch</span> personal<br>git merge main<br>git push<br></code></pre></td></tr></table></figure>
+
+<p>最终数据流是：</p>
+<pre><code class=" mermaid">flowchart LR
+    A[&quot;原作者 upstream/main&quot;] --&gt;|&quot;fetch + merge&quot;| B[&quot;本地 main&quot;]
+    B --&gt;|&quot;push&quot;| C[&quot;自己的 origin/main&quot;]
+    B --&gt;|&quot;merge&quot;| D[&quot;本地 personal&quot;]
+    D --&gt;|&quot;push&quot;| E[&quot;自己的 origin/personal&quot;]
+</code></pre>
+
+<hr>
+<h2 id="十六、以后开发新功能的标准流程"><a href="#十六、以后开发新功能的标准流程" class="headerlink" title="十六、以后开发新功能的标准流程"></a>十六、以后开发新功能的标准流程</h2><h3 id="第一步：更新-main"><a href="#第一步：更新-main" class="headerlink" title="第一步：更新 main"></a>第一步：更新 main</h3><figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs powershell">git <span class="hljs-keyword">switch</span> main<br>git fetch upstream<br>git merge <span class="hljs-literal">--ff-only</span> upstream/main<br>git push origin main<br></code></pre></td></tr></table></figure>
+
+<h3 id="第二步：创建独立功能分支"><a href="#第二步：创建独立功能分支" class="headerlink" title="第二步：创建独立功能分支"></a>第二步：创建独立功能分支</h3><figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs powershell">git <span class="hljs-keyword">switch</span> <span class="hljs-literal">-c</span> feature/新功能名称<br></code></pre></td></tr></table></figure>
+
+<p>例如：</p>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs powershell">git <span class="hljs-keyword">switch</span> <span class="hljs-literal">-c</span> feature/<span class="hljs-built_in">add-hints</span><br></code></pre></td></tr></table></figure>
+
+<h3 id="第三步：开发并提交"><a href="#第三步：开发并提交" class="headerlink" title="第三步：开发并提交"></a>第三步：开发并提交</h3><figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs powershell">git status<br>git add .<br>git commit <span class="hljs-literal">-m</span> <span class="hljs-string">&quot;feat: 增加拼图提示功能&quot;</span><br>git push <span class="hljs-literal">-u</span> origin feature/<span class="hljs-built_in">add-hints</span><br></code></pre></td></tr></table></figure>
+
+<h3 id="第四步：合入个人版本"><a href="#第四步：合入个人版本" class="headerlink" title="第四步：合入个人版本"></a>第四步：合入个人版本</h3><figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs powershell">git <span class="hljs-keyword">switch</span> personal<br>git merge feature/<span class="hljs-built_in">add-hints</span><br>git push<br></code></pre></td></tr></table></figure>
+
+<h3 id="第五步：决定是否贡献给原作者"><a href="#第五步：决定是否贡献给原作者" class="headerlink" title="第五步：决定是否贡献给原作者"></a>第五步：决定是否贡献给原作者</h3><p>如果功能通用、代码完整并且适合原项目，就从：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs text">zhangzifang07/pinpin-china:feature/add-hints<br></code></pre></td></tr></table></figure>
+
+<p>向：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs text">fboostr/pinpin-china:main<br></code></pre></td></tr></table></figure>
+
+<p>提交 Pull Request。</p>
+<hr>
+<h2 id="十七、只想自己开发，可以不管原作者吗"><a href="#十七、只想自己开发，可以不管原作者吗" class="headerlink" title="十七、只想自己开发，可以不管原作者吗"></a>十七、只想自己开发，可以不管原作者吗</h2><p>可以。</p>
+<p>如果不打算获取原作者更新，也不打算提交 PR，日常关系可以简化为：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs text">本地仓库<br>   ↕ pull / push<br>自己的 GitHub Fork<br></code></pre></td></tr></table></figure>
+
+<p>原作者仓库不会受到影响。</p>
+<p>但是随着时间推移，双方代码会逐渐分叉：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs text">原作者：A → B → C → D<br>你的版本：A → B → 个人功能1 → 个人功能2<br></code></pre></td></tr></table></figure>
+
+<p>这并不是错误，只是意味着你的 Fork 已经成为独立版本。如果希望继续获得原作者更新，就应保留 <code>upstream</code>，定期同步。</p>
+<hr>
+<h2 id="十八、常用-Git-命令解释"><a href="#十八、常用-Git-命令解释" class="headerlink" title="十八、常用 Git 命令解释"></a>十八、常用 Git 命令解释</h2><h3 id="查看当前状态"><a href="#查看当前状态" class="headerlink" title="查看当前状态"></a>查看当前状态</h3><figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs powershell">git status<br></code></pre></td></tr></table></figure>
+
+<p>查看当前分支、修改文件和暂存状态。</p>
+<h3 id="查看所有分支"><a href="#查看所有分支" class="headerlink" title="查看所有分支"></a>查看所有分支</h3><figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs powershell">git branch <span class="hljs-literal">-a</span><br></code></pre></td></tr></table></figure>
+
+<ul>
+<li>不带 <code>-a</code>：只看本地分支。</li>
+<li>带 <code>-a</code>：同时显示远程分支。</li>
+</ul>
+<h3 id="创建并切换分支"><a href="#创建并切换分支" class="headerlink" title="创建并切换分支"></a>创建并切换分支</h3><figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs powershell">git <span class="hljs-keyword">switch</span> <span class="hljs-literal">-c</span> feature/example<br></code></pre></td></tr></table></figure>
+
+<h3 id="切换已有分支"><a href="#切换已有分支" class="headerlink" title="切换已有分支"></a>切换已有分支</h3><figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs powershell">git <span class="hljs-keyword">switch</span> main<br></code></pre></td></tr></table></figure>
+
+<h3 id="获取远程更新"><a href="#获取远程更新" class="headerlink" title="获取远程更新"></a>获取远程更新</h3><figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs powershell">git fetch upstream<br></code></pre></td></tr></table></figure>
+
+<p>只下载提交信息，不直接修改当前代码。</p>
+<h3 id="合并分支"><a href="#合并分支" class="headerlink" title="合并分支"></a>合并分支</h3><figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs powershell">git merge feature/example<br></code></pre></td></tr></table></figure>
+
+<p>将指定分支的代码合入当前分支。</p>
+<h3 id="安全同步原作者-main"><a href="#安全同步原作者-main" class="headerlink" title="安全同步原作者 main"></a>安全同步原作者 main</h3><figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs powershell">git merge <span class="hljs-literal">--ff-only</span> upstream/main<br></code></pre></td></tr></table></figure>
+
+<p>仅允许快进更新，遇到分叉时停止。</p>
+<h3 id="暂存修改"><a href="#暂存修改" class="headerlink" title="暂存修改"></a>暂存修改</h3><figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs powershell">git add .<br></code></pre></td></tr></table></figure>
+
+<p>将当前目录下所有修改加入暂存区。</p>
+<h3 id="创建提交"><a href="#创建提交" class="headerlink" title="创建提交"></a>创建提交</h3><figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs powershell">git commit <span class="hljs-literal">-m</span> <span class="hljs-string">&quot;feat: 功能说明&quot;</span><br></code></pre></td></tr></table></figure>
+
+<h3 id="推送分支"><a href="#推送分支" class="headerlink" title="推送分支"></a>推送分支</h3><figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs powershell">git push <span class="hljs-literal">-u</span> origin feature/example<br></code></pre></td></tr></table></figure>
+
+<p>上传分支并设置跟踪关系。</p>
+<h3 id="查看远程仓库"><a href="#查看远程仓库" class="headerlink" title="查看远程仓库"></a>查看远程仓库</h3><figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs powershell">git remote <span class="hljs-literal">-v</span><br></code></pre></td></tr></table></figure>
+
+<h3 id="修改远程仓库地址"><a href="#修改远程仓库地址" class="headerlink" title="修改远程仓库地址"></a>修改远程仓库地址</h3><figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs powershell">git remote <span class="hljs-built_in">set-url</span> upstream 新地址<br></code></pre></td></tr></table></figure>
+
+<h3 id="查看提交记录"><a href="#查看提交记录" class="headerlink" title="查看提交记录"></a>查看提交记录</h3><figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs powershell">git log <span class="hljs-literal">--oneline</span> <span class="hljs-literal">--graph</span> <span class="hljs-literal">--decorate</span> <span class="hljs-literal">--all</span><br></code></pre></td></tr></table></figure>
+
+<p>以紧凑图形方式显示所有分支的提交关系。</p>
+<hr>
+<h2 id="十九、最终推荐的协作模型"><a href="#十九、最终推荐的协作模型" class="headerlink" title="十九、最终推荐的协作模型"></a>十九、最终推荐的协作模型</h2><figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><code class="hljs text">upstream/main<br>    │<br>    │ 同步原作者更新<br>    ▼<br>main<br>    │<br>    ├── feature/功能A ── Pull Request ──→ 原作者<br>    │           │<br>    │           └── merge ──→ personal<br>    │<br>    ├── feature/功能B ── Pull Request ──→ 原作者<br>    │           │<br>    │           └── merge ──→ personal<br>    │<br>    └───────────────────────→ personal<br></code></pre></td></tr></table></figure>
+
+<p>每个部分职责明确：</p>
+<ul>
+<li><code>upstream/main</code>：原作者官方版本。</li>
+<li><code>origin/main</code>：自己的 Fork 中与官方同步的版本。</li>
+<li>本地 <code>main</code>：同步和创建功能分支的基础。</li>
+<li><code>feature/*</code>：一个分支只完成一个功能。</li>
+<li><code>personal</code>：自己的完整定制版本。</li>
+<li>Pull Request：把独立功能贡献给原作者。</li>
+</ul>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>整个协作过程可以概括为：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><code class="hljs text">Fork 原作者仓库<br>    ↓<br>Clone 自己的 Fork<br>    ↓<br>配置 origin 和 upstream<br>    ↓<br>让 main 与 upstream/main 保持同步<br>    ↓<br>从 main 创建 feature 功能分支<br>    ↓<br>修改、提交并推送到自己的 Fork<br>    ↓<br>合入 personal 作为个人版本<br>    ↓<br>优秀且通用的功能通过 PR 提交给原作者<br>    ↓<br>原作者合并后再次同步 main 和 personal<br></code></pre></td></tr></table></figure>
+
+<p>最重要的原则只有三条：</p>
+<ol>
+<li><code>main</code> 用来同步原作者，尽量不要直接开发。</li>
+<li>一个功能使用一个 <code>feature/*</code> 分支。</li>
+<li><code>personal</code> 保存自己的完整版本，不要整体提交给原作者。</li>
+</ol>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/%E6%8A%80%E6%9C%AF%E5%AD%A6%E4%B9%A0/" class="category-chain-item">技术学习</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/GitHub/" class="print-no-link">#GitHub</a>
+      
+        <a href="/tags/Git/" class="print-no-link">#Git</a>
+      
+        <a href="/tags/%E5%8D%8F%E4%BD%9C%E5%BC%80%E5%8F%91/" class="print-no-link">#协作开发</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>从 Fork 到 Pull Request：用 Git 与 GitHub 进行协作开发的完整教程</div>
+      <div>https://zhangzifang07.github.io/2026/08/18/git-github-collaboration-guide/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>zhangzifang</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2026年8月18日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-cc-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2026/07/29/e9-common-js-summary/" title="泛微E9常用JS总结">
+                        <span class="hidden-mobile">泛微E9常用JS总结</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  <script>
+  Fluid.utils.createScript('https://lib.baomitu.com/mermaid/8.14.0/mermaid.min.js', function() {
+    mermaid.initialize({"theme":"default"});
+
+    Fluid.utils.listenDOMLoaded(function() {
+      Fluid.events.registerRefreshCallback(function() {
+        if ('mermaid' in window) {
+          mermaid.init();
+        }
+      });
+    });
+  });
+</script>
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://zhangzifang07.github.io" target="_blank" rel="nofollow noopener"><span>© 2026zhangzifang</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    function isExpandAllEnabled() {
+      return CONFIG.toc && CONFIG.toc.expand_all === true;
+    }
+    function expandAllToc() {
+      if (!isExpandAllEnabled()) { return; }
+      jQuery('#toc-body .tocbot-is-collapsed').removeClass('tocbot-is-collapsed');
+    }
+    function updateTocToggle($li, $childList) {
+      var $toggle = $li.children('.toc-toggle');
+      if ($toggle.length === 0) { return; }
+      var collapsed = $childList.hasClass('tocbot-is-collapsed');
+      $toggle
+        .toggleClass('toc-toggle-collapsed', collapsed)
+        .toggleClass('toc-toggle-expanded', !collapsed);
+    }
+    function bindTocToggle() {
+      if (!isExpandAllEnabled()) { return; }
+      jQuery('#toc-body .toc-list-item').each(function() {
+        var $li = jQuery(this);
+        var $childList = $li.children('ol');
+        if ($childList.length === 0) {
+          if ($li.children('.toc-toggle').length === 0) {
+            $li.prepend('<span class="toc-toggle toc-toggle-placeholder" aria-hidden="true">›</span>');
+          }
+          return;
+        }
+
+        if ($li.children('.toc-toggle').length === 0) {
+          $li.prepend('<span class="toc-toggle toc-toggle-expanded" aria-hidden="true">›</span>');
+        }
+        updateTocToggle($li, $childList);
+      });
+      jQuery('#toc-body').off('click.tocToggle').on('click.tocToggle', '.toc-toggle', function(e) {
+        e.preventDefault();
+        e.stopPropagation();
+        var $li = jQuery(this).parent('.toc-list-item');
+        var $childList = $li.children('ol');
+        if ($childList.length === 0) { return; }
+        $childList.toggleClass('tocbot-is-collapsed');
+        updateTocToggle($li, $childList);
+      });
+      if (!window.__tocToggleObserver) {
+        window.__tocToggleObserver = new MutationObserver(function(mutations) {
+          mutations.forEach(function(mutation) {
+            if (mutation.type !== 'attributes' || mutation.attributeName !== 'class') { return; }
+            var $list = jQuery(mutation.target);
+            var $li = $list.parent('.toc-list-item');
+            if ($li.length === 0) { return; }
+            updateTocToggle($li, $list);
+          });
+        });
+        jQuery('#toc-body ol').each(function() {
+          window.__tocToggleObserver.observe(this, { attributes: true });
+        });
+      }
+    }
+    var tocConfig = Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc);
+    if (isExpandAllEnabled()) {
+      tocConfig.collapseDepth = 6;
+    }
+    window.tocbot.init(tocConfig);
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+    expandAllToc();
+    bindTocToggle();
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+        expandAllToc();
+        bindTocToggle();
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/5.0.0/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>

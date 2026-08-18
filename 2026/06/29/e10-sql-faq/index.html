@@ -1,0 +1,854 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/fluid.png">
+  <link rel="icon" href="/img/favicon.svg">
+  
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="zhangzifang">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="泛微E10系统中组织架构、流程、文件、集成、租户、ESB等常用SQL及问题排查方法汇总">
+<meta property="og:type" content="article">
+<meta property="og:title" content="泛微E10 SQL以及常见问题">
+<meta property="og:url" content="https://zhangzifang07.github.io/2026/06/29/e10-sql-faq/index.html">
+<meta property="og:site_name" content="Zhang的个人博客">
+<meta property="og:description" content="泛微E10系统中组织架构、流程、文件、集成、租户、ESB等常用SQL及问题排查方法汇总">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2026-06-29T08:00:00.000Z">
+<meta property="article:modified_time" content="2026-08-18T09:20:29.517Z">
+<meta property="article:author" content="zhangzifang">
+<meta property="article:tag" content="SQL">
+<meta property="article:tag" content="数据库">
+<meta property="article:tag" content="泛微E10">
+<meta name="twitter:card" content="summary_large_image">
+  
+  
+  
+  <title>泛微E10 SQL以及常见问题 - Zhang的个人博客</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1749284_5i9bdhy70f8.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1736178_k526ubmyhba.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+  
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"zhangzifang07.github.io","root":"/","version":"1.9.9","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"expand_all":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false},"openkounter":{"server_url":"https://open-kounter.mintimate.cn","path":"window.location.pathname","ignore_local":false},"umami":{"src":null,"website_id":null,"domains":null,"start_time":"2024-01-01T00:00:00.000Z","token":null,"api_server":null}},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 8.1.2"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>Zhang的个人博客</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content (desktop) -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>文章</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/" target="_self">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<!-- Mobile grid menu overlay -->
+<div id="mobile-grid-menu" class="d-lg-none">
+  <div class="mobile-grid-menu-inner">
+    <div class="container">
+      <div class="row">
+        
+          
+          
+          
+          
+            <div class="col-4 mobile-grid-cell">
+              <a href="/" target="_self">
+                <div class="mobile-grid-item">
+                  <i class="iconfont icon-home-fill"></i>
+                  <span>首页</span>
+                </div>
+              </a>
+            </div>
+          
+        
+          
+          
+          
+          
+            <div class="col-4 mobile-grid-cell">
+              <a href="/archives/" target="_self">
+                <div class="mobile-grid-item">
+                  <i class="iconfont icon-archive-fill"></i>
+                  <span>文章</span>
+                </div>
+              </a>
+            </div>
+          
+        
+          
+          
+          
+          
+            <div class="col-4 mobile-grid-cell">
+              <a href="/categories/" target="_self">
+                <div class="mobile-grid-item">
+                  <i class="iconfont icon-category-fill"></i>
+                  <span>分类</span>
+                </div>
+              </a>
+            </div>
+          
+        
+          
+          
+          
+          
+            <div class="col-4 mobile-grid-cell">
+              <a href="/tags/" target="_self">
+                <div class="mobile-grid-item">
+                  <i class="iconfont icon-tags-fill"></i>
+                  <span>标签</span>
+                </div>
+              </a>
+            </div>
+          
+        
+          
+          
+          
+          
+            <div class="col-4 mobile-grid-cell">
+              <a href="/about/" target="_self">
+                <div class="mobile-grid-item">
+                  <i class="iconfont icon-user-fill"></i>
+                  <span>关于</span>
+                </div>
+              </a>
+            </div>
+          
+        
+        
+          <div class="col-4 mobile-grid-cell" id="mobile-search-btn">
+            <a href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <div class="mobile-grid-item">
+                <i class="iconfont icon-search"></i>
+                <span>搜索</span>
+              </div>
+            </a>
+          </div>
+        
+        
+          <div class="col-4 mobile-grid-cell" id="mobile-color-toggle-btn"
+               data-label-light="开灯"
+               data-label-dark="关灯">
+            <a href="javascript:;" aria-label="Color Toggle">
+              <div class="mobile-grid-item">
+                <i class="iconfont icon-dark" id="mobile-color-toggle-icon"></i>
+                <span id="mobile-color-toggle-label">关灯</span>
+              </div>
+            </a>
+          </div>
+        
+      </div>
+    </div>
+  </div>
+</div>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="泛微E10 SQL以及常见问题"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2026-06-29 16:00" pubdate>
+          2026年6月29日 下午
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          7.7k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          65 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">泛微E10 SQL以及常见问题</h1>
+            
+              <p id="updated-time" class="note note-info" style="">
+                
+                  
+                    本文最后更新于 2026年8月18日 下午
+                  
+                
+              </p>
+            
+            
+              <div class="markdown-body">
+                
+                <h1 id="一、组织架构"><a href="#一、组织架构" class="headerlink" title="一、组织架构"></a>一、组织架构</h1><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br></pre></td><td class="code"><pre><code class="hljs SQL"><span class="hljs-comment">-- 人员表</span><br><span class="hljs-keyword">select</span> <span class="hljs-operator">*</span> <span class="hljs-keyword">from</span> EMPLOYEE <span class="hljs-keyword">where</span> TENANT_KEY <span class="hljs-operator">=</span> <span class="hljs-string">&#x27;your_tenant_key&#x27;</span> <span class="hljs-keyword">and</span><br><span class="hljs-comment">-- id = 1086699487085871119</span><br>username <span class="hljs-keyword">in</span>( <span class="hljs-string">&#x27;张三&#x27;</span>,<span class="hljs-string">&#x27;李四&#x27;</span>)<br><br><span class="hljs-comment">-- 账号表</span><br><span class="hljs-keyword">select</span> <span class="hljs-operator">*</span> <span class="hljs-keyword">from</span> user_info <span class="hljs-keyword">where</span> TENANTKEY <span class="hljs-operator">=</span> <span class="hljs-string">&#x27;your_tenant_key&#x27;</span><br><span class="hljs-keyword">select</span> <span class="hljs-operator">*</span> <span class="hljs-keyword">from</span> user_info_password<br><br><span class="hljs-comment">-- 人员关系表【上下级，层级等】</span><br><span class="hljs-keyword">select</span> <span class="hljs-operator">*</span> <span class="hljs-keyword">from</span> emp_link<br><br><span class="hljs-comment">-- 人员自定义字段</span><br><span class="hljs-keyword">select</span> a.id,a.username,b.sszz<br><span class="hljs-keyword">from</span> eteams.employee a<br><span class="hljs-keyword">join</span> ecology10.ft_1256290351004131375 b <span class="hljs-keyword">on</span> a.formdata <span class="hljs-operator">=</span> b.form_data_id<br><span class="hljs-keyword">where</span>  a.id <span class="hljs-operator">=</span>  <span class="hljs-number">1211824305394376705</span><br><br><span class="hljs-comment">-- 获取人员所属部门，分部 通过人员id</span><br><span class="hljs-keyword">SELECT</span>  <br>  e.id,  <br>  e.username,  <br>  e.DEPARTMENT, <span class="hljs-comment">-- 所属组织=部门或者分部  </span><br>  <span class="hljs-keyword">CASE</span> <br>    <span class="hljs-keyword">WHEN</span> d.id <span class="hljs-operator">=</span> sub.id <span class="hljs-keyword">AND</span> sub.id <span class="hljs-keyword">IS</span> <span class="hljs-keyword">NOT NULL</span> <span class="hljs-keyword">THEN</span> <span class="hljs-keyword">NULL</span> <br>    <span class="hljs-keyword">ELSE</span> d.id <br>  <span class="hljs-keyword">END</span> <span class="hljs-keyword">AS</span> deptId, <span class="hljs-comment">-- 所属部门  </span><br>  sub.id <span class="hljs-keyword">AS</span> subId <span class="hljs-comment">-- 所属分部  </span><br><span class="hljs-keyword">FROM</span> employee e  <br>  <span class="hljs-keyword">LEFT</span> <span class="hljs-keyword">JOIN</span> department d <span class="hljs-keyword">ON</span> e.DEPARTMENT <span class="hljs-operator">=</span> d.ID  <br>  <span class="hljs-keyword">LEFT</span> <span class="hljs-keyword">JOIN</span> department sub <span class="hljs-keyword">ON</span> d.subcompanyid <span class="hljs-operator">=</span> sub.id<br><span class="hljs-keyword">WHERE</span> e.id <span class="hljs-operator">=</span> <span class="hljs-string">&#x27;指定人员ID&#x27;</span> <span class="hljs-comment">-- 请替换为具体的人员ID</span><br><br><span class="hljs-comment">-- 部门自定义字段</span><br><span class="hljs-keyword">select</span> a.id,a.code,a.name,a.outkey,a.type,formdata,b.bmjl,b.ddhb<br><span class="hljs-keyword">from</span> eteams.department a<br><span class="hljs-keyword">join</span> ecology10.ft_1165358755073105931 b <span class="hljs-keyword">on</span> a.formdata <span class="hljs-operator">=</span> b.form_data_id<br><span class="hljs-keyword">where</span>  a.type <span class="hljs-operator">=</span><span class="hljs-string">&#x27;department&#x27;</span><br><br><span class="hljs-comment">-- 部门&amp;分部表</span><br><span class="hljs-keyword">select</span> id,code,name,parent,outkey,type,is_delete <br><span class="hljs-comment">-- select * </span><br><span class="hljs-keyword">from</span> department <br><span class="hljs-keyword">where</span> TENANT_KEY <span class="hljs-operator">=</span> <span class="hljs-string">&#x27;your_tenant_key&#x27;</span> <span class="hljs-keyword">ORDER</span> <span class="hljs-keyword">BY</span> type<br><span class="hljs-keyword">and</span>  type <span class="hljs-operator">=</span> <span class="hljs-string">&#x27;subcompany&#x27;</span> <span class="hljs-keyword">AND</span> IS_DELETE <span class="hljs-operator">=</span> <span class="hljs-string">&#x27;0&#x27;</span> <span class="hljs-keyword">AND</span> virtualid <span class="hljs-operator">=</span> <span class="hljs-number">1</span><br><br><span class="hljs-comment">-- 部门&amp;分部上下级关系表(存储每个部门分部链式上下级关系数据)</span><br><span class="hljs-keyword">select</span> <span class="hljs-operator">*</span> <span class="hljs-keyword">from</span> depart_link<br><br><span class="hljs-comment">-- 岗位表</span><br><span class="hljs-keyword">select</span> <span class="hljs-operator">*</span> <span class="hljs-keyword">from</span> Position <br><span class="hljs-comment">-- 人员角色关联表</span><br><span class="hljs-keyword">select</span> <span class="hljs-operator">*</span> <span class="hljs-keyword">from</span> auth_user_role<br><br><span class="hljs-keyword">select</span> <span class="hljs-operator">*</span> <span class="hljs-keyword">from</span> hrm_resource_log<br><br><span class="hljs-comment">-- hr同步删除数据</span><br><br><span class="hljs-comment">-- 人员数据</span><br><span class="hljs-keyword">SELECT</span> id, username, status, tenant_key, position , superior, department, last_login_time , active_date, permanently_delete <br><span class="hljs-keyword">FROM</span> employee <span class="hljs-keyword">WHERE</span> tenant_key <span class="hljs-operator">=</span> <span class="hljs-string">&#x27;your_tenant_key&#x27;</span> <span class="hljs-keyword">and</span> username <span class="hljs-keyword">not</span> <span class="hljs-keyword">in</span> (<span class="hljs-string">&#x27;张三&#x27;</span>,<span class="hljs-string">&#x27;李四&#x27;</span>)<br><br><span class="hljs-keyword">DELETE</span> <span class="hljs-keyword">from</span> employee <span class="hljs-keyword">where</span> tenant_key <span class="hljs-operator">=</span> <span class="hljs-string">&#x27;your_tenant_key&#x27;</span> <span class="hljs-keyword">and</span> username <span class="hljs-keyword">not</span> <span class="hljs-keyword">in</span> (<span class="hljs-string">&#x27;张三&#x27;</span>,<span class="hljs-string">&#x27;李四&#x27;</span>);<br><br><span class="hljs-comment">-- 部门数据</span><br><span class="hljs-keyword">SELECT</span> ID, CODE, DESCRIPTION, DISPORDER, NAME, PARENT, CREATOR, CREATE_DATE, STATUS, MODIFIER, MODIFIED, formdata, coadjutant, subcompanyid <span class="hljs-keyword">FROM</span> DEPARTMENT <span class="hljs-keyword">WHERE</span> TENANT_KEY <span class="hljs-operator">=</span> <span class="hljs-string">&#x27;your_tenant_key&#x27;</span> <span class="hljs-keyword">AND</span> (type <span class="hljs-operator">=</span> <span class="hljs-string">&#x27;department&#x27;</span> <span class="hljs-keyword">OR</span> type <span class="hljs-keyword">IS</span> <span class="hljs-keyword">NULL</span>) <span class="hljs-keyword">AND</span> IS_DELETE <span class="hljs-operator">=</span> <span class="hljs-string">&#x27;0&#x27;</span> <span class="hljs-keyword">AND</span> virtualid <span class="hljs-operator">=</span> <span class="hljs-number">1</span><br><br><span class="hljs-keyword">DELETE</span> <span class="hljs-keyword">FROM</span> DEPARTMENT <span class="hljs-keyword">WHERE</span> TENANT_KEY <span class="hljs-operator">=</span> <span class="hljs-string">&#x27;your_tenant_key&#x27;</span> <span class="hljs-keyword">AND</span> (type <span class="hljs-operator">=</span> <span class="hljs-string">&#x27;department&#x27;</span> <span class="hljs-keyword">OR</span> type <span class="hljs-keyword">IS</span> <span class="hljs-keyword">NULL</span>) <span class="hljs-keyword">AND</span> IS_DELETE <span class="hljs-operator">=</span> <span class="hljs-string">&#x27;0&#x27;</span> <span class="hljs-keyword">AND</span> virtualid <span class="hljs-operator">=</span> <span class="hljs-number">1</span><br><br><span class="hljs-comment">-- 分部数据</span><br><span class="hljs-keyword">SELECT</span> ID, CODE, DESCRIPTION, DISPORDER, NAME, PARENT, CREATOR, CREATE_DATE, STATUS, MODIFIER, MODIFIED, formdata, coadjutant <span class="hljs-keyword">FROM</span> DEPARTMENT <span class="hljs-keyword">WHERE</span> TENANT_KEY <span class="hljs-operator">=</span> <span class="hljs-string">&#x27;your_tenant_key&#x27;</span> <span class="hljs-keyword">AND</span> type <span class="hljs-operator">=</span> <span class="hljs-string">&#x27;subcompany&#x27;</span> <span class="hljs-keyword">AND</span> IS_DELETE <span class="hljs-operator">=</span> <span class="hljs-string">&#x27;0&#x27;</span> <span class="hljs-keyword">AND</span> virtualid <span class="hljs-operator">=</span> <span class="hljs-number">1</span> <span class="hljs-keyword">and</span> code <span class="hljs-keyword">is</span> <span class="hljs-keyword">null</span><br><br><span class="hljs-keyword">DELETE</span> <span class="hljs-keyword">FROM</span> DEPARTMENT <span class="hljs-keyword">WHERE</span> TENANT_KEY <span class="hljs-operator">=</span> <span class="hljs-string">&#x27;your_tenant_key&#x27;</span> <span class="hljs-keyword">AND</span> type <span class="hljs-operator">=</span> <span class="hljs-string">&#x27;subcompany&#x27;</span> <span class="hljs-keyword">AND</span> IS_DELETE <span class="hljs-operator">=</span> <span class="hljs-string">&#x27;0&#x27;</span> <span class="hljs-keyword">AND</span> virtualid <span class="hljs-operator">=</span> <span class="hljs-number">1</span> <span class="hljs-keyword">and</span> code <span class="hljs-operator">!=</span><span class="hljs-string">&#x27;0000&#x27;</span><br><br><span class="hljs-comment">-- 判断部门-1211463747243565521是否属于某个部门-1211463747243565338及其子部门下</span><br><span class="hljs-keyword">SELECT</span> <span class="hljs-keyword">CASE</span> <br>		<span class="hljs-keyword">WHEN</span> <span class="hljs-built_in">count</span>(<span class="hljs-operator">*</span>) <span class="hljs-operator">&gt;</span> <span class="hljs-number">0</span> <span class="hljs-keyword">THEN</span> <span class="hljs-number">0</span><br>		<span class="hljs-keyword">WHEN</span> <span class="hljs-string">&#x27;1211463747243565521&#x27;</span> <span class="hljs-operator">=</span> <span class="hljs-string">&#x27;1211463747243565338&#x27;</span> <span class="hljs-keyword">THEN</span> <span class="hljs-number">0</span><br>		<span class="hljs-keyword">ELSE</span> <span class="hljs-number">1</span><br>	<span class="hljs-keyword">END</span> <span class="hljs-keyword">AS</span> <span class="hljs-keyword">result</span><br><span class="hljs-keyword">FROM</span> eteams.depart_link dl<br><span class="hljs-keyword">WHERE</span> pid <span class="hljs-operator">=</span> <span class="hljs-string">&#x27;1211463747243565338&#x27;</span><br>	<span class="hljs-keyword">AND</span> cid <span class="hljs-operator">=</span> <span class="hljs-string">&#x27;1211463747243565521&#x27;</span><br>	<span class="hljs-keyword">AND</span> dl.TENANT_KEY <span class="hljs-keyword">IN</span> (<span class="hljs-string">&#x27;your_tenant_key&#x27;</span>, <span class="hljs-string">&#x27;all_teams&#x27;</span>)<br><br><span class="hljs-comment">-- 租户管理平台管理员信息(ecology10库)</span><br><span class="hljs-keyword">select</span> <span class="hljs-operator">*</span> <span class="hljs-keyword">from</span> tenant_admin_manager<br><br><span class="hljs-keyword">UPDATE</span> tenant_admin_manager <br><span class="hljs-keyword">SET</span> password <span class="hljs-operator">=</span> <span class="hljs-string">&#x27;your_password_hash&#x27;</span> <br><span class="hljs-keyword">WHERE</span> account <span class="hljs-operator">=</span> <span class="hljs-string">&#x27;weaveradmin&#x27;</span>;<br><br></code></pre></td></tr></table></figure>
+<h2 id="1、清理组织人事缓存"><a href="#1、清理组织人事缓存" class="headerlink" title="1、清理组织人事缓存"></a>1、清理组织人事缓存</h2><ul>
+<li>访问地址&#x2F;sp&#x2F;hrm&#x2F;checkapi</li>
+</ul>
+<figure class="highlight gradle"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs gradle"><span class="hljs-regexp">/api/</span>hrm<span class="hljs-regexp">/fix/</span>removeCache <br>&#123; <span class="hljs-string">&quot;all&quot;</span>:<span class="hljs-keyword">true</span> &#125;<br></code></pre></td></tr></table></figure>
+<h2 id="2、delete-type字段值的含义"><a href="#2、delete-type字段值的含义" class="headerlink" title="2、delete_type字段值的含义"></a>2、delete_type字段值的含义</h2><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs sql"><span class="hljs-comment">--IS_DELETE</span><br>逻辑删除（<span class="hljs-number">0</span>未删除，<span class="hljs-number">1</span>已删除）<br><br><span class="hljs-comment">-- delete_type</span><br><span class="hljs-operator">|</span><span class="hljs-number">0</span><span class="hljs-operator">|</span>默认值，代表正常，没有删除<br><span class="hljs-operator">|</span><span class="hljs-number">1</span><span class="hljs-operator">|</span>代表逻辑删除，但不移走数据，还存在当前表里（模块自己实现）<br><span class="hljs-operator">|</span><span class="hljs-number">2</span><span class="hljs-operator">|</span>代表逻辑删除，数据需要从当前表里移动到一个结构相同的备份表里（由定时任务完成，模块自实现）<br><span class="hljs-operator">|</span><span class="hljs-number">3</span><span class="hljs-operator">|</span>代表物理删除，由定时任务异步执行，会把所有<span class="hljs-number">3</span>的数据物理删除<br></code></pre></td></tr></table></figure>
+<h1 id="二、流程相关"><a href="#二、流程相关" class="headerlink" title="二、流程相关"></a>二、流程相关</h1><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br></pre></td><td class="code"><pre><code class="hljs SQL"><span class="hljs-comment">-- 流程常用联表数据</span><br><span class="hljs-keyword">SELECT</span> <br>    dt.id,t.sqrq,t.form_data_id requestid,wfreq.requestmark,t.sqr,em.username,em.job_num,t.sqbm,dept.code,dept.name,<br>    CONCAT(dt.yjksrqx, <span class="hljs-string">&#x27; &#x27;</span>, dt.yjkssjx) <span class="hljs-keyword">AS</span> yjks,<br>    CONCAT(dt.yjjsrqx, <span class="hljs-string">&#x27; &#x27;</span>, dt.yjjssjx) <span class="hljs-keyword">AS</span> yjjs,<br>    CONCAT(dt.sjksrqx, <span class="hljs-string">&#x27; &#x27;</span>, dt.sjkssjx) <span class="hljs-keyword">AS</span> sjks,<br>    CONCAT(dt.sjjsrqx, <span class="hljs-string">&#x27; &#x27;</span>, dt.sjjssjx) <span class="hljs-keyword">AS</span> sjjs,<br>    wfreq.flowstatus,<br>    wfcn.nodeid,<br>    wfn.nodename<br><span class="hljs-keyword">FROM</span> ygclsqd_mxb1 dt<br><span class="hljs-keyword">INNER</span> <span class="hljs-keyword">JOIN</span> ft_1103455722107379714 t <span class="hljs-keyword">on</span> t.form_data_id<span class="hljs-operator">=</span>dt.form_data_id<br><span class="hljs-keyword">LEFT</span> <span class="hljs-keyword">JOIN</span> eteams.employee em <span class="hljs-keyword">on</span> t.sqr <span class="hljs-operator">=</span> em.id<br><span class="hljs-keyword">LEFT</span> <span class="hljs-keyword">JOIN</span> eteams.DEPARTMENT dept <span class="hljs-keyword">on</span> t.sqbm <span class="hljs-operator">=</span> dept.id<br><span class="hljs-keyword">LEFT</span> <span class="hljs-keyword">JOIN</span> wfc_currentnode wfcn <span class="hljs-keyword">on</span> t.form_data_id<span class="hljs-operator">=</span>wfcn.requestid <span class="hljs-comment">-- 流程节点</span><br><span class="hljs-keyword">LEFT</span> <span class="hljs-keyword">JOIN</span> wfp_node wfn <span class="hljs-keyword">on</span> wfcn.nodeid <span class="hljs-operator">=</span> wfn.id <span class="hljs-comment">-- 流程节点名称</span><br><span class="hljs-keyword">left</span> <span class="hljs-keyword">join</span> wfc_requestbase wfreq <span class="hljs-keyword">on</span> t.form_data_id <span class="hljs-operator">=</span> wfreq.requestid <span class="hljs-keyword">and</span> wfreq.flowstatus <span class="hljs-operator">!=</span><span class="hljs-number">0</span> <span class="hljs-comment">-- 流程状态</span><br><span class="hljs-keyword">where</span> <span class="hljs-number">1</span><span class="hljs-operator">=</span><span class="hljs-number">1</span><br><br><span class="hljs-comment">-- 流程状态 ： 0：草稿:1：审批中、3：正常归档、4：强制结束、、6：待提交、7：暂停、8：撤销</span><br><span class="hljs-keyword">select</span> ft.id,ft.jzry,wfreq.flowstatus <span class="hljs-keyword">from</span> ft_1271101167615328606 ft<br><span class="hljs-keyword">left</span> <span class="hljs-keyword">join</span> wfc_requestbase wfreq <span class="hljs-keyword">on</span> ft.id <span class="hljs-operator">=</span> wfreq.requestid<br><span class="hljs-keyword">where</span> ft.delete_type <span class="hljs-operator">=</span> <span class="hljs-number">0</span> <span class="hljs-keyword">and</span> wfreq.flowstatus <span class="hljs-keyword">in</span> (<span class="hljs-number">1</span>,<span class="hljs-number">3</span>,<span class="hljs-number">4</span>)<br><br><span class="hljs-comment">-- 流程当前操作者</span><br><span class="hljs-keyword">select</span> <span class="hljs-operator">*</span> <span class="hljs-keyword">from</span> wfc_operate <span class="hljs-keyword">where</span> tenant_key <span class="hljs-operator">=</span> <span class="hljs-string">&#x27;your_tenant_key&#x27;</span> <span class="hljs-keyword">and</span> requestid <span class="hljs-operator">=</span> your_request_id <span class="hljs-keyword">and</span>  delete_type <span class="hljs-operator">=</span> <span class="hljs-number">0</span> <span class="hljs-keyword">and</span> isremark <span class="hljs-keyword">in</span> (<span class="hljs-number">0</span>,<span class="hljs-number">1</span>)<br><br><span class="hljs-comment">-- 流程节点表 nodetype(节点类型：0发起 1审批 2确认 3结束 4子流程节点 5投票 6循环审批 7自动处理 8等待 9查阅)</span><br><span class="hljs-keyword">select</span> id,nodename,nodetype,nodeattr,tenant_key <span class="hljs-keyword">from</span> wfp_node <span class="hljs-keyword">where</span> id<span class="hljs-operator">=</span><span class="hljs-number">1087053250514534407</span><br><br><span class="hljs-comment">-- 获取某个节点下的流程数据</span><br><span class="hljs-keyword">select</span> <span class="hljs-operator">*</span>  <span class="hljs-keyword">from</span> ft_ycsqd <span class="hljs-keyword">where</span> id <span class="hljs-keyword">in</span> (<span class="hljs-keyword">select</span> requestid <span class="hljs-keyword">from</span> wfc_currentnode <span class="hljs-keyword">where</span> nodeid <span class="hljs-operator">=</span><span class="hljs-number">1185047512149245954</span> <span class="hljs-keyword">and</span> delete_type <span class="hljs-operator">=</span><span class="hljs-number">0</span>) <span class="hljs-keyword">and</span> delete_type <span class="hljs-operator">=</span><span class="hljs-number">0</span> <span class="hljs-keyword">and</span> sfwj <span class="hljs-operator">!=</span><span class="hljs-number">1</span><br><br><span class="hljs-comment">-- 获取流程当前节点</span><br><span class="hljs-keyword">SELECT</span> nodename <span class="hljs-keyword">FROM</span> wfp_node <br><span class="hljs-keyword">WHERE</span> id <span class="hljs-operator">=</span> ( <span class="hljs-keyword">SELECT</span> nodeid <span class="hljs-keyword">FROM</span> wfc_currentnode <span class="hljs-keyword">WHERE</span> requestid <span class="hljs-operator">=</span>your_request_id <span class="hljs-keyword">AND</span> delete_type <span class="hljs-operator">=</span> <span class="hljs-number">0</span> )<br><br><span class="hljs-comment">-- 工作流名称、节点名称、操作组名称查询参考sql</span><br><span class="hljs-keyword">select</span> wfp_base.id <span class="hljs-keyword">as</span> workflowid,wfp_base.workflowname,wfp_node.nodename,wfp_opt_group.groupname <br><span class="hljs-keyword">from</span> wfp_base,wfp_node,wfp_opt_group <br><span class="hljs-keyword">where</span> wfp_base.id <span class="hljs-operator">=</span> wfp_node.workflowid <span class="hljs-keyword">and</span> wfp_node.id <span class="hljs-operator">=</span> wfp_opt_group.nodeid <span class="hljs-keyword">and</span> wfp_base.delete_type <span class="hljs-operator">=</span> <span class="hljs-number">0</span> <span class="hljs-keyword">and</span> wfp_node.delete_type <span class="hljs-operator">=</span> <span class="hljs-number">0</span> <span class="hljs-keyword">and</span> wfp_opt_group.delete_type <span class="hljs-operator">=</span> <span class="hljs-number">0</span> <span class="hljs-keyword">and</span> wfp_base.status <span class="hljs-operator">=</span> <span class="hljs-number">1</span><br><br><span class="hljs-comment">-- 流程节点和工作流基本信息</span><br><span class="hljs-keyword">select</span> wn.id,wn.workflowid,wn.nodename,wn.nodetype,wb.workflowname <span class="hljs-keyword">from</span> wfp_node wn,wfp_base wb<br><span class="hljs-keyword">where</span> wn.workflowid <span class="hljs-operator">=</span> wb.id<br><span class="hljs-keyword">and</span> wn.nodetype <span class="hljs-operator">=</span> <span class="hljs-number">0</span> <span class="hljs-keyword">and</span> wb.workflowname <span class="hljs-keyword">in</span>(<span class="hljs-string">&#x27;现场异常申请单&#x27;</span>,<span class="hljs-string">&#x27;采购申请&#x27;</span>,<span class="hljs-string">&#x27;出库申请单&#x27;</span>,<span class="hljs-string">&#x27;委外申请单&#x27;</span>)<br><br><span class="hljs-comment">-- 查找流程的明细表名</span><br><span class="hljs-keyword">select</span> b.table_name,a.title <span class="hljs-keyword">from</span> sub_form a <span class="hljs-keyword">left</span> <span class="hljs-keyword">join</span> form_table b <span class="hljs-keyword">on</span> a.id <span class="hljs-operator">=</span> b.form_id <br><span class="hljs-keyword">where</span> a.form_id <span class="hljs-keyword">in</span> (<span class="hljs-keyword">select</span> relatekey  <span class="hljs-keyword">from</span> wfp_relateform   <span class="hljs-keyword">where</span>  workflowid <span class="hljs-operator">=</span> <span class="hljs-number">1204327968226631682</span>)<br><span class="hljs-keyword">and</span> a.delete_type <span class="hljs-operator">=</span> <span class="hljs-number">0</span><br><br><span class="hljs-comment">-- 查找流程的表名</span><br><span class="hljs-keyword">select</span> table_name <span class="hljs-keyword">from</span> form_table <span class="hljs-keyword">where</span> form_id <span class="hljs-operator">=</span> (<span class="hljs-keyword">select</span> relatekey  <span class="hljs-keyword">from</span> wfp_relateform   <span class="hljs-keyword">where</span>  workflowid <span class="hljs-operator">=</span> <span class="hljs-number">1204327968226631682</span>)<br><br><span class="hljs-comment">-- 通过主流程请求id查询对应生成的子流程请求id：</span><br><span class="hljs-keyword">select</span> <span class="hljs-operator">*</span> <span class="hljs-keyword">from</span> wfc_subRequest <span class="hljs-keyword">where</span> mainrequestid<span class="hljs-operator">=</span>xxx<br><br><span class="hljs-comment">-- 通过子流程请求id查询对应生成的主流程请求id：</span><br><span class="hljs-keyword">select</span> <span class="hljs-operator">*</span> <span class="hljs-keyword">from</span> wfc_subRequest <span class="hljs-keyword">where</span> subRequestid<span class="hljs-operator">=</span>xxx<br><br><span class="hljs-comment">-- 选项模板的选项ID查询选项名称</span><br><span class="hljs-comment">-- 1、先根据选项模板名称查询选项模板id</span><br><span class="hljs-keyword">select</span> id <span class="hljs-keyword">from</span> formdata_template <span class="hljs-keyword">where</span> name <span class="hljs-operator">=</span> <span class="hljs-string">&#x27;税率&#x27;</span><br><span class="hljs-comment">-- 2、再根据选项模板id和选项value值查询选项名称</span><br><span class="hljs-keyword">select</span> value_key,name <span class="hljs-keyword">from</span> formdata_template_details <span class="hljs-keyword">where</span> template_id <span class="hljs-operator">=</span> <span class="hljs-number">1269352467419291649</span><br><br><span class="hljs-comment">-- 下拉框选项</span><br><span class="hljs-keyword">select</span> <span class="hljs-operator">*</span> <span class="hljs-keyword">from</span> field_option <span class="hljs-keyword">where</span> tenant_key <span class="hljs-operator">=</span> <span class="hljs-string">&#x27;texshr7b4t&#x27;</span> <span class="hljs-keyword">and</span> delete_type <span class="hljs-operator">=</span> <span class="hljs-number">0</span>  <span class="hljs-keyword">and</span> field_id <span class="hljs-operator">=</span> <span class="hljs-string">&#x27;1291616224935927810&#x27;</span><br><br></code></pre></td></tr></table></figure>
+
+<h1 id="三、文件相关"><a href="#三、文件相关" class="headerlink" title="三、文件相关"></a>三、文件相关</h1><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs SQL"><span class="hljs-comment">-- 流程附件从数据库里查询文件路径</span><br><span class="hljs-comment">-- 根据附件id先查到url</span><br><span class="hljs-keyword">select</span>  url   <span class="hljs-keyword">from</span> fileobj f <span class="hljs-keyword">where</span> id <span class="hljs-operator">=</span><span class="hljs-number">1082709879018127363</span> <span class="hljs-keyword">order</span> <span class="hljs-keyword">by</span> UPLOAD_TIME  <span class="hljs-keyword">desc</span><br><br><span class="hljs-comment">-- 根据url查询存储位置</span><br><span class="hljs-keyword">select</span> file_path,file_url <span class="hljs-keyword">from</span> file_storage_info fsi  <span class="hljs-keyword">where</span> file_url <span class="hljs-operator">=</span>  <span class="hljs-string">&#x27;f250f7bd-cc5a-4ec9-ad3b-5d60ccb9d19f&#x27;</span><br></code></pre></td></tr></table></figure>
+
+<h1 id="四、集成相关"><a href="#四、集成相关" class="headerlink" title="四、集成相关"></a>四、集成相关</h1><h2 id="1、HR同步日志排查"><a href="#1、HR同步日志排查" class="headerlink" title="1、HR同步日志排查"></a>1、HR同步日志排查</h2><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><code class="hljs SQL"><span class="hljs-comment">-- ic_hr_synclogdt：同步日志明细表，记录每条同步记录的字段级变化详情</span><br><span class="hljs-comment">-- sync_status 0，失败 1，插入成功 2，更新成功 3，删除成功 4，封存成功 5，解封成功 6，警告 7 数据过滤</span><br><span class="hljs-comment">-- bs同步到泛微E10人员状态转换 </span><br><span class="hljs-comment">-- 北森 1 待入职 2 试用 3 正式 4 调出 5 待调入 6 退休 8 离职 12 非正式 </span><br><span class="hljs-comment">-- 泛微E10: 1：试用 2：试用延期 3：正式;4：临时;5：实习 6：离职;7：退休</span><br><span class="hljs-keyword">select</span> <br>	a.create_time <span class="hljs-keyword">AS</span> 数据同步时间,a.sourcedata <span class="hljs-keyword">AS</span> 第三方数据,a.targetdata <span class="hljs-keyword">AS</span> 同步到OA的最终数据,a.out_key <span class="hljs-keyword">AS</span> 第三方数据主键,a.target_key <span class="hljs-keyword">AS</span> Oa数据主键,a.obj_name <span class="hljs-keyword">AS</span> 同步数据名称,a.log_id <span class="hljs-keyword">AS</span> 日志id,a.sync_status,a.errcode<br><span class="hljs-keyword">from</span>  ecology10.ic_hr_synclogdt a <br><span class="hljs-keyword">where</span> <span class="hljs-number">1</span><span class="hljs-operator">=</span><span class="hljs-number">1</span><br><span class="hljs-comment">-- and	a.obj_name = &#x27;检具部&#x27;</span><br><span class="hljs-keyword">AND</span> a.targetdata <span class="hljs-keyword">is</span> <span class="hljs-keyword">not null</span> <br><span class="hljs-keyword">and</span> a.TENANT_KEY <span class="hljs-operator">=</span> <span class="hljs-string">&#x27;your_tenant_key&#x27;</span><br><span class="hljs-keyword">AND</span> delete_type <span class="hljs-operator">=</span> <span class="hljs-number">0</span> <br><span class="hljs-comment">-- and a.sync_status = 0</span><br><span class="hljs-keyword">order</span> <span class="hljs-keyword">by</span> a.create_time <span class="hljs-keyword">desc</span> limit <span class="hljs-number">100</span><br></code></pre></td></tr></table></figure>
+<h2 id="2、系统问题"><a href="#2、系统问题" class="headerlink" title="2、系统问题"></a>2、系统问题</h2><ul>
+<li>SDK包下载链接：<a href="http://your_server_ip:port/papi/open/singleSignon/sdk/download">http://your_server_ip:port/papi/open/singleSignon/sdk/download</a></li>
+</ul>
+<h2 id="3、接口地址查看"><a href="#3、接口地址查看" class="headerlink" title="3、接口地址查看"></a>3、接口地址查看</h2><ul>
+<li>地址+&#x2F;sp&#x2F;opendoc</li>
+</ul>
+<h1 id="五、租户相关"><a href="#五、租户相关" class="headerlink" title="五、租户相关"></a>五、租户相关</h1><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><code class="hljs SQL"><span class="hljs-comment">-- 租户信息</span><br><span class="hljs-keyword">SELECT</span> <span class="hljs-operator">*</span> <span class="hljs-keyword">from</span> TENANT_INFO<br><br><span class="hljs-comment">-- 租户管理员信息</span><br><span class="hljs-keyword">SELECT</span> <span class="hljs-operator">*</span> <span class="hljs-keyword">FROM</span> tenant_admin_manager<br><span class="hljs-comment">-- 重置密码默认  your_default_password</span><br><span class="hljs-keyword">update</span> tenant_admin_manager <span class="hljs-keyword">set</span> password <span class="hljs-operator">=</span> <span class="hljs-string">&#x27;your_password_hash&#x27;</span> <span class="hljs-keyword">where</span> account <span class="hljs-operator">=</span> <span class="hljs-string">&#x27;weaveradmin&#x27;</span>;<br><br><span class="hljs-comment">-- 租户管理员锁定表</span><br><span class="hljs-keyword">select</span> <span class="hljs-operator">*</span> <span class="hljs-keyword">from</span> tenant_admin_lock<br></code></pre></td></tr></table></figure>
+
+<h1 id="六、ESB以及动作流相关"><a href="#六、ESB以及动作流相关" class="headerlink" title="六、ESB以及动作流相关"></a>六、ESB以及动作流相关</h1><h2 id="1、动作流请求参数设置信息接口"><a href="#1、动作流请求参数设置信息接口" class="headerlink" title="1、动作流请求参数设置信息接口"></a>1、动作流请求参数设置信息接口</h2><p>&#x2F;api&#x2F;bs&#x2F;esb&#x2F;setting&#x2F;component&#x2F;getComponentContext</p>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/%E6%B3%9B%E5%BE%AE%E5%BC%80%E5%8F%91/" class="category-chain-item">泛微开发</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/%E6%B3%9B%E5%BE%AEE10/" class="print-no-link">#泛微E10</a>
+      
+        <a href="/tags/SQL/" class="print-no-link">#SQL</a>
+      
+        <a href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/" class="print-no-link">#数据库</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>泛微E10 SQL以及常见问题</div>
+      <div>https://zhangzifang07.github.io/2026/06/29/e10-sql-faq/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>zhangzifang</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2026年6月29日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-cc-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2026/06/29/arthas-in-e10/" title="ARTHAS在泛微E10中的使用">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">ARTHAS在泛微E10中的使用</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2026/06/29/e10-js-summary/" title="泛微E10 JS总结">
+                        <span class="hidden-mobile">泛微E10 JS总结</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://zhangzifang07.github.io" target="_blank" rel="nofollow noopener"><span>© 2026zhangzifang</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    function isExpandAllEnabled() {
+      return CONFIG.toc && CONFIG.toc.expand_all === true;
+    }
+    function expandAllToc() {
+      if (!isExpandAllEnabled()) { return; }
+      jQuery('#toc-body .tocbot-is-collapsed').removeClass('tocbot-is-collapsed');
+    }
+    function updateTocToggle($li, $childList) {
+      var $toggle = $li.children('.toc-toggle');
+      if ($toggle.length === 0) { return; }
+      var collapsed = $childList.hasClass('tocbot-is-collapsed');
+      $toggle
+        .toggleClass('toc-toggle-collapsed', collapsed)
+        .toggleClass('toc-toggle-expanded', !collapsed);
+    }
+    function bindTocToggle() {
+      if (!isExpandAllEnabled()) { return; }
+      jQuery('#toc-body .toc-list-item').each(function() {
+        var $li = jQuery(this);
+        var $childList = $li.children('ol');
+        if ($childList.length === 0) {
+          if ($li.children('.toc-toggle').length === 0) {
+            $li.prepend('<span class="toc-toggle toc-toggle-placeholder" aria-hidden="true">›</span>');
+          }
+          return;
+        }
+
+        if ($li.children('.toc-toggle').length === 0) {
+          $li.prepend('<span class="toc-toggle toc-toggle-expanded" aria-hidden="true">›</span>');
+        }
+        updateTocToggle($li, $childList);
+      });
+      jQuery('#toc-body').off('click.tocToggle').on('click.tocToggle', '.toc-toggle', function(e) {
+        e.preventDefault();
+        e.stopPropagation();
+        var $li = jQuery(this).parent('.toc-list-item');
+        var $childList = $li.children('ol');
+        if ($childList.length === 0) { return; }
+        $childList.toggleClass('tocbot-is-collapsed');
+        updateTocToggle($li, $childList);
+      });
+      if (!window.__tocToggleObserver) {
+        window.__tocToggleObserver = new MutationObserver(function(mutations) {
+          mutations.forEach(function(mutation) {
+            if (mutation.type !== 'attributes' || mutation.attributeName !== 'class') { return; }
+            var $list = jQuery(mutation.target);
+            var $li = $list.parent('.toc-list-item');
+            if ($li.length === 0) { return; }
+            updateTocToggle($li, $list);
+          });
+        });
+        jQuery('#toc-body ol').each(function() {
+          window.__tocToggleObserver.observe(this, { attributes: true });
+        });
+      }
+    }
+    var tocConfig = Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc);
+    if (isExpandAllEnabled()) {
+      tocConfig.collapseDepth = 6;
+    }
+    window.tocbot.init(tocConfig);
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+    expandAllToc();
+    bindTocToggle();
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+        expandAllToc();
+        bindTocToggle();
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/5.0.0/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>

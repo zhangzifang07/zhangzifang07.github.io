@@ -1,0 +1,1284 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/fluid.png">
+  <link rel="icon" href="/img/favicon.svg">
+  
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="zhangzifang">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="泛微E10平台开发功能文档索引，按流程开发、E-Code、后端二开、ESB集成、E-Builder、组织人事、运维排查等场景分类整理">
+<meta property="og:type" content="article">
+<meta property="og:title" content="泛微E10系统开发相关文档索引">
+<meta property="og:url" content="https://zhangzifang07.github.io/2026/06/29/e10-dev-docs-index/index.html">
+<meta property="og:site_name" content="Zhang的个人博客">
+<meta property="og:description" content="泛微E10平台开发功能文档索引，按流程开发、E-Code、后端二开、ESB集成、E-Builder、组织人事、运维排查等场景分类整理">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2026-06-29T08:00:00.000Z">
+<meta property="article:modified_time" content="2026-08-18T09:20:29.530Z">
+<meta property="article:author" content="zhangzifang">
+<meta property="article:tag" content="开发文档">
+<meta property="article:tag" content="泛微E10">
+<meta name="twitter:card" content="summary_large_image">
+  
+  
+  
+  <title>泛微E10系统开发相关文档索引 - Zhang的个人博客</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1749284_5i9bdhy70f8.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1736178_k526ubmyhba.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+  
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"zhangzifang07.github.io","root":"/","version":"1.9.9","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"expand_all":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false},"openkounter":{"server_url":"https://open-kounter.mintimate.cn","path":"window.location.pathname","ignore_local":false},"umami":{"src":null,"website_id":null,"domains":null,"start_time":"2024-01-01T00:00:00.000Z","token":null,"api_server":null}},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 8.1.2"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>Zhang的个人博客</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content (desktop) -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>文章</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/" target="_self">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<!-- Mobile grid menu overlay -->
+<div id="mobile-grid-menu" class="d-lg-none">
+  <div class="mobile-grid-menu-inner">
+    <div class="container">
+      <div class="row">
+        
+          
+          
+          
+          
+            <div class="col-4 mobile-grid-cell">
+              <a href="/" target="_self">
+                <div class="mobile-grid-item">
+                  <i class="iconfont icon-home-fill"></i>
+                  <span>首页</span>
+                </div>
+              </a>
+            </div>
+          
+        
+          
+          
+          
+          
+            <div class="col-4 mobile-grid-cell">
+              <a href="/archives/" target="_self">
+                <div class="mobile-grid-item">
+                  <i class="iconfont icon-archive-fill"></i>
+                  <span>文章</span>
+                </div>
+              </a>
+            </div>
+          
+        
+          
+          
+          
+          
+            <div class="col-4 mobile-grid-cell">
+              <a href="/categories/" target="_self">
+                <div class="mobile-grid-item">
+                  <i class="iconfont icon-category-fill"></i>
+                  <span>分类</span>
+                </div>
+              </a>
+            </div>
+          
+        
+          
+          
+          
+          
+            <div class="col-4 mobile-grid-cell">
+              <a href="/tags/" target="_self">
+                <div class="mobile-grid-item">
+                  <i class="iconfont icon-tags-fill"></i>
+                  <span>标签</span>
+                </div>
+              </a>
+            </div>
+          
+        
+          
+          
+          
+          
+            <div class="col-4 mobile-grid-cell">
+              <a href="/about/" target="_self">
+                <div class="mobile-grid-item">
+                  <i class="iconfont icon-user-fill"></i>
+                  <span>关于</span>
+                </div>
+              </a>
+            </div>
+          
+        
+        
+          <div class="col-4 mobile-grid-cell" id="mobile-search-btn">
+            <a href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <div class="mobile-grid-item">
+                <i class="iconfont icon-search"></i>
+                <span>搜索</span>
+              </div>
+            </a>
+          </div>
+        
+        
+          <div class="col-4 mobile-grid-cell" id="mobile-color-toggle-btn"
+               data-label-light="开灯"
+               data-label-dark="关灯">
+            <a href="javascript:;" aria-label="Color Toggle">
+              <div class="mobile-grid-item">
+                <i class="iconfont icon-dark" id="mobile-color-toggle-icon"></i>
+                <span id="mobile-color-toggle-label">关灯</span>
+              </div>
+            </a>
+          </div>
+        
+      </div>
+    </div>
+  </div>
+</div>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="泛微E10系统开发相关文档索引"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2026-06-29 16:00" pubdate>
+          2026年6月29日 下午
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          2.8k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          23 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">泛微E10系统开发相关文档索引</h1>
+            
+              <p id="updated-time" class="note note-info" style="">
+                
+                  
+                    本文最后更新于 2026年8月18日 下午
+                  
+                
+              </p>
+            
+            
+              <div class="markdown-body">
+                
+                <p>这篇文章用于集中整理泛微E10开发、集成、运维过程中常用的系统文档入口。</p>
+<p>它不是教程，而是一个“文档导航页”。查资料时优先按自己的问题场景定位，再进入对应文档。</p>
+<p>访问标记说明：</p>
+<table>
+<thead>
+<tr>
+<th>标记</th>
+<th>含义</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>免登</code></td>
+<td>未登录浏览器通常可直接打开</td>
+</tr>
+<tr>
+<td><code>需登录</code></td>
+<td>需要登录对应平台账号，部分文档还可能需要对应组织或空间权限</td>
+</tr>
+</tbody></table>
+<h2 id="一、快速入口"><a href="#一、快速入口" class="headerlink" title="一、快速入口"></a>一、快速入口</h2><table>
+<thead>
+<tr>
+<th>我要做什么</th>
+<th>优先查看</th>
+<th>访问</th>
+<th>关键词</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>第一次了解泛微E10二开</td>
+<td><a target="_blank" rel="noopener" href="https://www.e-cology.com.cn/ecode/playground/doc/share/view/916733818655342593#%E4%B8%80%E3%80%81e-code%E6%98%AF%E4%BB%80%E4%B9%88">泛微E10平台二开手册</a></td>
+<td><code>免登</code></td>
+<td>e-code、二开、开发模式</td>
+</tr>
+<tr>
+<td>查平台整体开发规范</td>
+<td><a target="_blank" rel="noopener" href="https://e-cloudstore.com/doc.html?appId=7c080b58f6bc45608a92b7ac8db5cf01#%E4%B8%80%E5%B9%B3%E5%8F%B0%E6%8A%80%E6%9C%AF%E8%A7%84%E8%8C%83%E5%8F%8A%E5%BC%80%E5%8F%91%E6%89%8B%E5%86%8C">平台技术规范及开发手册</a></td>
+<td><code>需登录</code></td>
+<td>规范、基础、平台能力</td>
+</tr>
+<tr>
+<td>写流程表单JS</td>
+<td><a target="_blank" rel="noopener" href="https://weapp.eteams.cn/ecode/playground/doc/share/view/988383343450701824#e10-%E6%B5%81%E7%A8%8B%E8%AF%A6%E6%83%85%E5%89%8D%E7%AB%AFJS-SDK%E6%96%87%E6%A1%A3%E3%80%90%E5%AE%9E%E6%97%B6%E6%9B%B4%E6%96%B0%E3%80%91">流程详情-JSSDK文档</a></td>
+<td><code>免登</code></td>
+<td>流程详情页前端能力、详情页JS扩展</td>
+</tr>
+<tr>
+<td>调流程OpenAPI</td>
+<td><a target="_blank" rel="noopener" href="https://weapp.eteams.cn/build/techdoc/wdoc/index.html#/public/doc/9bc18c4d-3f41-42a2-9047-3415576e6616">流程操作OpenAPI接口说明</a></td>
+<td><code>免登</code></td>
+<td>新建流程、提交、token</td>
+</tr>
+<tr>
+<td>做前端页面二开</td>
+<td><a target="_blank" rel="noopener" href="https://weapp.eteams.cn/ecode/playground/doc/share/view/974701716410515470#%E5%89%8D%E7%AB%AF%E5%BC%80%E5%8F%91%E5%B9%B3%E5%8F%B0api%E4%B8%8E%E5%9C%BA%E6%99%AF%E6%A1%88%E4%BE%8B">前端开发平台api与场景案例</a></td>
+<td><code>免登</code></td>
+<td>前端平台、组件、API</td>
+</tr>
+<tr>
+<td>做动作流或系统集成</td>
+<td><a target="_blank" rel="noopener" href="https://www.e-cology.com.cn/sp/doc/docDetail/5937541963450394438">泛微ESB中心知识地图</a></td>
+<td><code>需登录</code></td>
+<td>ESB、动作流、集成</td>
+</tr>
+<tr>
+<td>排查二开代码问题</td>
+<td><a target="_blank" rel="noopener" href="https://weaverecode.feishu.cn/docx/IwTQd3omCoBicmxFMcVcHSiHn5b">泛微E10 e-code 二开代码问题排查手册</a></td>
+<td><code>免登</code></td>
+<td>排查、日志、debug</td>
+</tr>
+<tr>
+<td>查运维和部署问题</td>
+<td><a target="_blank" rel="noopener" href="https://www.e-cology.com.cn/sp/doc/docDetail/100500240014838729__targetId=100500240014838729&fromWeappMsgGroupId=1706091534703020047&_isEm=1&_emGid=1706091534703020047&weappAuthStr=eyJtc2dpZCI6IjE3MjAwNjU2MzE3MDMwMjgzNDIiLCJmbGFnIjoxLCJncm91cF9pZCI6IjE3MDYwOTE1MzQ3MDMwMjAwNDcifQ%3D%3D">泛微E10常见运维措施</a></td>
+<td><code>需登录</code></td>
+<td>运维、部署、异常处理</td>
+</tr>
+</tbody></table>
+<hr>
+<h2 id="二、流程开发"><a href="#二、流程开发" class="headerlink" title="二、流程开发"></a>二、流程开发</h2><h3 id="2-1-流程表单前端"><a href="#2-1-流程表单前端" class="headerlink" title="2.1 流程表单前端"></a>2.1 流程表单前端</h3><table>
+<thead>
+<tr>
+<th>文档</th>
+<th>适合查询</th>
+<th>关键词</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><a target="_blank" rel="noopener" href="https://weapp.eteams.cn/build/techdoc/wdoc/index.html#/public/repository/856c9c16-862c-4e0d-8796-d2c11a37ca72/home">表单引擎JSSDK文档</a></td>
+<td>流程表单字段读写、字段属性控制、明细表操作、事件绑定</td>
+<td>WeFormSDK、字段ID、明细表</td>
+</tr>
+<tr>
+<td><a target="_blank" rel="noopener" href="https://weapp.eteams.cn/ecode/playground/doc/share/view/988383343450701824#e10-%E6%B5%81%E7%A8%8B%E8%AF%A6%E6%83%85%E5%89%8D%E7%AB%AFJS-SDK%E6%96%87%E6%A1%A3%E3%80%90%E5%AE%9E%E6%97%B6%E6%9B%B4%E6%96%B0%E3%80%91">流程详情-JSSDK文档</a></td>
+<td>流程详情页前端能力、详情页JS扩展</td>
+<td>流程详情、前端JS-SDK</td>
+</tr>
+</tbody></table>
+<h3 id="2-2-流程接口和OpenAPI"><a href="#2-2-流程接口和OpenAPI" class="headerlink" title="2.2 流程接口和OpenAPI"></a>2.2 流程接口和OpenAPI</h3><table>
+<thead>
+<tr>
+<th>文档</th>
+<th>适合查询</th>
+<th>关键词</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><a target="_blank" rel="noopener" href="https://weapp.eteams.cn/build/techdoc/wdoc/index.html#/public/doc/9bc18c4d-3f41-42a2-9047-3415576e6616">流程操作OpenAPI接口说明</a></td>
+<td>调用接口新建流程、提交流程、查询流程、接口鉴权</td>
+<td>OpenAPI、token、流程实例</td>
+</tr>
+<tr>
+<td><a target="_blank" rel="noopener" href="https://weapp.eteams.cn/ecode/playground/doc/share/view/989121717081915392#E10%E6%B5%81%E7%A8%8B%E5%BC%95%E6%93%8E%E6%8C%82%E8%BD%BD%E5%A4%96%E9%83%A8%E7%B3%BB%E7%BB%9F%E8%A1%A8%E5%8D%95%E5%AE%A1%E6%89%B9%E5%8A%9F%E8%83%BD%E4%BB%8B%E7%BB%8D%E5%8F%8A%E5%AF%B9%E6%8E%A5%E8%AF%B4%E6%98%8E">挂载外部表单-对接手册-总入口</a></td>
+<td>外部系统表单接入泛微E10流程审批</td>
+<td>外部表单、挂载、审批</td>
+</tr>
+</tbody></table>
+<h3 id="2-3-流程二开和流程SQL"><a href="#2-3-流程二开和流程SQL" class="headerlink" title="2.3 流程二开和流程SQL"></a>2.3 流程二开和流程SQL</h3><table>
+<thead>
+<tr>
+<th>文档</th>
+<th>适合查询</th>
+<th>关键词</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><a target="_blank" rel="noopener" href="https://weapp.eteams.cn/ecode/playground/doc/share/view/969524129164623912#%E4%B8%80%E3%80%81%E5%90%8E%E7%AB%AF%E5%8F%A3%E5%AD%90%EF%BC%88%E5%90%ABRPC/controller/openApi%EF%BC%89">流程存文档-二开口子</a></td>
+<td>流程归档后存文档相关二开口子</td>
+<td>流程存文档、归档、二开口子</td>
+</tr>
+<tr>
+<td><a target="_blank" rel="noopener" href="https://weapp.eteams.cn/ecode/playground/doc/share/view/969524129164623876#e10%E6%B5%81%E7%A8%8B%E6%A8%A1%E5%9D%97%E4%BA%8C%E5%BC%80%E5%8F%A3%E5%AD%90%E6%B1%87%E6%80%BB">泛微E10流程模块二开口子汇总</a></td>
+<td>流程模块后端、前端、节点、事件相关二开入口</td>
+<td>流程二开、节点、口子</td>
+</tr>
+<tr>
+<td><a target="_blank" rel="noopener" href="https://weapp.eteams.cn/build/techdoc/wdoc/index.html#/public/doc/986b54d6-40a3-467d-905d-b80f37a33f3b">流程列表基础SQL参考-未开启统一待办</a></td>
+<td>查询待办、已办、全部流程、我发起的流程列表SQL</td>
+<td>流程列表、SQL、未开启统一待办</td>
+</tr>
+<tr>
+<td><a target="_blank" rel="noopener" href="https://weapp.eteams.cn/build/techdoc/wdoc/index.html#/public/doc/9f8f0ca1-e75d-44c0-bf08-59ce06a74934">流程列表基础SQL参考-开启统一待办</a></td>
+<td>开启统一待办后的流程列表SQL参考</td>
+<td>流程列表、SQL、统一待办</td>
+</tr>
+</tbody></table>
+<hr>
+<h2 id="三、E-Code前端二开"><a href="#三、E-Code前端二开" class="headerlink" title="三、E-Code前端二开"></a>三、E-Code前端二开</h2><table>
+<thead>
+<tr>
+<th>文档</th>
+<th>适合查询</th>
+<th>关键词</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><a target="_blank" rel="noopener" href="https://www.e-cology.com.cn/ecode/playground/doc/share/view/916733818655342593#%E4%B8%80%E3%80%81e-code%E6%98%AF%E4%BB%80%E4%B9%88">泛微E10平台定制开发指引</a></td>
+<td>e-code整体开发方式、项目入口、二开基础概念</td>
+<td>e-code、定制开发</td>
+</tr>
+<tr>
+<td><a target="_blank" rel="noopener" href="https://weapp.eteams.cn/ecode/playground/doc/share/view/974701716410515470#%E5%89%8D%E7%AB%AF%E5%BC%80%E5%8F%91%E5%B9%B3%E5%8F%B0api%E4%B8%8E%E5%9C%BA%E6%99%AF%E6%A1%88%E4%BE%8B">前端开发平台api与场景案例</a></td>
+<td>前端平台API、页面扩展、常见场景代码</td>
+<td>前端API、场景案例</td>
+</tr>
+<tr>
+<td><a target="_blank" rel="noopener" href="https://weapp.eteams.cn/ecode/playground/doc/share/view/1173606561081745409#%E4%BA%8C%E5%BC%80%E6%8B%A6%E6%88%AA%E4%BB%A3%E7%A0%81%E7%A4%BA%E4%BE%8B">e-code二开请求和拦截说明文档</a></td>
+<td>请求拦截、前端拦截、接口处理</td>
+<td>请求拦截、二开拦截</td>
+</tr>
+<tr>
+<td><a target="_blank" rel="noopener" href="https://weapp.eteams.cn/ecode/playground/doc/share/view/974701716410515482#%E5%BC%80%E5%8F%91%E5%B9%B3%E5%8F%B0%E6%9D%83%E9%99%90%E9%85%8D%E7%BD%AE">开发平台权限配置</a></td>
+<td>e-code开发平台权限、开发人员权限配置</td>
+<td>权限、开发平台</td>
+</tr>
+<tr>
+<td><a target="_blank" rel="noopener" href="https://weapp.eteams.cn/ecode/playground/doc/share/view/1183631152299859970">e-code二开代码屏蔽调试说明文档</a></td>
+<td>二开代码屏蔽、调试、排查线上代码影响</td>
+<td>屏蔽调试、排查</td>
+</tr>
+<tr>
+<td><a target="_blank" rel="noopener" href="https://weapp.eteams.cn/ecode/playground/doc/share/view/974682604024152068#e-code%E5%B8%B8%E8%A7%81%E9%97%AE%E9%A2%98%E5%8F%8A%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88">e-code常见问题及解决方案</a></td>
+<td>e-code开发常见异常、配置问题、处理方案</td>
+<td>FAQ、常见问题</td>
+</tr>
+<tr>
+<td><a target="_blank" rel="noopener" href="https://weapp.e-cloudstore.com/sp/cloudstore/freepass/case/ecodeApp/normal">泛微云商店</a></td>
+<td>查案例、找已有组件或场景参考</td>
+<td>云商店、案例库</td>
+</tr>
+<tr>
+<td><a target="_blank" rel="noopener" href="https://weapp.eteams.cn/ecode/playground/doc/share/view/1294983423558557697">ecode智能AI助手</a></td>
+<td>ecodeAI助手工具包 skill</td>
+<td>Rules、Skills、MCP</td>
+</tr>
+<tr>
+<td><a target="_blank" rel="noopener" href="https://www.e-cology.com.cn/sp/doc/docDetail/1281229168639787023">e-code 本地智能化开发插件</a><code>需登录</code></td>
+<td>ecode开发插件</td>
+<td>开发助手</td>
+</tr>
+</tbody></table>
+<hr>
+<h2 id="四、后端二开-secondev"><a href="#四、后端二开-secondev" class="headerlink" title="四、后端二开 &#x2F; secondev"></a>四、后端二开 &#x2F; secondev</h2><table>
+<thead>
+<tr>
+<th>文档</th>
+<th>适合查询</th>
+<th>关键词</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><a target="_blank" rel="noopener" href="https://weapp.eteams.cn/build/techdoc/wdoc/index.html#/public/doc/f37c9e49-e4d7-4db0-a671-a9cae8d1db70">二开jar包上传校验功能文档</a></td>
+<td>Jar包上传、校验、部署相关规则</td>
+<td>Jar、上传、校验</td>
+</tr>
+<tr>
+<td><a target="_blank" rel="noopener" href="https://weapp.eteams.cn/build/techdoc/wdoc/index.html#/public/doc/8bcf1e40-a333-401d-a5c0-20b375d7bc84">二开执行sql-sapi接口文档</a></td>
+<td>二开代码中执行SQL相关接口说明</td>
+<td>SQL、sapi、数据库</td>
+</tr>
+<tr>
+<td><a target="_blank" rel="noopener" href="https://weapp.eteams.cn/ecode/playground/doc/share/view/974701716410515476#%E4%B8%80%E3%80%81%E5%89%8D%E7%AB%AF%E4%BA%8C%E6%AC%A1%E5%BC%80%E5%8F%91%E8%A7%84%E8%8C%83">二次开发规范说明文档</a></td>
+<td>前后端二次开发规范、命名、编码要求</td>
+<td>开发规范、二开规范</td>
+</tr>
+<tr>
+<td><a target="_blank" rel="noopener" href="https://weaverecode.feishu.cn/docx/OqF9dx29Lo1IBMxRuXRcbffWnbL">泛微E10 本地二开服务 debug 手册</a></td>
+<td>本地二开服务启动、断点调试、问题定位</td>
+<td>debug、本地调试</td>
+</tr>
+<tr>
+<td><a target="_blank" rel="noopener" href="https://weaverecode.feishu.cn/docx/IwTQd3omCoBicmxFMcVcHSiHn5b">泛微E10 e-code 二开代码问题排查手册</a></td>
+<td>二开代码不生效、报错、日志排查</td>
+<td>排查、日志、二开异常</td>
+</tr>
+</tbody></table>
+<hr>
+<h2 id="五、ESB-集成中心"><a href="#五、ESB-集成中心" class="headerlink" title="五、ESB &#x2F; 集成中心"></a>五、ESB &#x2F; 集成中心</h2><table>
+<thead>
+<tr>
+<th>文档</th>
+<th>适合查询</th>
+<th>关键词</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><a target="_blank" rel="noopener" href="https://www.e-cology.com.cn/sp/doc/docDetail/5937541963450394438">泛微ESB中心知识地图</a> <code>需登录</code></td>
+<td>ESB整体能力、动作流、集成场景入口</td>
+<td>ESB、知识地图</td>
+</tr>
+<tr>
+<td><a target="_blank" rel="noopener" href="https://weapp.eteams.cn/build/techdoc/wdoc/index.html#/public/doc/c1e03018-adaf-4004-9098-eb61a1fe4beb">调用自定义动作流对接方式（V2）</a></td>
+<td>二开代码调用ESB自定义动作流</td>
+<td>动作流、triggerActionFlow</td>
+</tr>
+<tr>
+<td><a target="_blank" rel="noopener" href="https://weapp.eteams.cn/sp/ebdpage/view/freepass/1152863419640021002/page/1152863419640021002?id=1177709616502677614&space_id=1158011075224911873&freepass_doc=1">集成中心</a></td>
+<td>集成中心整体介绍、能力入口</td>
+<td>集成中心、接口集成</td>
+</tr>
+<tr>
+<td><a target="_blank" rel="noopener" href="https://weapp.eteams.cn/build/techdoc/wdoc/index.html#/public/doc/83b56e10-5ea8-4593-991a-54172115b659">待办中转页自定义接口调用</a></td>
+<td>统一待办中转页自定义接口对接</td>
+<td>统一待办、中转页</td>
+</tr>
+<tr>
+<td><a target="_blank" rel="noopener" href="https://www.yuque.com/qingtian-8usv3/ypggfi/kbb8zw8otdtlqxmg">统一待办数据清理</a></td>
+<td>统一待办脏数据、历史数据清理</td>
+<td>统一待办、数据清理</td>
+</tr>
+<tr>
+<td><a target="_blank" rel="noopener" href="https://im.weaver.com.cn/web/#/26/7430">消息发送问题排查–泛微易秒办文档</a></td>
+<td>消息发送失败、通知异常排查</td>
+<td>消息、通知、易秒办</td>
+</tr>
+</tbody></table>
+<hr>
+<h2 id="六、E-Builder-建模"><a href="#六、E-Builder-建模" class="headerlink" title="六、E-Builder &#x2F; 建模"></a>六、E-Builder &#x2F; 建模</h2><table>
+<thead>
+<tr>
+<th>文档</th>
+<th>适合查询</th>
+<th>关键词</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><a target="_blank" rel="noopener" href="https://weapp.eteams.cn/build/techdoc/wdoc/index.html#/public/repository/50d3476f-3a51-40ec-89c8-6574c3718fad/home">e-Builder表单相关文档</a></td>
+<td>E-Builder表单能力、字段、页面、表单相关说明</td>
+<td>E-Builder、表单</td>
+</tr>
+<tr>
+<td><a target="_blank" rel="noopener" href="https://weapp.eteams.cn/sp/ebdpage/view/freepass/1152863419640021002/page/1152863419640021002?id=1227488540828196867&freepass_doc=1&space_id=1157961794811633670">低代码平台e-builder</a></td>
+<td>低代码平台整体入口和功能介绍</td>
+<td>低代码、e-builder</td>
+</tr>
+<tr>
+<td><a target="_blank" rel="noopener" href="https://weapp.eteams.cn/ecode/playground/doc/share/view/990693279847899137#ebdfpageSDK">应用建模JS-SDK</a></td>
+<td>建模页面JS-SDK、页面事件、字段操作</td>
+<td>ebdfpageSDK、建模表单</td>
+</tr>
+</tbody></table>
+<hr>
+<h2 id="七、组织人事"><a href="#七、组织人事" class="headerlink" title="七、组织人事"></a>七、组织人事</h2><table>
+<thead>
+<tr>
+<th>文档</th>
+<th>适合查询</th>
+<th>关键词</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><a target="_blank" rel="noopener" href="https://weapp.eteams.cn/build/techdoc/wdoc/index.html#/public/repository/91f5067f-775e-48f4-93a2-ce84ca0b9c2e/home">组织人事接口说明</a></td>
+<td>人员、部门、分部、组织架构接口</td>
+<td>组织人事、人员、部门</td>
+</tr>
+<tr>
+<td><a target="_blank" rel="noopener" href="https://weapp.eteams.cn/build/techdoc/wdoc/index.html#/public/repository/db63db24-39dd-44ee-bce9-a1eb08fb65fe/doc/210179486484791296">如何查部门、分部id</a></td>
+<td>部门ID、分部ID查询方法</td>
+<td>部门id、分部id</td>
+</tr>
+<tr>
+<td><a target="_blank" rel="noopener" href="https://s.apifox.cn/3acf4ed0-814f-4e30-a490-88f1fd68285f/api-252855075">同步外部联系人 - 组织人事</a></td>
+<td>外部联系人同步接口</td>
+<td>外部联系人、Apifox</td>
+</tr>
+<tr>
+<td><a target="_blank" rel="noopener" href="https://weapp.eteams.cn/build/techdoc/wdoc/index.html#/public/repository/4ad12099-0f9a-4dfc-8a74-f4b1f3a72e61/doc/314155295959941120">角色接口</a></td>
+<td>角色、角色成员同步或查询</td>
+<td>角色、角色成员</td>
+</tr>
+<tr>
+<td><a target="_blank" rel="noopener" href="https://share.note.youdao.com/s/1zfcFb1i">组织相关ecode二开示例</a></td>
+<td>组织 ecode</td>
+<td>接口拦截 组件复写</td>
+</tr>
+</tbody></table>
+<hr>
+<h2 id="八、档案-文档"><a href="#八、档案-文档" class="headerlink" title="八、档案 &#x2F; 文档"></a>八、档案 &#x2F; 文档</h2><table>
+<thead>
+<tr>
+<th>文档</th>
+<th>适合查询</th>
+<th>关键词</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><a target="_blank" rel="noopener" href="https://www.e-cology.com.cn/sp/doc/docDetail/8139408570540478415">二开培训与常见二开业务文档</a> <code>需登录</code></td>
+<td>档案相关二开、常见业务文档入口</td>
+<td>档案、二开业务</td>
+</tr>
+<tr>
+<td><a target="_blank" rel="noopener" href="https://www.showdoc.com.cn/2593567264418025/11558416880507980">泛微E10档案–ShowDoc</a></td>
+<td>档案接口说明</td>
+<td>档案接口、ShowDoc</td>
+</tr>
+</tbody></table>
+<hr>
+<h2 id="九、运维与排查"><a href="#九、运维与排查" class="headerlink" title="九、运维与排查"></a>九、运维与排查</h2><table>
+<thead>
+<tr>
+<th>文档</th>
+<th>适合查询</th>
+<th>关键词</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><a target="_blank" rel="noopener" href="https://www.e-cology.com.cn/sp/doc/docDetail/1999173357850476724">租户平台常见问题排查</a> <code>需登录</code></td>
+<td>租户平台异常、租户配置问题</td>
+<td>租户平台、排查</td>
+</tr>
+<tr>
+<td><a target="_blank" rel="noopener" href="https://www.weaver.com.cn/cs/E10-monitorDownload.html">泛微ECOLOGY10运维管理平台下载</a></td>
+<td>下载泛微E10运维管理平台</td>
+<td>运维平台、下载</td>
+</tr>
+<tr>
+<td><a target="_blank" rel="noopener" href="https://www.e-cology.com.cn/sp/file/filePreview/1167615343760318516?pauuid=a52d86ed8f3a4911b8843f85ef667659">泛微E10运维平台用户使用手册V1.3.docx</a> <code>需登录</code></td>
+<td>运维平台功能使用说明</td>
+<td>运维平台、使用手册</td>
+</tr>
+<tr>
+<td><a target="_blank" rel="noopener" href="https://www.e-cology.com.cn/sp/doc/docDetail/100500240014838729__targetId=100500240014838729&fromWeappMsgGroupId=1706091534703020047&_isEm=1&_emGid=1706091534703020047&weappAuthStr=eyJtc2dpZCI6IjE3MjAwNjU2MzE3MDMwMjgzNDIiLCJmbGFnIjoxLCJncm91cF9pZCI6IjE3MDYwOTE1MzQ3MDMwMjAwNDcifQ%3D%3D">泛微E10常见运维措施</a> <code>需登录</code></td>
+<td>常见系统运维操作、故障处理</td>
+<td>运维、故障处理</td>
+</tr>
+<tr>
+<td><a target="_blank" rel="noopener" href="https://www.e-cology.com.cn/sp/doc/docDetail/2002593575220625205">泛微E10安装过程常见问题文档</a> <code>需登录</code></td>
+<td>安装部署过程中的常见问题</td>
+<td>安装、部署、FAQ</td>
+</tr>
+<tr>
+<td><a target="_blank" rel="noopener" href="https://www.e-cology.com.cn/sp/doc/docDetail/8141508197074985399">泛微E10统一认证跳转异常</a> <code>需登录</code></td>
+<td>统一认证跳转提示“认证登录异常，请稍后重新登录”</td>
+<td>统一认证、登录异常</td>
+</tr>
+</tbody></table>
+<hr>
+<h2 id="十、实施与平台资料"><a href="#十、实施与平台资料" class="headerlink" title="十、实施与平台资料"></a>十、实施与平台资料</h2><table>
+<thead>
+<tr>
+<th>文档</th>
+<th>适合查询</th>
+<th>关键词</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><a target="_blank" rel="noopener" href="https://e-cloudstore.com/doc.html?appId=7c080b58f6bc45608a92b7ac8db5cf01#%E4%B8%80%E5%B9%B3%E5%8F%B0%E6%8A%80%E6%9C%AF%E8%A7%84%E8%8C%83%E5%8F%8A%E5%BC%80%E5%8F%91%E6%89%8B%E5%86%8C">平台技术规范及开发手册</a> <code>需登录</code></td>
+<td>平台整体规范、基础能力、开发手册</td>
+<td>平台规范、开发手册</td>
+</tr>
+<tr>
+<td><a target="_blank" rel="noopener" href="https://www.e-cology.com.cn/sp/doc/docDetail/1999172383880862733?type=IM_View&_isEm=1&_emGid=1698398339706030149&fromWeappMsgGroupId=1698398339706030149&authModule=im&weappAuthStr=eyJtc2dpZCI6IjE3MTgyNzEwOTc3MDIwMjQwMTUiLCJmbGFnIjoxLCJncm91cF9pZCI6IjE2OTgzOTgzMzk3MDYwMzAxNDkifQ==">泛微E10项目实施手册</a> <code>需登录</code></td>
+<td>项目实施过程、实施配置、上线参考</td>
+<td>实施、项目交付</td>
+</tr>
+</tbody></table>
+<hr>
+<h2 id="十一、查找建议"><a href="#十一、查找建议" class="headerlink" title="十一、查找建议"></a>十一、查找建议</h2><p>如果不确定去哪一类找，可以按下面的顺序判断：</p>
+<table>
+<thead>
+<tr>
+<th>问题类型</th>
+<th>优先分类</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>流程表单字段、明细表、JS控制</td>
+<td>流程开发</td>
+</tr>
+<tr>
+<td>前端页面、按钮、组件、接口拦截</td>
+<td>E-Code前端二开</td>
+</tr>
+<tr>
+<td>后端接口、Action、Jar包、定时任务</td>
+<td>后端二开 &#x2F; secondev</td>
+</tr>
+<tr>
+<td>外部系统对接、动作流、统一待办</td>
+<td>ESB &#x2F; 集成中心</td>
+</tr>
+<tr>
+<td>建模页面、低代码页面、建模表单SDK</td>
+<td>E-Builder &#x2F; 建模</td>
+</tr>
+<tr>
+<td>人员、部门、角色、组织架构</td>
+<td>组织人事</td>
+</tr>
+<tr>
+<td>部署、登录、租户、运维平台</td>
+<td>运维与排查</td>
+</tr>
+</tbody></table>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/%E6%B3%9B%E5%BE%AE%E5%BC%80%E5%8F%91/" class="category-chain-item">泛微开发</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/%E6%B3%9B%E5%BE%AEE10/" class="print-no-link">#泛微E10</a>
+      
+        <a href="/tags/%E5%BC%80%E5%8F%91%E6%96%87%E6%A1%A3/" class="print-no-link">#开发文档</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>泛微E10系统开发相关文档索引</div>
+      <div>https://zhangzifang07.github.io/2026/06/29/e10-dev-docs-index/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>zhangzifang</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2026年6月29日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-cc-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2026/06/29/e10-dev-setup/" title="泛微E10开发环境搭建以及打包">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">泛微E10开发环境搭建以及打包</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2026/06/29/e9-sql-faq/" title="泛微E9 SQL以及常见问题">
+                        <span class="hidden-mobile">泛微E9 SQL以及常见问题</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://zhangzifang07.github.io" target="_blank" rel="nofollow noopener"><span>© 2026zhangzifang</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    function isExpandAllEnabled() {
+      return CONFIG.toc && CONFIG.toc.expand_all === true;
+    }
+    function expandAllToc() {
+      if (!isExpandAllEnabled()) { return; }
+      jQuery('#toc-body .tocbot-is-collapsed').removeClass('tocbot-is-collapsed');
+    }
+    function updateTocToggle($li, $childList) {
+      var $toggle = $li.children('.toc-toggle');
+      if ($toggle.length === 0) { return; }
+      var collapsed = $childList.hasClass('tocbot-is-collapsed');
+      $toggle
+        .toggleClass('toc-toggle-collapsed', collapsed)
+        .toggleClass('toc-toggle-expanded', !collapsed);
+    }
+    function bindTocToggle() {
+      if (!isExpandAllEnabled()) { return; }
+      jQuery('#toc-body .toc-list-item').each(function() {
+        var $li = jQuery(this);
+        var $childList = $li.children('ol');
+        if ($childList.length === 0) {
+          if ($li.children('.toc-toggle').length === 0) {
+            $li.prepend('<span class="toc-toggle toc-toggle-placeholder" aria-hidden="true">›</span>');
+          }
+          return;
+        }
+
+        if ($li.children('.toc-toggle').length === 0) {
+          $li.prepend('<span class="toc-toggle toc-toggle-expanded" aria-hidden="true">›</span>');
+        }
+        updateTocToggle($li, $childList);
+      });
+      jQuery('#toc-body').off('click.tocToggle').on('click.tocToggle', '.toc-toggle', function(e) {
+        e.preventDefault();
+        e.stopPropagation();
+        var $li = jQuery(this).parent('.toc-list-item');
+        var $childList = $li.children('ol');
+        if ($childList.length === 0) { return; }
+        $childList.toggleClass('tocbot-is-collapsed');
+        updateTocToggle($li, $childList);
+      });
+      if (!window.__tocToggleObserver) {
+        window.__tocToggleObserver = new MutationObserver(function(mutations) {
+          mutations.forEach(function(mutation) {
+            if (mutation.type !== 'attributes' || mutation.attributeName !== 'class') { return; }
+            var $list = jQuery(mutation.target);
+            var $li = $list.parent('.toc-list-item');
+            if ($li.length === 0) { return; }
+            updateTocToggle($li, $list);
+          });
+        });
+        jQuery('#toc-body ol').each(function() {
+          window.__tocToggleObserver.observe(this, { attributes: true });
+        });
+      }
+    }
+    var tocConfig = Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc);
+    if (isExpandAllEnabled()) {
+      tocConfig.collapseDepth = 6;
+    }
+    window.tocbot.init(tocConfig);
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+    expandAllToc();
+    bindTocToggle();
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+        expandAllToc();
+        bindTocToggle();
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/5.0.0/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>
