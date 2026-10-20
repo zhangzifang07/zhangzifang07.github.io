@@ -1,6 +1,6 @@
 # Hexo 个人博客
 
-基于 [Hexo](https://hexo.io/) 8.1.2 搭建的静态博客站点，使用默认 Landscape 主题。
+基于 [Hexo](https://hexo.io/) 8.1.2 搭建的静态博客站点，使用 Fluid 主题。
 
 ## 项目结构
 
@@ -12,10 +12,11 @@
 │   ├── page.md               #   页面模板
 │   └── post.md               #   文章模板
 ├── source/                   # 博客内容源文件
-│   └── _posts/               #   文章目录（Markdown 格式）
+│   ├── _posts/               #   文章目录（Markdown 格式）
+│   └── css/custom.css        #   自定义阅读样式
 ├── themes/                   # 主题目录
 ├── _config.yml               # Hexo 主配置文件
-├── _config.landscape.yml     # Landscape 主题配置
+├── _config.fluid.yml         # Fluid 主题配置
 └── package.json              # 项目依赖与脚本
 ```
 
@@ -23,7 +24,7 @@
 
 ### 环境要求
 
-- [Node.js](https://nodejs.org/) 18.0+ （推荐 LTS 版本）
+- [Node.js](https://nodejs.org/) 22（与当前 GitHub Actions 配置保持一致）
 - [Git](https://git-scm.com/)
 
 ### 安装依赖
@@ -41,6 +42,26 @@ npx hexo s
 ```
 
 启动后访问 [http://localhost:4000](http://localhost:4000) 预览博客。
+
+`npx` 会使用项目已安装的 Hexo，无需全局安装 `hexo-cli`。下文中的 `hexo` 命令同样可以加上 `npx` 前缀。
+
+### 阅读与外观调整
+
+- `_config.fluid.yml`：首页头图高度为 50%，文章页为 40%，分类、标签与归档页为 30%；标题直接显示，隐藏预计阅读时长。
+- `source/css/custom.css`：正文行距、窄屏字号、导航背景、面板阴影和更新时间样式。颜色使用主题变量，兼容明暗模式。
+- 桌面文章正文的左右内边距为 6%，文章容器最大宽度为 960px；右侧目录标题自然换行，子目录展开后不再被两行截断，长目录可滚动浏览。
+- 各页面头图使用 `source/img/morning-lake.webp`（晨光湖山摄影风），蒙版不透明度为 0.2，背景位置为 `center 50%`，展示山峦与湖面的层次并保留原有标语与文章标题。
+- 文章目录使用 Fluid 原有的右侧目录。
+- 自定义样式通过主题配置中的 `custom_css` 加载，修改配置后请重启预览服务。
+
+修改后可先清理缓存，再预览：
+
+```bash
+npx hexo clean
+npx hexo server
+```
+
+本地构建检查使用 `npx hexo generate`。确认后提交并推送到 `hexo` 分支，触发现有 GitHub Actions 发布流程。
 
 ## 常用命令
 

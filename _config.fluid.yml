@@ -83,7 +83,7 @@ fun_features:
   # 为 subtitle 添加打字机效果
   # Typing animation for subtitle
   typing:
-    enable: true
+    enable: false
 
     # 打印速度，数字越大越慢
     # Typing speed, the larger the number, the slower
@@ -140,7 +140,7 @@ dark_mode:
 color:
   # body 背景色
   # Color of body background
-  body_bg_color: "#eee"
+  body_bg_color: "#f5f6f8"
   # 暗色模式下的 body 背景色，下同
   # Color in dark mode, the same below
   body_bg_color_dark: "#181c27"
@@ -229,7 +229,7 @@ font:
   font_size: 16px
   font_family:
   letter_spacing: 0.02em
-  code_font_size: 85%
+  code_font_size: 92%
 
 # 指定自定义 .js 文件路径，支持列表；路径是相对 source 目录，如 /js/custom.js 对应存放目录 source/js/custom.js
 # Specify the path of your custom js file, support list. The path is relative to the source directory, such as `/js/custom.js` corresponding to the directory `source/js/custom.js`
@@ -239,6 +239,7 @@ custom_js:
 # The usage is the same as custom_js
 custom_css:
   - https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css
+  - /css/custom.css
 
 # 网页访问统计
 # Analysis of website visitors
@@ -501,17 +502,17 @@ footer:
 index:
   # 首页 Banner 头图，可以是相对路径或绝对路径，以下相同
   # Path of Banner image, can be a relative path or an absolute path, the same on other pages
-  banner_img: /img/default.png
+  banner_img: /img/morning-lake.webp
 
   # 头图高度，屏幕百分比
   # Height ratio of banner image
   # Available: 0 - 100
-  banner_img_height: 100
+  banner_img_height: 50
 
   # 头图黑色蒙版的不透明度，available: 0 - 1.0，1 是完全不透明
   # Opacity of the banner mask, 1.0 is completely opaque
   # Available: 0 - 1.0
-  banner_mask_alpha: 0.3
+  banner_mask_alpha: 0.2
 
   # 首页副标题的独立设置
   # Independent config of home page subtitle
@@ -573,9 +574,9 @@ index:
 # Post Page
 #---------------------------
 post:
-  banner_img: /img/default.png
-  banner_img_height: 70
-  banner_mask_alpha: 0.3
+  banner_img: /img/morning-lake.webp
+  banner_img_height: 40
+  banner_mask_alpha: 0.2
 
   # 文章在首页的默认封面图，当没有指定 index_img 时会使用该图片，若两者都为空则不显示任何图片
   # Path of the default post cover when `index_img` is not set. If both are empty, no image will be displayed
@@ -596,7 +597,7 @@ post:
       # 格式参照 ISO-8601 日期格式化
       # ISO-8601 date format
       # See: http://momentjs.cn/docs/#/parsing/string-format/
-      format: "LL a"
+      format: "YYYY-MM-DD"
 
     # 字数统计
     # Word count
@@ -606,7 +607,7 @@ post:
     # 估计阅读全文需要的时长
     # Estimated reading time
     min2read:
-      enable: true
+      enable: false
       # 每个字词的长度，建议：中文≈2，英文≈5，中英混合可自行调节
       # Average word length (chars count in word), ZH ≈ 2, EN ≈ 5
       awl: 2
@@ -631,7 +632,7 @@ post:
     # 格式参照 ISO-8601 日期格式化
     # ISO-8601 date format
     # See: http://momentjs.cn/docs/#/parsing/string-format/
-    date_format: "LL a"
+    date_format: "YYYY-MM-DD"
 
     # 是否使用相对时间表示，比如："3 天前"
     # If true, it will be a relative time, such as: "3 days ago"
@@ -945,9 +946,9 @@ discuss:
 # Archive Page
 #---------------------------
 archive:
-  banner_img: /img/default.png
-  banner_img_height: 60
-  banner_mask_alpha: 0.3
+  banner_img: /img/morning-lake.webp
+  banner_img_height: 30
+  banner_mask_alpha: 0.2
 
 
 #---------------------------
@@ -956,9 +957,9 @@ archive:
 #---------------------------
 category:
   enable: true
-  banner_img: /img/default.png
-  banner_img_height: 60
-  banner_mask_alpha: 0.3
+  banner_img: /img/morning-lake.webp
+  banner_img_height: 30
+  banner_mask_alpha: 0.2
 
   # 分类的排序字段，前面带减号是倒序，不带减号是正序
   # Sort field for categories, with a minus sign is reverse order
@@ -985,9 +986,9 @@ category:
 #---------------------------
 tag:
   enable: true
-  banner_img: /img/default.png
-  banner_img_height: 80
-  banner_mask_alpha: 0.3
+  banner_img: /img/morning-lake.webp
+  banner_img_height: 30
+  banner_mask_alpha: 0.2
   tagcloud:
     min_font: 15
     max_font: 30
@@ -1002,9 +1003,9 @@ tag:
 #---------------------------
 about:
   enable: true
-  banner_img: /img/default.png
-  banner_img_height: 60
-  banner_mask_alpha: 0.3
+  banner_img: /img/morning-lake.webp
+  banner_img_height: 35
+  banner_mask_alpha: 0.2
   avatar: /img/avatar.png
   name: "zhangzifang"
   intro: "热爱技术，热爱生活"
@@ -1024,9 +1025,9 @@ about:
 # Custom Page through `hexo new page`
 #---------------------------
 page:
-  banner_img: /img/default.png
+  banner_img: /img/morning-lake.webp
   banner_img_height: 60
-  banner_mask_alpha: 0.3
+  banner_mask_alpha: 0.2
 
 
 #---------------------------
@@ -1035,9 +1036,9 @@ page:
 #---------------------------
 page404:
   enable: true
-  banner_img: /img/default.png
+  banner_img: /img/morning-lake.webp
   banner_img_height: 85
-  banner_mask_alpha: 0.3
+  banner_mask_alpha: 0.2
   # 重定向到首页的延迟(毫秒)
   # Delay in redirecting to home page (milliseconds)
   redirect_delay: 5000
@@ -1049,9 +1050,9 @@ page404:
 #---------------------------
 links:
   enable: true
-  banner_img: /img/default.png
+  banner_img: /img/morning-lake.webp
   banner_img_height: 60
-  banner_mask_alpha: 0.3
+  banner_mask_alpha: 0.2
   # 友链的成员项
   # Member item of page
   items:

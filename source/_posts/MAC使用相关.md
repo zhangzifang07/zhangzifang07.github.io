@@ -1,12 +1,12 @@
 ---
-title: MAC使用相关
+title: Mac 使用笔记：Safari 快捷键与常用操作
 date: 2026-10-13 10:50:20
 permalink: /2026/10/13/MAC使用相关/
 tags:
   - macOS
 categories:
   - 技术学习
-excerpt: MAC使用相关的总结
+excerpt: 整理 Safari 窗口与标签页快捷键，以及实际使用中的常用操作，方便随时查阅。
 ---
 # 一、Safari浏览器使用
 
